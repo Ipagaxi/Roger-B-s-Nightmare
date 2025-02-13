@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgyy520pdfu8r"]
+
+[ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_iixxu"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7wx01"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_iixxu")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/ColorRect"]
+position = Vector2(576, 325)
+scale = Vector2(1148, 642)
+texture = SubResource("PlaceholderTexture2D_7wx01")
+
+[node name="PlayButton" type="Button" parent="UI/ColorRect"]
+layout_mode = 0
+offset_left = 433.0
+offset_top = 302.0
+offset_right = 674.0
+offset_bottom = 355.0
+text = "Play"
+
+[node name="ExitButton" type="Button" parent="UI/ColorRect"]
+layout_mode = 0
+offset_left = 385.0
+offset_top = 416.0
+offset_right = 721.0
+offset_bottom = 500.0
+text = "Exit
+"
+
+[connection signal="button_up" from="UI/ColorRect/PlayButton" to="." method="_on_play_button_button_up"]
+[connection signal="button_up" from="UI/ColorRect/ExitButton" to="." method="_on_exit_button_button_up"]

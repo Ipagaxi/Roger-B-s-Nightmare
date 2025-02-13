@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://cvgs4nt686327"]
+
+[ext_resource type="Script" path="res://Scenes/player.gd" id="1_p1nlm"]
+[ext_resource type="Texture2D" uid="uid://cts5lrpubor0v" path="res://assets/actors/player/player.png" id="1_vyomi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jucab"]
+size = Vector2(32, 32)
+
+[node name="Player" type="Area2D"]
+script = ExtResource("1_p1nlm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jucab")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_vyomi")

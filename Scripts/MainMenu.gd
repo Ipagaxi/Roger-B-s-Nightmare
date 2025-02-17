@@ -6,4 +6,4 @@ func _on_exit_button_button_up():
 
 
 func _on_play_button_button_up():
-	get_tree().change_scene_to_file("res://Scenes/GameRun.tscn")
+	Global.goto_scene("res://Scenes/GameRun.tscn")

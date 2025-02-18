@@ -57,17 +57,20 @@ func has_neighbour_of_diff_region(coords: Vector2i, closest_center: Vector2i) ->
 	return false
 	
 func apply_block_pattern_to_city_district(tile_coords: Vector2i, closest_center: Vector2i):
-	if ((tile_coords.x - closest_center.x) % 5 == 0 or (tile_coords.y - closest_center.y) % 9 == 0) and tile_coords != closest_center:
+	var rng = RandomNumberGenerator.new()
+	rng.seed = map_matrix[closest_center.y][closest_center.x]
+	if ((tile_coords.x - closest_center.x) % rng.randi_range(4, 9) == 0 or (tile_coords.y - closest_center.y) % rng.randi_range(4, 9) == 0) and tile_coords != closest_center:
 		map_matrix[tile_coords.y][tile_coords.x] *= -1
 	
 func generate_random_matrix():
 	var voronoi_region_centers = []
+	
 	for i in range(number_regions):
 		var x_coord = randi_range(0, size-1)
 		var y_coord = randi_range(0, size-1)
 		map_matrix[y_coord][x_coord] = i+2
 		voronoi_region_centers.append(Vector2i(x_coord, y_coord))
-		
+
 	# Create Voronoi regions
 	for y in range(size):
 		for x in range(size):

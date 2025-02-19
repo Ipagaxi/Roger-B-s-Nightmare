@@ -5,6 +5,8 @@ const TILE_SIZE = 32
 # CHUNK_SIZE in tiles
 const CHUNK_SIZE = 64
 
+var map_spawn_location = Vector2i.ZERO
+
 var current_chunk = null
 
 const INPUTS = {"right": Vector2.RIGHT,

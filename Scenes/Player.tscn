@@ -16,3 +16,5 @@ shape = SubResource("RectangleShape2D_jucab")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(16, 16)
 texture = ExtResource("1_vyomi")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]

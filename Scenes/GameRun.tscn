@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Scripts/GameRun.gd" id="1_brfv0"]
 [ext_resource type="PackedScene" uid="uid://v8wjxkbj07mc" path="res://Scenes/Chunk.tscn" id="1_v87gp"]
-[ext_resource type="PackedScene" uid="uid://cvgs4nt686327" path="res://Scenes/Player.tscn" id="2_3fi1v"]
 [ext_resource type="PackedScene" uid="uid://3ltq118q7q5j" path="res://Scenes/CityGenerator.tscn" id="3_703ni"]
+[ext_resource type="PackedScene" uid="uid://b6hchifbmgvcy" path="res://Scenes/Continent.tscn" id="3_q85ou"]
 
 [node name="GameRun" type="Node2D"]
 script = ExtResource("1_brfv0")
@@ -12,9 +12,6 @@ script = ExtResource("1_brfv0")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
+[node name="Continent" parent="." instance=ExtResource("3_q85ou")]
+
 [node name="CityGenerator" parent="." instance=ExtResource("3_703ni")]
-
-[node name="Player" parent="." instance=ExtResource("2_3fi1v")]
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
-remote_path = NodePath("../../Camera2D")

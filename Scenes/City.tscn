@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://3ltq118q7q5j"]
 
-[ext_resource type="Script" path="res://Scripts/CityGenerator.gd" id="1_ctyy3"]
+[ext_resource type="Script" path="res://Scripts/City.gd" id="1_ctyy3"]
 [ext_resource type="Texture2D" uid="uid://de586rgk88oj0" path="res://assets/Tilesets/mini_tileset.png" id="2_kjj8v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5y2ni"]

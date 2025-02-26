@@ -1,9 +1,9 @@
 extends Node2D
 
-const size = 100
-const number_regions = 40
+const size = 250
+const number_regions = 100
 
-var map_matrix: Array[Array]
+var map_matrix = GlobalTileBase.current_map_matrix
 
 func _ready():
 	create_matrix()
@@ -69,8 +69,7 @@ func set_spawn_location():
 		location.y = randi_range(0, size-1)
 		if map_matrix[location.y][location.x] > 1:
 			invalid_house_spawn_location = false
-	GlobalTileBase.map_spawn_location = location
-	print("Spawn location: ", location)
+	GlobalTileBase.current_map_location = location
 
 func satify_neighbour_condition(neighbour_cell_value: int, coords: Vector2i) -> bool:
 	return abs(neighbour_cell_value) != map_matrix[coords.y][coords.x] and neighbour_cell_value != 0 and neighbour_cell_value != -1

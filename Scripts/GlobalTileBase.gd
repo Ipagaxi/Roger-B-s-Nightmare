@@ -2,10 +2,25 @@ extends Node
 
 const TILE_SIZE = 32
 
-# CHUNK_SIZE in tiles
-const CHUNK_SIZE = 64
+const CONTINENT_TO_MAP_TILE_FACTOR = 50
+const MAP_TO_WORLD_TILE_FACTOR = 50
+
+# CHUNK_SIZE in world tiles
+const CHUNK_SIZE_WORLD = 200
+const CHUNK_SIZE_MAP: int = CHUNK_SIZE_WORLD / MAP_TO_WORLD_TILE_FACTOR
+const CHUNK_SIZE_CONTINENT: float = CHUNK_SIZE_MAP / CONTINENT_TO_MAP_TILE_FACTOR
+
+var current_continent_location: Vector2i
+var current_map_location: Vector2i
+var current_world_location: Vector2i
 
 var map_spawn_location = Vector2i.ZERO
+
+var continent_matrix: Array[Array]
+# The map_matrix of the current continent tile
+var current_map_matrix: Array[Array]
+# The chunk_matrix of the current chunk
+var current_chunk_matrix: Array[Array]
 
 var current_chunk = null
 
@@ -34,3 +49,4 @@ func tilePos_to_globalCoords(position: Vector2i) -> Vector2i:
 	
 func globalCoords_to_tilePos(position: Vector2i) -> Vector2i:
 	return position / TILE_SIZE
+	

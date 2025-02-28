@@ -1,6 +1,6 @@
 extends Node2D
 
-const size = 250
+const size = GlobalTileBase.MAP_SIZE
 const number_regions = 100
 
 var map_matrix = GlobalTileBase.current_map_matrix
@@ -35,7 +35,7 @@ func generate_city_map():
 				break
 
 
-		map_matrix[y_coord][x_coord] = i+2
+		map_matrix[y_coord][x_coord] = i+3
 		voronoi_region_centers.append(Vector2i(x_coord, y_coord))
 
 	# Create Voronoi regions
@@ -48,7 +48,7 @@ func generate_city_map():
 						closest_center = center
 				map_matrix[y][x] = map_matrix[closest_center.y][closest_center.x]
 				if has_neighbour_of_diff_region(Vector2i(x, y), closest_center):
-					map_matrix[y][x] = -1
+					map_matrix[y][x] = -2
 					map_matrix[min(y+1, size-1)][min(x+1, size-1)] = -1
 					map_matrix[min(y+1, size-1)][x] = -1
 					map_matrix[min(y+1, size-1)][max(x-1, 0)] = -1
@@ -69,10 +69,10 @@ func set_spawn_location():
 		location.y = randi_range(0, size-1)
 		if map_matrix[location.y][location.x] > 1:
 			invalid_house_spawn_location = false
-	GlobalTileBase.current_map_location = location
+	GlobalTileBase.current_location_map = location
 
 func satify_neighbour_condition(neighbour_cell_value: int, coords: Vector2i) -> bool:
-	return abs(neighbour_cell_value) != map_matrix[coords.y][coords.x] and neighbour_cell_value != 0 and neighbour_cell_value != -1
+	return abs(neighbour_cell_value) != map_matrix[coords.y][coords.x] and neighbour_cell_value != 0 and neighbour_cell_value != -1 and neighbour_cell_value != -2
 		
 func has_neighbour_of_diff_region(coords: Vector2i, closest_center: Vector2i) -> bool:
 	# top left
@@ -115,13 +115,12 @@ func apply_block_pattern_to_city_district(tile_coords: Vector2i, closest_center:
 	if ((tile_coords.x - closest_center.x) % rng.randi_range(4, 9) == 0 or (tile_coords.y - closest_center.y) % rng.randi_range(4, 9) == 0) and tile_coords != closest_center:
 		map_matrix[tile_coords.y][tile_coords.x] *= -1
 
-
 func get_atlas_coord(id) -> Vector2i:
-	if id == -1:
-		return Vector2i(1, 1)
-	if id <= -2:
+	if id <= -3:
 		return Vector2i(1, 0)
-	if id > 1:
+	elif id <= -1:
+		return Vector2i(1, 1)
+	elif id > 1:
 		return Vector2i(0, 0)
 		
 	return Vector2i(0, 0)

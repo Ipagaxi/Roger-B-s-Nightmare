@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "street_4.tmx",
+    "activeFile": "street_1.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -17,8 +17,8 @@
             "scale": 0.529625,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 207.6941232003776,
-                "y": 207.6941232003776
+                "x": 800.5664385178192,
+                "y": 800.5664385178192
             }
         },
         "street_2.tmx": {
@@ -78,10 +78,10 @@
     "recentFiles": [
         "mini_tileset.tsx",
         "street_3.tmx",
-        "street_1.tmx",
-        "street_2.tmx",
-        "street_2_edge.tmx",
         "street_4.tmx",
+        "street_2_edge.tmx",
+        "street_2.tmx",
+        "street_1.tmx",
         "street_EDGE.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"

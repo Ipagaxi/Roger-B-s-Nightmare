@@ -2,13 +2,13 @@ extends Node2D
 
 @onready var tilemap = $Map
 
-const WIDTH = GlobalTileBase.CONTINENT_SIZE_WIDTH
-const HEIGHT = GlobalTileBase.CONTINENT_SIZE_HEIGHT
+const WIDTH = TilesInterface.CONTINENT_SIZE_TILES_WIDTH
+const HEIGHT = TilesInterface.CONTINENT_SIZE_TILES_HEIGHT
 const TILE_SIZE = 32
 
 const NUM_CITIES = 4
 
-var continent_matrix = GlobalTileBase.continent_matrix
+var continent_matrix = TilesInterface.continent_matrix
 
 func _ready():
 	init_continent_matrix()
@@ -59,7 +59,7 @@ func set_cities():
 		city_positions.append(Vector2i(x_coord, y_coord))
 		tilemap.set_cell(Vector2i(x_coord, y_coord), 0, Vector2i(1, 0))
 		
-	GlobalTileBase.current_location_continent = city_positions[randi_range(0, NUM_CITIES-1)]
+	TilesInterface.current_location_continent = city_positions[randi_range(0, NUM_CITIES-1)]
 
 func set_tile_id(value, x, y) -> Vector2i:
 	if value < -0.3:

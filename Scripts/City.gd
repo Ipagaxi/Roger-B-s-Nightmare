@@ -1,7 +1,7 @@
 extends Node2D
 
 const size = TilesInterface.REGION_SIZE_TILES
-const number_regions = 100
+const number_areas = 100
 
 var region_matrix = TilesInterface.region_matrix
 
@@ -17,11 +17,15 @@ func create_matrix():
 		init_array.fill(0)
 		region_matrix.append(init_array)
 		
+# Voronoi Diagrams are used for city map generation
+# Each city tile gets an identifier:
+#### Area centers: 3 - number areas-1 + 3 
+#### Not border cells: identifier of closest center
 func generate_city_map():
-	var voronoi_region_centers = []
+	var voronoi_area_centers = []
 
 	# scatter region centers until they are not too clumped
-	for i in range(number_regions):
+	for i in range(number_areas):
 		var x_coord: int
 		var y_coord: int
 		while true:
@@ -29,34 +33,38 @@ func generate_city_map():
 			y_coord = randi_range(0, size-1)
 			var too_close_to_others = false
 			for index_ex in range(i):
-				if (voronoi_region_centers[index_ex] - Vector2i(x_coord, y_coord)).length() < 5:
+				if (voronoi_area_centers[index_ex] - Vector2i(x_coord, y_coord)).length() < 5:
 					too_close_to_others = true
 			if !too_close_to_others:
 				break
 
 
 		region_matrix[y_coord][x_coord] = i+3
-		voronoi_region_centers.append(Vector2i(x_coord, y_coord))
+		voronoi_area_centers.append(Vector2i(x_coord, y_coord))
 
 	# Create Voronoi regions
 	for y in range(size):
 		for x in range(size):
 			if region_matrix[y][x] == 0:
-				var closest_center = voronoi_region_centers[0]
-				for center in voronoi_region_centers:
-					if (center - Vector2i(x, y)).length() < (closest_center - Vector2i(x, y)).length():
+				var closest_center = voronoi_area_centers[0]
+				for center in voronoi_area_centers:
+					if (center - Vector2i(x, y)).length() <= (closest_center - Vector2i(x, y)).length():
 						closest_center = center
+						region_matrix[y][x] = region_matrix[closest_center.y][closest_center.x]
+						if (center - Vector2i(x, y)).length() == (closest_center - Vector2i(x, y)).length():
+							region_matrix[y][x] = -2
+						
 				region_matrix[y][x] = region_matrix[closest_center.y][closest_center.x]
 				if has_neighbour_of_diff_region(Vector2i(x, y), closest_center):
 					region_matrix[y][x] = -2
-					region_matrix[min(y+1, size-1)][min(x+1, size-1)] = -1
-					region_matrix[min(y+1, size-1)][x] = -1
-					region_matrix[min(y+1, size-1)][max(x-1, 0)] = -1
-					region_matrix[y][min(x+1, size-1)] = -1
-					region_matrix[y][max(x-1, 0)] = -1
-					region_matrix[max(y-1, 0)][min(x+1, size-1)] = -1
-					region_matrix[max(y-1, 0)][x] = -1
-					region_matrix[max(y-1, 0)][max(x-1, 0)] = -1
+					#region_matrix[min(y+1, size-1)][min(x+1, size-1)] = -1
+					#region_matrix[min(y+1, size-1)][x] = -1
+					#region_matrix[min(y+1, size-1)][max(x-1, 0)] = -1
+					#region_matrix[y][min(x+1, size-1)] = -1
+					#region_matrix[y][max(x-1, 0)] = -1
+					#region_matrix[max(y-1, 0)][min(x+1, size-1)] = -1
+					#region_matrix[max(y-1, 0)][x] = -1
+					#region_matrix[max(y-1, 0)][max(x-1, 0)] = -1
 				else:
 					apply_block_pattern_to_city_district(Vector2i(x, y), closest_center)
 			$Map.set_cell(Vector2i(x, y), 0, get_atlas_coord(region_matrix[y][x]))
@@ -67,7 +75,8 @@ func set_spawn_location():
 	while invalid_house_spawn_location:
 		location.x = randi_range(0, size-1)
 		location.y = randi_range(0, size-1)
-		if region_matrix[location.y][location.x] > 1:
+		# spawn on street
+		if region_matrix[location.y][location.x] == -2:
 			invalid_house_spawn_location = false
 	TilesInterface.current_location_region = location
 
@@ -108,6 +117,7 @@ func has_neighbour_of_diff_region(coords: Vector2i, closest_center: Vector2i) ->
 	if satify_neighbour_condition(neighbout_cell_value, coords):
 		return true;
 	return false
+
 	
 func apply_block_pattern_to_city_district(tile_coords: Vector2i, closest_center: Vector2i):
 	var rng = RandomNumberGenerator.new()
@@ -119,9 +129,9 @@ func get_atlas_coord(id) -> Vector2i:
 	if id <= -3:
 		return Vector2i(1, 0)
 	elif id == -2:
-		return Vector2i(0, 1)
-	elif id <= -1:
 		return Vector2i(1, 1)
+	elif id <= -1:
+		return Vector2i(0, 1)
 	elif id > 1:
 		return Vector2i(0, 0)
 		

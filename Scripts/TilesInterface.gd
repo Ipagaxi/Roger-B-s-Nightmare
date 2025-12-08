@@ -13,10 +13,8 @@ const TILE_SIZE = 32
 const CONTINENT_SIZE_TILES_WIDTH = 100
 const CONTINENT_SIZE_TILES_HEIGHT = 100
 const REGION_SIZE_TILES = 250
-const LOCAL_SIZE_TILES = 200
-
-const CONTINENT_TO_REGION_TILE_FACTOR = 50
-const REGION_TO_LOCAL_TILE_FACTOR = 50
+# 12 is the size of street asset; the factor should be odd so we can place the symmetrically in a local
+const LOCAL_SIZE_TILES = 5*12
 
 # CHUNK_SIZE in world tiles
 #const CHUNK_SIZE_ON_LOCAL = 200
@@ -64,7 +62,3 @@ func tileCoords_to_trueCoords(position: Vector2i) -> Vector2i:
 	
 func trueCoords_to_tileCoords(position: Vector2i) -> Vector2i:
 	return position / TILE_SIZE
-	
-func mapCoords_to_chunkCoords_old(coords: Vector2i):
-	return coords * REGION_TO_LOCAL_TILE_FACTOR
-	

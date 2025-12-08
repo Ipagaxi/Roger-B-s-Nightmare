@@ -22,7 +22,6 @@ func _ready():
 	add_child(city_inst)
 	# Generate chunk
 	local_inst = local_scene.instantiate()
-	local_inst.load_locals()
 	add_child(local_inst)
 	player_inst = player_scene.instantiate()
 	player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()

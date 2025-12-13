@@ -36,6 +36,26 @@ func generate_local(region_coords: Vector2i):
 		print("We are on a street")
 		set_correct_street_asset()
 
+func add_vertically_streets_from_center_to_local_border(starting_y_coord: int):
+	# center_index gives the index of the center street in terms how many street assets fit in the local
+	var center_index = TilesInterface.STREET_ASSET_LOCAL_SIZE_FACTOR / 2
+	for i in range(center_index):
+		var street_2_filler_inst = street_2_scene.instantiate()
+		streets_insts.append(street_2_filler_inst)
+		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(center_index*street_asset_size.x, starting_y_coord + street_asset_size.y*i))
+		add_child(streets_insts.back())
+		
+func add_horizontally_streets_from_center_to_local_border(starting_x_coord: int):
+	# center_street_index gives the index of the center street in terms how many street assets fit in the local
+	var center_index = TilesInterface.STREET_ASSET_LOCAL_SIZE_FACTOR / 2
+	var position_correction = TilesInterface.tileCoords_to_trueCoords(Vector2i(street_asset_size.x, 0))
+	for i in range(center_index):
+		var street_2_filler_inst = street_2_scene.instantiate()
+		street_2_filler_inst.rotation_degrees = 90
+		streets_insts.append(street_2_filler_inst)
+		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(starting_x_coord + street_asset_size.x*i, center_index*street_asset_size.y )) + position_correction
+		add_child(streets_insts.back())
+
 func set_correct_street_asset():
 	var top_street = false
 	var bottom_street = false
@@ -48,51 +68,19 @@ func set_correct_street_asset():
 	var y = current_location_region.y
 	if region_matrix[max(y-1, 0)][x] == -2:
 		top_street = true
-		var street_2_filler_inst = street_2_scene.instantiate()
-		streets_insts.append(street_2_filler_inst)
-		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(2*street_asset_size.x, 0))
-		add_child(streets_insts.back())
-		var street_2_filler_2_inst = street_2_scene.instantiate()
-		streets_insts.append(street_2_filler_2_inst)
-		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(2*street_asset_size.x, street_asset_size.y))
-		add_child(streets_insts.back())
+		add_vertically_streets_from_center_to_local_border(0)
 	if region_matrix[y+1][x] == -2:
 		bottom_street = true
-		var street_2_filler_inst = street_2_scene.instantiate()
-		streets_insts.append(street_2_filler_inst)
-		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(2*street_asset_size.x, 3*street_asset_size.y))
-		add_child(streets_insts.back())
-		var street_2_filler_2_inst = street_2_scene.instantiate()
-		streets_insts.append(street_2_filler_2_inst)
-		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(2*street_asset_size.x, 4*street_asset_size.y))
-		add_child(streets_insts.back())
+		var starting_y = ((TilesInterface.STREET_ASSET_LOCAL_SIZE_FACTOR / 2)+1) * TilesInterface.STREET_ASSET_SIZE_TILE.y
+		add_vertically_streets_from_center_to_local_border(starting_y)
 	if region_matrix[y][max(x-1, 0)] == -2:
 		left_street = true
-		var street_2_filler_inst = street_2_scene.instantiate()
-		street_2_filler_inst.rotation_degrees = 90
-		position_correction = TilesInterface.tileCoords_to_trueCoords(Vector2i(street_asset_size.x, 0))
-		streets_insts.append(street_2_filler_inst)
-		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(0, 2*street_asset_size.y)) + position_correction
-		add_child(streets_insts.back())
-		var street_2_filler_2_inst = street_2_scene.instantiate()
-		street_2_filler_2_inst.rotation_degrees = 90
-		streets_insts.append(street_2_filler_2_inst)
-		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(street_asset_size.x, 2*street_asset_size.y)) + position_correction
-		add_child(streets_insts.back())
+		add_horizontally_streets_from_center_to_local_border(0)
 	if region_matrix[y][x+1] == -2:
 		right_street = true
-		var street_2_filler_inst = street_2_scene.instantiate()
-		street_2_filler_inst.rotation_degrees = 90
-		position_correction = TilesInterface.tileCoords_to_trueCoords(Vector2i(street_asset_size.x, 0))
-		streets_insts.append(street_2_filler_inst)
-		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(3*street_asset_size.x, 2*street_asset_size.y)) + position_correction
-		add_child(streets_insts.back())
-		var street_2_filler_2_inst = street_2_scene.instantiate()
-		street_2_filler_2_inst.rotation_degrees = 90
-		streets_insts.append(street_2_filler_2_inst)
-		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(4*street_asset_size.x, 2*street_asset_size.y)) + position_correction
-		add_child(streets_insts.back())
-		
+		var starting_x = ((TilesInterface.STREET_ASSET_LOCAL_SIZE_FACTOR / 2)+1) * TilesInterface.STREET_ASSET_SIZE_TILE.x
+		add_horizontally_streets_from_center_to_local_border(starting_x)
+
 
 	# One exit
 	if top_street and !bottom_street and !left_street and !right_street:

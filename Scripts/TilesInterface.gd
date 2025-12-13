@@ -8,14 +8,15 @@ extends Node
 # The local layer consist of multiple chunks
 
 const TILE_SIZE = 32
-const STREET_ASSET_SIZE_TILE = Vector2i(12, 12)
+const STREET_ASSET_SIZE_TILE = Vector2i(20, 20)
 
 # Further size specifications are made in tiles 
 const CONTINENT_SIZE_TILES_WIDTH = 100
 const CONTINENT_SIZE_TILES_HEIGHT = 100
 const REGION_SIZE_TILES = 250
-# 12 is the size of street asset; the factor should be odd so we can place the symmetrically in a local
-const LOCAL_SIZE_TILES = 5*12
+# The factor should be odd so we can place the street asset in the center of a local
+const STREET_ASSET_LOCAL_SIZE_FACTOR = 3
+const LOCAL_SIZE_TILES = STREET_ASSET_LOCAL_SIZE_FACTOR * STREET_ASSET_SIZE_TILE.x
 
 # CHUNK_SIZE in world tiles
 #const CHUNK_SIZE_ON_LOCAL = 200

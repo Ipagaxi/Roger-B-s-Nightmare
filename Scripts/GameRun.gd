@@ -25,7 +25,8 @@ func _ready():
 	add_child(local_inst)
 	player_inst = player_scene.instantiate()
 	player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
-	player_inst.global_position = TilesInterface.tileCoords_to_trueCoords(Vector2i.ZERO)
+	player_inst.global_position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_local)
+	print(player_inst.global_position)
 	add_child(player_inst)
 	$Camera2D.zoom = Vector2(0.5, 0.5)
 	

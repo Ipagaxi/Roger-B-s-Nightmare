@@ -33,8 +33,9 @@ func generate_local(region_coords: Vector2i):
 			$world.set_cell(Vector2i(x_tile, y_tile), 1, Vector2i(0, 0))
 	# If current region tile is a street...
 	if region_matrix[current_location_region.y][current_location_region.x] < -1:
-		print("We are on a street")
 		set_correct_street_asset()
+		
+	TilesInterface.current_location_local = Vector2i(TilesInterface.LOCAL_SIZE_TILES, TilesInterface.LOCAL_SIZE_TILES)/2
 
 func add_vertically_streets_from_center_to_local_border(starting_y_coord: int):
 	# center_index gives the index of the center street in terms how many street assets fit in the local

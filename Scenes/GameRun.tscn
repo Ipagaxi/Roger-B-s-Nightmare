@@ -6,3 +6,4 @@
 script = ExtResource("1_brfv0")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+limit_enabled = false

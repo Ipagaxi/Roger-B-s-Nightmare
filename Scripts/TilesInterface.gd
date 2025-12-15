@@ -54,10 +54,10 @@ const INPUTS = {"right": Vector2.RIGHT,
 				"bottom_right": Vector2(1, 1),
 				"stay": Vector2.ZERO}
 
-func move(direction, body):
+func move(direction, body) -> Vector2i:
 	var new_pos: Vector2i = body.position + INPUTS[direction] * TILE_SIZE
 	body.position = new_pos
-	TilesInterface.current_location_local = TilesInterface.trueCoords_to_tileCoords(new_pos)
+	return new_pos
 	#var cell_data = current_chunk.get_node("house").get_node("Foreground").get_cell_tile_data(globalPos_to_tileCoords(new_pos))
 	#if !cell_data:
 	#	body.position = new_pos
@@ -73,4 +73,10 @@ func trueCoords_to_tileCoords(position: Vector2i) -> Vector2i:
 
 # It is a little bit confusing: the local is provided via region_coords (coords in the current region)
 func get_global_tile_coords_of_local(region_coords: Vector2i) -> Vector2i:
-	return current_location_continent * REGION_SIZE_TILES + region_coords * LOCAL_SIZE_TILES
+	#var offset_x = (CONTINENT_SIZE_TILES_WIDTH * REGION_SIZE_TILES * LOCAL_SIZE_TILES) / 2
+	#var offset_y = (CONTINENT_SIZE_TILES_HEIGHT * REGION_SIZE_TILES * LOCAL_SIZE_TILES) / 2
+	return current_location_continent * REGION_SIZE_TILES * LOCAL_SIZE_TILES + region_coords * LOCAL_SIZE_TILES #- Vector2i(offset_x, offset_y)
+	
+func get_location_region(global_tile_coords: Vector2i) -> Vector2i:
+	var location_region_in_local_tiles = global_tile_coords - (current_location_continent * REGION_SIZE_TILES * LOCAL_SIZE_TILES)
+	return location_region_in_local_tiles / LOCAL_SIZE_TILES

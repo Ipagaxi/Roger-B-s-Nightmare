@@ -18,6 +18,9 @@ const REGION_SIZE_TILES = 250
 const STREET_ASSET_LOCAL_SIZE_FACTOR = 3
 const LOCAL_SIZE_TILES = STREET_ASSET_LOCAL_SIZE_FACTOR * STREET_ASSET_SIZE_TILE.x
 
+const CONTINENT_WIDTH_IN_LOCAL_TILES = CONTINENT_SIZE_TILES_WIDTH * REGION_SIZE_TILES * LOCAL_SIZE_TILES
+const CONTINENT_HEIGHT_IN_LOCAL_TILES = CONTINENT_SIZE_TILES_HEIGHT * REGION_SIZE_TILES * LOCAL_SIZE_TILES
+
 # CHUNK_SIZE in world tiles
 #const CHUNK_SIZE_ON_LOCAL = 200
 #const CHUNK_SIZE_ON_REGION: int = CHUNK_SIZE_ON_LOCAL / REGION_TO_LOCAL_TILE_FACTOR
@@ -32,6 +35,8 @@ var region_spawn_location = Vector2i.ZERO
 var continent_matrix: Array[Array]
 # The region_matrix of the current continent tile
 var region_matrix: Array[Array]
+# region_matrix_loaded holds for every region if it is already loaded
+var region_matrix_loaded: Array[Array]
 # The chunk_matrix of the current chunk
 var local_matrix: Array[Array]
 
@@ -52,6 +57,7 @@ const INPUTS = {"right": Vector2.RIGHT,
 func move(direction, body):
 	var new_pos: Vector2i = body.position + INPUTS[direction] * TILE_SIZE
 	body.position = new_pos
+	TilesInterface.current_location_local = TilesInterface.trueCoords_to_tileCoords(new_pos)
 	#var cell_data = current_chunk.get_node("house").get_node("Foreground").get_cell_tile_data(globalPos_to_tileCoords(new_pos))
 	#if !cell_data:
 	#	body.position = new_pos
@@ -64,3 +70,7 @@ func tileCoords_to_trueCoords(position: Vector2i) -> Vector2i:
 	
 func trueCoords_to_tileCoords(position: Vector2i) -> Vector2i:
 	return position / TILE_SIZE
+
+# It is a little bit confusing: the local is provided via region_coords (coords in the current region)
+func get_global_tile_coords_of_local(region_coords: Vector2i) -> Vector2i:
+	return current_location_continent * REGION_SIZE_TILES + region_coords * LOCAL_SIZE_TILES

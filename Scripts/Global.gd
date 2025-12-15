@@ -2,6 +2,8 @@ extends Node
 
 var current_scene = null
 
+const NUM_LOCALS_LOADING_IN_EACH_DIRECTION = 0
+
 func _ready():
 	var root = get_tree().root
 	current_scene = root.get_child(-1)

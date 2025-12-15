@@ -4,6 +4,7 @@ const size = TilesInterface.REGION_SIZE_TILES
 const number_areas = 100
 
 var region_matrix = TilesInterface.region_matrix
+var region_matrix_loaded = TilesInterface.region_matrix_loaded
 
 func _ready():
 	create_matrix()
@@ -13,9 +14,16 @@ func _ready():
 func create_matrix():
 	for i in range(size):
 		var init_array = []
+		var init_arrray_loaded = []
+		
 		init_array.resize(size)
+		init_arrray_loaded.resize(size)
+		
 		init_array.fill(0)
+		init_arrray_loaded.fill(false)
+		
 		region_matrix.append(init_array)
+		region_matrix_loaded.append(init_arrray_loaded)
 		
 # Voronoi Diagrams are used for city map generation
 # Each city tile gets an identifier:

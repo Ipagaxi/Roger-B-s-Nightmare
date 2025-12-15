@@ -24,14 +24,16 @@ func _ready():
 	
 	
 func generate_local(region_coords: Vector2i):
-	# Based on tile behind passed region_coords, local has to be generated
-	var offset_to_current_position_region = (region_coords - TilesInterface.current_location_region) * TilesInterface.LOCAL_SIZE_TILES
-	for y_tile in range(TilesInterface.LOCAL_SIZE_TILES):
-		for x_tile in range(TilesInterface.LOCAL_SIZE_TILES):
-			$world.set_cell(Vector2i(x_tile, y_tile) + offset_to_current_position_region, 1, Vector2i(0, 0))
-	# If current region tile is a street...
-	if region_matrix[region_coords.y][region_coords.x] == -2:
-		set_correct_street_asset(region_coords, offset_to_current_position_region)
+	if !(TilesInterface.region_matrix_loaded[region_coords.y][region_coords.x]):
+		TilesInterface.region_matrix_loaded[region_coords.y][region_coords.x] = true
+		# Based on tile behind passed region_coords, local has to be generated
+		var offset_to_current_position_region = (region_coords - TilesInterface.current_location_region) * TilesInterface.LOCAL_SIZE_TILES
+		for y_tile in range(TilesInterface.LOCAL_SIZE_TILES):
+			for x_tile in range(TilesInterface.LOCAL_SIZE_TILES):
+				$world.set_cell(Vector2i(x_tile, y_tile) + offset_to_current_position_region, 1, Vector2i(0, 0))
+		# If current region tile is a street...
+		if region_matrix[region_coords.y][region_coords.x] == -2:
+			set_correct_street_asset(region_coords, offset_to_current_position_region)
 
 func add_vertically_streets_from_center_to_local_border(starting_y_coord: int, offset_to_current_position_region: Vector2i):
 	# center_index gives the index of the center street in terms how many street assets fit in the local
@@ -157,24 +159,25 @@ func set_correct_street_asset(region_coords: Vector2i, offset_to_current_positio
 		var street_4_inst = street_4_scene.instantiate()
 		streets_insts.append(street_4_inst)
 	else:
-		print("What")
+		print("Problem with placing center street")
 	
 	var street_position = (TilesInterface.LOCAL_SIZE_TILES-street_asset_size.x)/2
 	streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(street_position, street_position) + offset_to_current_position_region) + position_correction
 	add_child(streets_insts.back())
 	
 func load_locals():
-	for y in range(9):
-		if TilesInterface.current_location_region.y+y-4 < 0:
+	var num_locals_loading_in_each_dir = Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION
+	for y in range(num_locals_loading_in_each_dir*2 + 1):
+		if TilesInterface.current_location_region.y+y-num_locals_loading_in_each_dir < 0:
 			continue
-		elif TilesInterface.current_location_region.y+y-4 >= TilesInterface.REGION_SIZE_TILES:
+		elif TilesInterface.current_location_region.y+y-num_locals_loading_in_each_dir >= TilesInterface.REGION_SIZE_TILES:
 			break
-		for x in range(9):
-			if TilesInterface.current_location_region.x+x-4 < 0:
+		for x in range(num_locals_loading_in_each_dir*2 + 1):
+			if TilesInterface.current_location_region.x+x-num_locals_loading_in_each_dir < 0:
 				continue
-			elif TilesInterface.current_location_region.x+x-4 >= TilesInterface.REGION_SIZE_TILES:
+			elif TilesInterface.current_location_region.x+x-num_locals_loading_in_each_dir >= TilesInterface.REGION_SIZE_TILES:
 				break
-			generate_local(Vector2i(TilesInterface.current_location_region.x+x-4, TilesInterface.current_location_region.y+y-4))
+			generate_local(Vector2i(TilesInterface.current_location_region.x+x-num_locals_loading_in_each_dir, TilesInterface.current_location_region.y+y-num_locals_loading_in_each_dir))
 	TilesInterface.current_location_local = Vector2i(TilesInterface.LOCAL_SIZE_TILES, TilesInterface.LOCAL_SIZE_TILES)/2
 
 func load_from_file(continent_coords: Vector2i, region_coords: Vector2i):

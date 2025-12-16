@@ -29,15 +29,20 @@ func _input(event):
 				var num_additional_locals_to_generate_per_direction = max(Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION, 1)
 				for i in range(2*num_additional_locals_to_generate_per_direction+1):
 					local_world.generate_local(Vector2i(TilesInterface.current_location_region.x - num_additional_locals_to_generate_per_direction + i, TilesInterface.current_location_region.y - Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION - 1))
+					local_world.unload_local(Vector2i(TilesInterface.current_location_region.x - num_additional_locals_to_generate_per_direction + i, TilesInterface.current_location_region.y + Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION + 1))
 			if !player_was_in_bottom_local_rim && player_is_in_bottom_local_rim && !player_was_in_top_local_rim:
 				var num_additional_locals_to_generate_per_direction = max(Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION, 1)
 				for i in range(2*num_additional_locals_to_generate_per_direction+1):
 					local_world.generate_local(Vector2i(TilesInterface.current_location_region.x - num_additional_locals_to_generate_per_direction + i, TilesInterface.current_location_region.y + Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION + 1))
+					local_world.unload_local(Vector2i(TilesInterface.current_location_region.x - num_additional_locals_to_generate_per_direction + i, TilesInterface.current_location_region.y - Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION - 1))
 			if !player_was_in_left_local_rim && player_is_in_left_local_rim && !player_was_in_right_local_rim:
 				var num_additional_locals_to_generate_per_direction = max(Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION, 1)
 				for i in range(2*num_additional_locals_to_generate_per_direction+1):
 					local_world.generate_local(Vector2i(TilesInterface.current_location_region.x - Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION - 1, TilesInterface.current_location_region.y - num_additional_locals_to_generate_per_direction + i))
+					local_world.unload_local(Vector2i(TilesInterface.current_location_region.x + Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION + 1, TilesInterface.current_location_region.y - num_additional_locals_to_generate_per_direction + i))
 			if !player_was_in_right_local_rim && player_is_in_right_local_rim && !player_was_in_left_local_rim:
 				var num_additional_locals_to_generate_per_direction = max(Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION, 1)
 				for i in range(2*num_additional_locals_to_generate_per_direction+1):
 					local_world.generate_local(Vector2i(TilesInterface.current_location_region.x + Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION + 1, TilesInterface.current_location_region.y - num_additional_locals_to_generate_per_direction + i))
+					local_world.unload_local(Vector2i(TilesInterface.current_location_region.x - Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION - 1, TilesInterface.current_location_region.y - num_additional_locals_to_generate_per_direction + i))
+					

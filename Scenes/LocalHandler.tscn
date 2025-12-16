@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://v8wjxkbj07mc"]
 
-[ext_resource type="Script" uid="uid://cyw20bp3f6mad" path="res://Scripts/LocalWorld.gd" id="1_rldkt"]
-[ext_resource type="Texture2D" uid="uid://bx5ehb3kefw2" path="res://assets/Tilesets/ytw_testsquare.png" id="2_43l17"]
-[ext_resource type="Texture2D" uid="uid://de586rgk88oj0" path="res://assets/Tilesets/mini_tileset.png" id="3_prxqe"]
+[ext_resource type="Script" uid="uid://cyw20bp3f6mad" path="res://Scripts/LocalHandler.gd" id="1_vhlqh"]
+[ext_resource type="Texture2D" uid="uid://bx5ehb3kefw2" path="res://assets/Tilesets/ytw_testsquare.png" id="2_am5lr"]
+[ext_resource type="Texture2D" uid="uid://de586rgk88oj0" path="res://assets/Tilesets/mini_tileset.png" id="3_ivar2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_brgks"]
-texture = ExtResource("2_43l17")
+texture = ExtResource("2_am5lr")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
@@ -13,7 +13,7 @@ texture_region_size = Vector2i(32, 32)
 1:1/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fmqpc"]
-texture = ExtResource("3_prxqe")
+texture = ExtResource("3_ivar2")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
@@ -26,7 +26,7 @@ sources/0 = SubResource("TileSetAtlasSource_brgks")
 sources/1 = SubResource("TileSetAtlasSource_fmqpc")
 
 [node name="Chunk" type="Node2D"]
-script = ExtResource("1_rldkt")
+script = ExtResource("1_vhlqh")
 
 [node name="world" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_wdr8j")

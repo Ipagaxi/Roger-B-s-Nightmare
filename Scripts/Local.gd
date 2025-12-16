@@ -6,38 +6,34 @@ var street_2_edge_scene = preload("res://Map/Streets/street_2_edge.tmx")
 var street_3_scene = preload("res://Map/Streets/street_3.tmx")
 var street_4_scene = preload("res://Map/Streets/street_4.tmx")
 
-@onready var map_foreground = $map/Background
 var region_matrix = TilesInterface.region_matrix
 var local_matrix = TilesInterface.local_matrix
 var street_asset_size = TilesInterface.STREET_ASSET_SIZE_TILE
 
 var streets_insts: Array
 
-func _ready():
-	TilesInterface.current_local = self
-	for i in range(TilesInterface.LOCAL_SIZE_TILES):
-		var init_array = []
-		init_array.resize(TilesInterface.LOCAL_SIZE_TILES)
-		init_array.fill(0)
-		local_matrix.append(init_array)
-	load_locals()
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
 	
-	
-func generate_local(region_coords: Vector2i):
-	if !(TilesInterface.region_matrix_loaded[region_coords.y][region_coords.x]):
-		TilesInterface.region_matrix_loaded[region_coords.y][region_coords.x] = true
-		# Based on tile behind passed region_coords, local has to be generated
-		var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords)
-		print("coords of generated local: ", global_tile_coords)
-		for y_tile in range(TilesInterface.LOCAL_SIZE_TILES):
-			for x_tile in range(TilesInterface.LOCAL_SIZE_TILES):
-				if y_tile == 0 || x_tile == 0 || y_tile == TilesInterface.LOCAL_SIZE_TILES-1 || x_tile == TilesInterface.LOCAL_SIZE_TILES-1:
-					$world.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(1, 0))
-				else:
-					$world.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(0, 0))
-		# If current region tile is a street...
-		if region_matrix[region_coords.y][region_coords.x] == -2:
-			set_correct_street_asset(region_coords, global_tile_coords)
+
+func init(region_coords: Vector2i):
+	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords)
+	for y_tile in range(TilesInterface.LOCAL_SIZE_TILES):
+		for x_tile in range(TilesInterface.LOCAL_SIZE_TILES):
+			if y_tile == 0 || x_tile == 0 || y_tile == TilesInterface.LOCAL_SIZE_TILES-1 || x_tile == TilesInterface.LOCAL_SIZE_TILES-1:
+				$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(1, 0))
+			else:
+				$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(0, 0))
+	# If current region tile is a street...
+	if region_matrix[region_coords.y][region_coords.x] == -2:
+		set_correct_street_asset(region_coords, global_tile_coords)
+
 
 func add_vertically_streets_from_center_to_local_border(starting_y_coord: int, global_tile_coords: Vector2i):
 	# center_index gives the index of the center street in terms how many street assets fit in the local
@@ -168,21 +164,3 @@ func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vecto
 	var street_position = (TilesInterface.LOCAL_SIZE_TILES-street_asset_size.x)/2
 	streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(street_position, street_position) + global_tile_coords) + position_correction
 	add_child(streets_insts.back())
-	
-func load_locals():
-	var num_locals_loading_in_each_dir = Global.NUM_LOCALS_LOADING_IN_EACH_DIRECTION
-	for y in range(num_locals_loading_in_each_dir*2 + 1):
-		if TilesInterface.current_location_region.y+y-num_locals_loading_in_each_dir < 0:
-			continue
-		elif TilesInterface.current_location_region.y+y-num_locals_loading_in_each_dir >= TilesInterface.REGION_SIZE_TILES:
-			break
-		for x in range(num_locals_loading_in_each_dir*2 + 1):
-			if TilesInterface.current_location_region.x+x-num_locals_loading_in_each_dir < 0:
-				continue
-			elif TilesInterface.current_location_region.x+x-num_locals_loading_in_each_dir >= TilesInterface.REGION_SIZE_TILES:
-				break
-			generate_local(Vector2i(TilesInterface.current_location_region.x+x-num_locals_loading_in_each_dir, TilesInterface.current_location_region.y+y-num_locals_loading_in_each_dir))
-	TilesInterface.current_location_local = Vector2i(TilesInterface.LOCAL_SIZE_TILES, TilesInterface.LOCAL_SIZE_TILES)/2
-
-func load_from_file(continent_coords: Vector2i, region_coords: Vector2i):
-	print("Load specific chunk")

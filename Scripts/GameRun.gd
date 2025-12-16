@@ -3,7 +3,7 @@ extends Node2D
 @onready var player_scene = preload("res://Scenes/Player.tscn")
 @onready var continent_scene = preload("res://Scenes/Continent.tscn")
 @onready var city_scene = preload("res://Scenes/City.tscn")
-@onready var local_scene = preload("res://Scenes/LocalWorld.tscn")
+@onready var local_scene = preload("res://Scenes/LocalHandler.tscn")
 
 var player_inst
 var continent_inst

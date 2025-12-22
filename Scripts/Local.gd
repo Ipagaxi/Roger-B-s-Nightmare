@@ -68,14 +68,14 @@ func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vecto
 	if region_matrix[max(y-1, 0)][x] == -2:
 		top_street = true
 		add_vertically_streets_from_center_to_local_border(0, global_tile_coords)
-	if region_matrix[y+1][x] == -2:
+	if region_matrix[min(y+1, TilesInterface.REGION_SIZE_TILES-1)][x] == -2:
 		bottom_street = true
 		var starting_y = ((TilesInterface.STREET_ASSET_LOCAL_SIZE_FACTOR / 2)+1) * TilesInterface.STREET_ASSET_SIZE_TILE.y
 		add_vertically_streets_from_center_to_local_border(starting_y, global_tile_coords)
 	if region_matrix[y][max(x-1, 0)] == -2:
 		left_street = true
 		add_horizontally_streets_from_center_to_local_border(0, global_tile_coords)
-	if region_matrix[y][x+1] == -2:
+	if region_matrix[y][min(x+1, TilesInterface.REGION_SIZE_TILES-1)] == -2:
 		right_street = true
 		var starting_x = ((TilesInterface.STREET_ASSET_LOCAL_SIZE_FACTOR / 2)+1) * TilesInterface.STREET_ASSET_SIZE_TILE.x
 		add_horizontally_streets_from_center_to_local_border(starting_x, global_tile_coords)

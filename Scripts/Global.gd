@@ -2,7 +2,7 @@ extends Node
 
 var current_scene = null
 
-const NUM_LOCALS_LOADING_IN_EACH_DIRECTION = 1
+const LOCAL_RADIUS = 2
 
 func _ready():
 	var root = get_tree().root

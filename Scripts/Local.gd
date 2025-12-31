@@ -34,6 +34,22 @@ func init(region_coords: Vector2i):
 	if region_matrix[region_coords.y][region_coords.x] == -2:
 		set_correct_street_asset(region_coords, global_tile_coords)
 
+func apply_variation(street_inst: Node2D):
+	var street_asphalt_tilemap := street_inst.get_child(0)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash(street_inst.position)# + variation_seed_offset
+	var atlas_coords = [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0)]
+	var probabilities = [100, 0.5, 0.5, 0.1, 0.1];
+
+	for cell in street_asphalt_tilemap.get_used_cells():
+
+		if street_asphalt_tilemap.get_cell_atlas_coords(cell) == Vector2i.ZERO:
+			var variant = atlas_coords[rng.rand_weighted(probabilities)]
+			street_asphalt_tilemap.set_cell(
+				cell,
+				1,
+				variant
+			)
 
 func add_vertically_streets_from_center_to_local_border(starting_y_coord: int, global_tile_coords: Vector2i):
 	# center_index gives the index of the center street in terms how many street assets fit in the local
@@ -42,6 +58,7 @@ func add_vertically_streets_from_center_to_local_border(starting_y_coord: int, g
 		var street_2_filler_inst = street_2_scene.instantiate()
 		streets_insts.append(street_2_filler_inst)
 		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(center_index*street_asset_size.x, starting_y_coord + street_asset_size.y*i) + global_tile_coords)
+		apply_variation(streets_insts.back())
 		add_child(streets_insts.back())
 		
 func add_horizontally_streets_from_center_to_local_border(starting_x_coord: int, global_tile_coords: Vector2i):
@@ -53,6 +70,7 @@ func add_horizontally_streets_from_center_to_local_border(starting_x_coord: int,
 		street_2_filler_inst.rotation_degrees = 90
 		streets_insts.append(street_2_filler_inst)
 		streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(starting_x_coord + street_asset_size.x*i, center_index*street_asset_size.y ) + global_tile_coords) + position_correction
+		apply_variation(streets_insts.back())
 		add_child(streets_insts.back())
 
 func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vector2i):
@@ -165,4 +183,5 @@ func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vecto
 	#for cell in streets_insts.back().get_used_cells():
 	#	print(cell, ": ", streets_insts.back().get_cell_atlas_coords(cell))
 	streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(street_position, street_position) + global_tile_coords) + position_correction
+	apply_variation(streets_insts.back())
 	add_child(streets_insts.back())

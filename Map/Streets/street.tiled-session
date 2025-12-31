@@ -15,7 +15,7 @@
         },
         "street_1.tmx": {
             "scale": 0.529625,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 326.6462119424121,
                 "y": 510.7387302336558
@@ -25,13 +25,13 @@
             "scale": 0.529625,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 319.09369837148927,
+                "x": 317.20556997875855,
                 "y": 318.1496341751239
             }
         },
         "street_2_edge.tmx": {
             "scale": 0.529625,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 319.09369837148927,
                 "y": 318.1496341751239
@@ -47,9 +47,9 @@
         },
         "street_4.tmx": {
             "scale": 0.529625,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 320.98182676422,
+                "x": 319.09369837148927,
                 "y": 318.1496341751239
             }
         },

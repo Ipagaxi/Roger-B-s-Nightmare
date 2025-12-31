@@ -11,7 +11,6 @@ func _ready():
 func generate_local(region_coords: Vector2i):
 	if loaded_locals.has(region_coords):
 		return
-	print("generate local: ", region_coords)
 	TilesInterface.region_matrix_loaded[region_coords.y][region_coords.x] = true
 	var local = local_scene.instantiate()
 	add_child(local)

@@ -26,10 +26,10 @@ func init(region_coords: Vector2i):
 	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords)
 	for y_tile in range(TilesInterface.LOCAL_SIZE_TILES):
 		for x_tile in range(TilesInterface.LOCAL_SIZE_TILES):
-			if y_tile == 0 || x_tile == 0 || y_tile == TilesInterface.LOCAL_SIZE_TILES-1 || x_tile == TilesInterface.LOCAL_SIZE_TILES-1:
-				$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(1, 0))
-			else:
-				$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(0, 0))
+			#if y_tile == 0 || x_tile == 0 || y_tile == TilesInterface.LOCAL_SIZE_TILES-1 || x_tile == TilesInterface.LOCAL_SIZE_TILES-1:
+			#	$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(1, 0))
+			#else:
+			$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 2, Vector2i(4, 1))
 	# If current region tile is a street...
 	if region_matrix[region_coords.y][region_coords.x] == -2:
 		set_correct_street_asset(region_coords, global_tile_coords)
@@ -162,5 +162,7 @@ func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vecto
 		print("Problem with placing center street")
 	
 	var street_position = (TilesInterface.LOCAL_SIZE_TILES-street_asset_size.x)/2
+	#for cell in streets_insts.back().get_used_cells():
+	#	print(cell, ": ", streets_insts.back().get_cell_atlas_coords(cell))
 	streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2i(street_position, street_position) + global_tile_coords) + position_correction
 	add_child(streets_insts.back())

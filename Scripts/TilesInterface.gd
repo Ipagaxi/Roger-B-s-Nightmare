@@ -8,7 +8,7 @@ extends Node
 # The local layer consist of multiple chunks
 
 const TILE_SIZE = 32
-const STREET_ASSET_SIZE_TILE = Vector2i(20, 20)
+const STREET_ASSET_SIZE_TILE = Vector2i(21, 21)
 
 # Further size specifications are made in tiles 
 const CONTINENT_SIZE_TILES_WIDTH = 100

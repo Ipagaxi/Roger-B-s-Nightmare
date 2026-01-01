@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Global="*res://Scripts/Global.gd"
 TilesInterface="*res://Scripts/TilesInterface.gd"
+Building="*res://Scripts/Building.gd"
 
 [display]
 

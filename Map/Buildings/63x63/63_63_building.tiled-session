@@ -3,35 +3,25 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map.tmx",
+    "activeFile": "",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
-        "map.tmx": {
-            "scale": 0.25,
-            "selectedLayer": 0,
-            "viewCenter": {
-                "x": 2140,
-                "y": 444
-            }
-        },
-        "mini_tileset.tsx": {
-            "scaleInDock": 1,
+        "tileset_gen4.tsx": {
             "scaleInEditor": 1
         }
     },
     "last.imagePath": "D:/Users/georg/Projects/Godot/CyberRoguelike/cyberroguelike/assets/Tilesets",
+    "map.height": 63,
     "map.lastUsedFormat": "tmx",
+    "map.width": 63,
     "openFiles": [
-        "map.tmx",
-        "mini_tileset.tsx"
     ],
-    "project": "30x20.tiled-project",
+    "project": "63_63_building.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "mini_tileset.tsx",
-        "map.tmx"
+        "tileset_gen4.tsx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }

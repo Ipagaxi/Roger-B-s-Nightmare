@@ -26,13 +26,19 @@ func init(region_coords: Vector2i):
 	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords)
 	for y_tile in range(TilesInterface.LOCAL_SIZE_TILES):
 		for x_tile in range(TilesInterface.LOCAL_SIZE_TILES):
-			#if y_tile == 0 || x_tile == 0 || y_tile == TilesInterface.LOCAL_SIZE_TILES-1 || x_tile == TilesInterface.LOCAL_SIZE_TILES-1:
-			#	$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(1, 0))
-			#else:
-			$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 2, Vector2i(4, 1))
+			if y_tile == 0 || x_tile == 0 || y_tile == TilesInterface.LOCAL_SIZE_TILES-1 || x_tile == TilesInterface.LOCAL_SIZE_TILES-1:
+				$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(1, 0))
+			else:
+				$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 2, Vector2i(9, 1))
 	# If current region tile is a street...
 	if region_matrix[region_coords.y][region_coords.x] == -2:
 		set_correct_street_asset(region_coords, global_tile_coords)
+	elif region_matrix[region_coords.y][region_coords.x] <= -1:
+		set_correct_street_asset(region_coords, global_tile_coords)
+	elif region_matrix[region_coords.y][region_coords.x] > 1:
+		var building_insts = Building.generate_building(region_coords)
+		for inst in building_insts:
+			add_child(inst)
 
 func apply_variation(street_inst: Node2D):
 	var street_asphalt_tilemap := street_inst.get_child(0)
@@ -83,17 +89,17 @@ func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vecto
 
 	var x = region_coords.x
 	var y = region_coords.y
-	if region_matrix[max(y-1, 0)][x] == -2:
+	if region_matrix[max(y-1, 0)][x] == -2 || region_matrix[max(y-1, 0)][x] <= -1:
 		top_street = true
 		add_vertically_streets_from_center_to_local_border(0, global_tile_coords)
-	if region_matrix[min(y+1, TilesInterface.REGION_SIZE_TILES-1)][x] == -2:
+	if region_matrix[min(y+1, TilesInterface.REGION_SIZE_TILES-1)][x] == -2 || region_matrix[min(y+1, TilesInterface.REGION_SIZE_TILES-1)][x] <= -1:
 		bottom_street = true
 		var starting_y = ((TilesInterface.STREET_ASSET_LOCAL_SIZE_FACTOR / 2)+1) * TilesInterface.STREET_ASSET_SIZE_TILE.y
 		add_vertically_streets_from_center_to_local_border(starting_y, global_tile_coords)
-	if region_matrix[y][max(x-1, 0)] == -2:
+	if region_matrix[y][max(x-1, 0)] == -2 || region_matrix[y][max(x-1, 0)] <= -1:
 		left_street = true
 		add_horizontally_streets_from_center_to_local_border(0, global_tile_coords)
-	if region_matrix[y][min(x+1, TilesInterface.REGION_SIZE_TILES-1)] == -2:
+	if region_matrix[y][min(x+1, TilesInterface.REGION_SIZE_TILES-1)] == -2 || region_matrix[y][min(x+1, TilesInterface.REGION_SIZE_TILES-1)] <= -1:
 		right_street = true
 		var starting_x = ((TilesInterface.STREET_ASSET_LOCAL_SIZE_FACTOR / 2)+1) * TilesInterface.STREET_ASSET_SIZE_TILE.x
 		add_horizontally_streets_from_center_to_local_border(starting_x, global_tile_coords)

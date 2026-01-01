@@ -8,11 +8,9 @@ extends Node
 # The local layer consist of multiple chunks
 
 const TILE_SIZE = 32
-const STREET_ASSET_SIZE_TILE = Vector2i(21, 21)
+const STREET_ASSET_SIZE_TILE = Vector2i(63, 63)
 
-# The factor should be odd so we can place the street asset in the center of a local
-const STREET_ASSET_LOCAL_SIZE_FACTOR = 3
-const LOCAL_SIZE_TILES = STREET_ASSET_LOCAL_SIZE_FACTOR * STREET_ASSET_SIZE_TILE.x
+const LOCAL_SIZE_TILES = 63
 
 const REGION_SIZE_TILES = 250
 

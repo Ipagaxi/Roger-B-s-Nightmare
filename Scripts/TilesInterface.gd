@@ -53,12 +53,15 @@ const INPUTS = {"right": Vector2.RIGHT,
 				"top_right": Vector2(1, -1),
 				"bottom_left": Vector2(-1, 1),
 				"bottom_right": Vector2(1, 1),
-				"stay": Vector2.ZERO}
+				"stay": Vector2i.ZERO}
 
 func move(direction, body) -> Vector2i:
-	var new_pos: Vector2i = body.position + INPUTS[direction] * TILE_SIZE
-	body.position = new_pos
-	return new_pos
+	var motion = TilesInterface.tileCoords_to_trueCoords(direction) / 1.0
+	if body.test_move(body.transform, motion, null, 0.00, true):
+		print("Collision!")
+		return body.global_position
+	body.global_position += motion
+	return body.global_position
 	#var cell_data = current_chunk.get_node("house").get_node("Foreground").get_cell_tile_data(globalPos_to_tileCoords(new_pos))
 	#if !cell_data:
 	#	body.position = new_pos

@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c56grr4s5e7pj" path="res://assets/Tilesets/tileset_gen4.png" id="3_gntrk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jucab"]
-size = Vector2(32, 32)
+size = Vector2(28, 28)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dewec"]
 atlas = ExtResource("3_gntrk")
@@ -22,10 +22,10 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="Area2D"]
+[node name="Player" type="StaticBody2D"]
 script = ExtResource("1_p1nlm")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Collision_Movement" type="CollisionShape2D" parent="."]
 position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_jucab")
 
@@ -40,5 +40,3 @@ sprite_frames = SubResource("SpriteFrames_5ixxa")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
 position = Vector2(16, 15)
-
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]

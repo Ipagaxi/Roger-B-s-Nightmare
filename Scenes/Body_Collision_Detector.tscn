@@ -1,10 +1,35 @@
-[gd_scene load_steps=2 format=3 uid="uid://chyd6wpwpax6y"]
+[gd_scene format=3 uid="uid://chyd6wpwpax6y"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ol3nq"]
-size = Vector2(16, 16)
-
-[node name="BodyCollisionDetector" type="Area2D"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="BodyCollisionDetector" type="Node2D"]
 position = Vector2(16, 16)
-shape = SubResource("RectangleShape2D_ol3nq")
+
+[node name="RayUp" type="RayCast2D" parent="."]
+target_position = Vector2(0, -40)
+
+[node name="RayTopRight" type="RayCast2D" parent="."]
+rotation = 0.7853982
+target_position = Vector2(0, -45.254837)
+
+[node name="RayRight" type="RayCast2D" parent="."]
+rotation = 1.5707964
+target_position = Vector2(-1.9073486e-06, -40)
+
+[node name="RayBottomRight" type="RayCast2D" parent="."]
+rotation = 2.3561945
+target_position = Vector2(0, -45.254837)
+
+[node name="RayDown" type="RayCast2D" parent="."]
+rotation = 3.1415927
+target_position = Vector2(-3.8146973e-06, -40)
+
+[node name="RayBottomLeft" type="RayCast2D" parent="."]
+rotation = 3.9269907
+target_position = Vector2(1.9073486e-06, -45.254837)
+
+[node name="RayLeft" type="RayCast2D" parent="."]
+rotation = 4.712389
+target_position = Vector2(0, -40)
+
+[node name="RayTopLeft" type="RayCast2D" parent="."]
+rotation = 5.497787
+target_position = Vector2(7.6293945e-06, -45.254833)

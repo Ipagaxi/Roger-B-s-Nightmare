@@ -56,10 +56,50 @@ const INPUTS = {"right": Vector2.RIGHT,
 				"stay": Vector2i.ZERO}
 
 func move(direction, body) -> Vector2i:
-	var motion = TilesInterface.tileCoords_to_trueCoords(direction) / 1.0
-	if body.test_move(body.transform, motion, null, 0.00, true):
+	var motion = TilesInterface.tileCoords_to_trueCoords(INPUTS[direction]) / 1.0
+	var ray_up = body.get_node("BodyCollisionDetector").get_node("RayUp")
+	var ray_top_right = body.get_node("BodyCollisionDetector").get_node("RayTopRight")
+	var ray_right = body.get_node("BodyCollisionDetector").get_node("RayRight")
+	var ray_bottom_right = body.get_node("BodyCollisionDetector").get_node("RayBottomRight")
+	var ray_down = body.get_node("BodyCollisionDetector").get_node("RayDown")
+	var ray_bottom_left = body.get_node("BodyCollisionDetector").get_node("RayBottomLeft")
+	var ray_left = body.get_node("BodyCollisionDetector").get_node("RayLeft")
+	var ray_top_left = body.get_node("BodyCollisionDetector").get_node("RayTopLeft")
+	#for ray in body.get_node("BodyCollisionDetector").get_children():
+	#	print("ray is colliding: ", ray.is_colliding())
+	#	print("ray rotation: ", ray.rotation, ", motion angle: ", motion.angle())
+	#	if ray.is_colliding() and motion.angle() == ray.rotation:
+	#		print("Collision!")
+	#		return body.global_position
+	#print("#######################")
+	
+	
+	#if body.test_move(body.transform, motion):
+	if ray_up.is_colliding() and direction == "up":
 		print("Collision!")
 		return body.global_position
+	elif ray_top_right.is_colliding() and direction == "top_right":
+		print("Collision!")
+		return body.global_position
+	elif ray_right.is_colliding() and direction == "right":
+		print("Collision!")
+		return body.global_position
+	elif ray_bottom_right.is_colliding() and direction == "bottom_right":
+		print("Collision!")
+		return body.global_position
+	elif ray_down.is_colliding() and direction == "down":
+		print("Collision!")
+		return body.global_position
+	elif ray_bottom_left.is_colliding() and direction == "bottom_left":
+		print("Collision!")
+		return body.global_position
+	elif ray_left.is_colliding() and direction == "left":
+		print("Collision!")
+		return body.global_position
+	elif ray_top_left.is_colliding() and direction == "top_left":
+		print("Collision!")
+		return body.global_position
+	body.move_and_collide(motion, false, 0.0, true)
 	body.global_position += motion
 	return body.global_position
 	#var cell_data = current_chunk.get_node("house").get_node("Foreground").get_cell_tile_data(globalPos_to_tileCoords(new_pos))

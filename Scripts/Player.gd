@@ -14,3 +14,7 @@ func _input(event):
 			
 			local_world.load_all_near_locals()
 			local_world.unload_all_far_away_locals()
+
+
+func _on_body_entered(body):
+	print("Uff, wall")

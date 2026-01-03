@@ -3,12 +3,15 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "street_3.tmx",
+    "activeFile": "street_2_diagonal.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        ":/automap-tiles.tsx": {
+            "scaleInDock": 1
+        },
         "mini_tileset.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
@@ -68,6 +71,9 @@
                 "x": 800.5664385178192,
                 "y": 800.5664385178192
             }
+        },
+        "tileset_gen4.tsx": {
+            "scaleInDock": 1
         }
     },
     "last.imagePath": "/home/ipagaxi/Repos/Godot/CyberpunkRoguelike/assets/Tilesets",
@@ -78,18 +84,20 @@
         "mini_tileset.tsx",
         "street_1.tmx",
         "street_2.tmx",
-        "street_2_edge.tmx",
+        "street_2_diagonal.tmx",
         "street_4.tmx",
-        "street_3.tmx"
+        "street_3.tmx",
+        "street_2_diagonal.tmx"
     ],
     "project": "street.tiled-project",
     "recentFiles": [
         "mini_tileset.tsx",
         "street_1.tmx",
         "street_2.tmx",
-        "street_2_edge.tmx",
+        "street_2_diagonal.tmx",
         "street_4.tmx",
         "street_3.tmx",
+        "street_2_edge.tmx",
         "street_EDGE.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"

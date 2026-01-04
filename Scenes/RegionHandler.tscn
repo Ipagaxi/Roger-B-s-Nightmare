@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://8ghm7od8ukul"]
+
+[ext_resource type="Script" uid="uid://cufudo2mki3po" path="res://Scripts/RegionHandler.gd" id="1_8peeh"]
+
+[node name="RegionHandler" type="Node2D"]
+script = ExtResource("1_8peeh")

@@ -34,9 +34,11 @@ var current_location_local: Vector2i
 var region_spawn_location = Vector2i.ZERO
 
 var continent_matrix: Array[Array]
+# continent_matrix_loaded stores for every region if it is already loaded
+var continent_matrix_loaded: Array[Array]
 # The region_matrix of the current continent tile
 var region_matrix: Array[Array]
-# region_matrix_loaded holds for every region if it is already loaded
+# region_matrix_loaded holds for every local in the current region if it is already loaded
 var region_matrix_loaded: Array[Array]
 # The chunk_matrix of the current chunk
 var local_matrix: Array[Array]
@@ -76,30 +78,22 @@ func move(direction, body) -> Vector2i:
 	
 	#if body.test_move(body.transform, motion):
 	if ray_up.is_colliding() and direction == "up":
-		print("Collision!")
 		return body.global_position
 	elif ray_top_right.is_colliding() and direction == "top_right":
-		print("Collision!")
 		return body.global_position
 	elif ray_right.is_colliding() and direction == "right":
-		print("Collision!")
 		return body.global_position
 	elif ray_bottom_right.is_colliding() and direction == "bottom_right":
-		print("Collision!")
 		return body.global_position
 	elif ray_down.is_colliding() and direction == "down":
-		print("Collision!")
 		return body.global_position
 	elif ray_bottom_left.is_colliding() and direction == "bottom_left":
-		print("Collision!")
 		return body.global_position
 	elif ray_left.is_colliding() and direction == "left":
-		print("Collision!")
 		return body.global_position
 	elif ray_top_left.is_colliding() and direction == "top_left":
-		print("Collision!")
 		return body.global_position
-	body.move_and_collide(motion, false, 0.0, true)
+	#body.move_and_collide(motion, false, 0.0, true)
 	body.global_position += motion
 	return body.global_position
 	#var cell_data = current_chunk.get_node("house").get_node("Foreground").get_cell_tile_data(globalPos_to_tileCoords(new_pos))

@@ -2,12 +2,12 @@ extends Node2D
 
 @onready var player_scene = preload("res://Scenes/Player.tscn")
 @onready var continent_scene = preload("res://Scenes/Continent.tscn")
-@onready var city_scene = preload("res://Scenes/City.tscn")
+@onready var region_scene = preload("res://Scenes/RegionHandler.tscn")
 @onready var local_scene = preload("res://Scenes/LocalHandler.tscn")
 
 var player_inst
 var continent_inst
-var city_inst
+var region_inst
 var local_inst
 
 func _ready():
@@ -17,9 +17,9 @@ func _ready():
 	continent_inst.visible = false
 	add_child(continent_inst)
 	# Generate map/city
-	city_inst = city_scene.instantiate()
-	city_inst.visible = false
-	add_child(city_inst)
+	region_inst = region_scene.instantiate()
+	region_inst.visible = false
+	add_child(region_inst)
 	# Generate chunk
 	local_inst = local_scene.instantiate()
 	add_child(local_inst)
@@ -54,9 +54,9 @@ func change_to_layer(layer_id: int):
 				local_inst.visible = false
 				#chunk_inst.free()
 		elif TilesInterface.current_layer_id == 1:
-			if city_inst:
+			if region_inst:
 				#city_inst.free()
-				city_inst.visible = false
+				region_inst.visible = false
 		elif TilesInterface.current_layer_id == 2:
 			if continent_inst:
 				continent_inst.visible = false
@@ -71,7 +71,7 @@ func change_to_layer(layer_id: int):
 			#city_inst = city_scene.instantiate()
 			#add_child(city_inst)
 			player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_region)
-			city_inst.visible = true
+			region_inst.visible = true
 		elif valid_layer_id == 2:
 			#continent_inst = continent_scene.instantiate()
 			#add_child(continent_inst)

@@ -24,12 +24,12 @@ func _process(delta: float) -> void:
 
 func init(region_coords: Vector2i):
 	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords)
-	for y_tile in range(TilesInterface.LOCAL_SIZE_TILES):
-		for x_tile in range(TilesInterface.LOCAL_SIZE_TILES):
-			#if y_tile == 0 || x_tile == 0 || y_tile == TilesInterface.LOCAL_SIZE_TILES-1 || x_tile == TilesInterface.LOCAL_SIZE_TILES-1:
-			#	$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(1, 0))
-			#else:
-			$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 2, Vector2i(9, 1))
+	#for y_tile in range(TilesInterface.LOCAL_SIZE_TILES):
+	#	for x_tile in range(TilesInterface.LOCAL_SIZE_TILES):
+	#		#if y_tile == 0 || x_tile == 0 || y_tile == TilesInterface.LOCAL_SIZE_TILES-1 || x_tile == TilesInterface.LOCAL_SIZE_TILES-1:
+	#		#	$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(1, 0))
+	#		#else:
+	#		$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 2, Vector2i(9, 1))
 	# If current region tile is a street...
 	if region_matrix[region_coords.y][region_coords.x] == -2:
 		set_correct_street_asset(region_coords, global_tile_coords)

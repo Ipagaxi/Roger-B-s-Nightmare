@@ -5,7 +5,7 @@ extends Node2D
 var loaded_locals := {}
 
 func _ready():
-	load_locals()
+	load_all_near_locals()
 	
 	
 func generate_local(region_coords: Vector2i):

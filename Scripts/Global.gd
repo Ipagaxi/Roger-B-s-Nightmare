@@ -4,6 +4,9 @@ var current_scene = null
 
 const LOCAL_RADIUS = 2
 
+const REGION_LOAD_RADIUS = 1
+const REGION_UNLOAD_RADIUS = 2
+
 func _ready():
 	var root = get_tree().root
 	current_scene = root.get_child(-1)

@@ -8,8 +8,11 @@ var region_matrix_loaded = TilesInterface.region_matrix_loaded
 
 func _ready():
 	create_matrix()
+	print("City matrix generated")
 	generate_city_map()
+	print("Generated city map")
 	set_spawn_location()
+	print("Spawn location set")
 
 func create_matrix():
 	for i in range(size):

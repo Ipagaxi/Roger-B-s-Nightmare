@@ -6,10 +6,6 @@ var building_premises_63x63 = preload("res://Map/Buildings/63x63/building_premis
 func _ready():
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 	
 func generate_building(region_coords: Vector2i) -> Array:
 	var building_insts: Array

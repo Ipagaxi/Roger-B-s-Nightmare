@@ -3,18 +3,18 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "tileset_gen4.tsx",
+    "activeFile": "building_premises.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "building_premises.tmx": {
-            "scale": 0.33,
+            "scale": 0.125,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 1112.121212121212,
-                "y": 1007.5757575757575
+                "x": 904,
+                "y": 216
             }
         },
         "tileset_gen4.tsx": {
@@ -33,8 +33,8 @@
     "project": "63_63_building.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "building_premises.tmx",
-        "tileset_gen4.tsx"
+        "tileset_gen4.tsx",
+        "building_premises.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }

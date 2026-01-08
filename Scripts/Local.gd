@@ -51,11 +51,12 @@ func apply_variation(street_inst: Node2D):
 
 		if street_asphalt_tilemap.get_cell_atlas_coords(cell) == Vector2i.ZERO:
 			var variant = atlas_coords[rng.rand_weighted(probabilities)]
-			street_asphalt_tilemap.set_cell(
-				cell,
-				1,
-				variant
-			)
+			if variant != Vector2i.ZERO:
+				street_asphalt_tilemap.set_cell(
+					cell,
+					1,
+					variant
+				)
 
 func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vector2i):
 	var top_street = false

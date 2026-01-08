@@ -36,7 +36,7 @@ func _physics_process(_delta):
 
 func _input(event):
 	if event.is_action_pressed("zoom_out"):
-		if $Camera2D.zoom.x >= 0.25:
+		if $Camera2D.zoom.x >= 0.125:
 			$Camera2D.zoom *= 0.5
 	elif event.is_action_pressed("zoom_in"):
 		if $Camera2D.zoom.x <= 1.0:

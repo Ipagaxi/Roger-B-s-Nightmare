@@ -25,11 +25,11 @@
             }
         },
         "street_2.tmx": {
-            "scale": 0.33,
+            "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 1463.6363636363637,
-                "y": 933.3333333333333
+                "x": 1168,
+                "y": 438
             }
         },
         "street_2_diagonal.tmx": {

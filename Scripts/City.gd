@@ -12,7 +12,9 @@ var region_matrix_loaded = TilesInterface.region_matrix_loaded
 func _ready():
 	create_matrix()
 	print("City matrix generated")
-	generate_city_map()
+	var correct_city_generated = false
+	while not correct_city_generated:
+		correct_city_generated = generate_city_map()
 	print("Generated city map")
 	set_spawn_location()
 	print("Spawn location set")
@@ -57,6 +59,9 @@ func generate_city_map():
 						closest_center = center
 						# This step is a preperation to generate second level voronoi diagrams in these inner regions
 						if inner_centers.has(closest_center):
+							# If a tile of the inner area is to close to border return function and restart
+							if x <= region_size * 0.05 || x >= region_size * 0.95 || y <= region_size * 0.05 || y >= region_size * 0.95:
+								return false
 							inner_voronoi_cells[closest_center].append(Vector2i(x, y))
 						
 				region_matrix[y][x] = region_matrix[closest_center.y][closest_center.x]
@@ -109,6 +114,7 @@ func generate_city_map():
 	# Just for debugging purposes coloring the voronoi centers yellow
 	for center in voronoi_area_centers:
 		$Map.set_cell(center, 0, Vector2i(0, 1))
+	return true
 
 '''func add_block_streets_to_city():
 	init_continent_matrix()

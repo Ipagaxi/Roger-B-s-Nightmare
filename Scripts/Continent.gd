@@ -11,6 +11,8 @@ const NUM_CITIES = 4
 var continent_matrix = TilesInterface.continent_matrix
 var continent_matrix_loaded = TilesInterface.continent_matrix_loaded
 
+var city_positions = []
+
 func _ready():
 	init_continent_matrix()
 	
@@ -46,7 +48,6 @@ func init_continent_matrix():
 		continent_matrix_loaded.append(init_array_loaded)
 			
 func set_cities():
-	var city_positions = []
 	for i in range(NUM_CITIES):
 		var x_coord: int
 		var y_coord: int
@@ -82,3 +83,36 @@ func set_tile_id(value, x, y) -> Vector2i:
 		# Id 3 for land tile
 		continent_matrix[y][x] = 3
 		return Vector2i(0, 0)
+		
+func get_a_star_cell_id(coords: Vector2) -> int:
+	return coords.y * TilesInterface.CONTINENT_SIZE_TILES_WIDTH + coords.x
+		
+func set_city_connecting_roads():
+	var continent_height = TilesInterface.CONTINENT_SIZE_TILES_HEIGHT
+	var continent_width = TilesInterface.CONTINENT_SIZE_TILES_WIDTH
+	var a_star = AStar2D.new()
+	a_star.reserve_space(continent_height * continent_width)
+	for y in continent_height:
+		for x in continent_width:
+			# Only include not water region
+			if continent_matrix[y][x] != 1:
+				var idx = get_a_star_cell_id(Vector2(x, y))
+				a_star.add_point(idx, Vector2(x, y))
+				if y > 0 and a_star.has_point(get_a_star_cell_id(Vector2(x, y-1))):
+					a_star.connect_points(idx, get_a_star_cell_id(Vector2(x, y-1)))
+				if x > 0 and a_star.has_point(get_a_star_cell_id(Vector2(x-1, y))):
+					a_star.connect_points(idx, get_a_star_cell_id(Vector2(x-1, y)))
+					
+	for i_1 in range(len(city_positions)):
+		for i_2 in range(i_1, len(city_positions)):
+			var path_points = a_star.get_point_path(get_a_star_cell_id(city_positions[i_1]), get_a_star_cell_id(city_positions[i_2]))
+			for coord in path_points:
+				if not city_positions.has(coord):
+					tilemap.set_cell(coord, 0, Vector2i(0, 1))
+					
+	for coord in city_positions:
+		tilemap.set_cell(coord, 0, Vector2i(1, 0))
+	
+	
+	#for i in range(len(city_positions)):
+	#	a_star.add_point(i, city_positions[i])

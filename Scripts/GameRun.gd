@@ -20,6 +20,7 @@ func _ready():
 	region_inst = region_scene.instantiate()
 	region_inst.visible = false
 	add_child(region_inst)
+	continent_inst.set_city_connecting_roads()
 	# Generate chunk
 	local_inst = local_scene.instantiate()
 	add_child(local_inst)

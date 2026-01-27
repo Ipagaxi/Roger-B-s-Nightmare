@@ -71,7 +71,7 @@ func generate_city_map():
 					city_matrix[y][x] = -2
 				#elif Vector2i(x, y).distance_to(closest_center) < 20:
 				#	apply_block_pattern_to_city_district(Vector2i(x, y), closest_center)
-			$Map.set_cell(Vector2i(x, y), 0, get_atlas_coord(city_matrix[y][x]))
+			$Map.set_cell(Vector2i(x, y), 1, get_atlas_coord(city_matrix[y][x]))
 	
 	# Now create second level voronoi diagrams in inner regions
 	var index = 0
@@ -111,11 +111,11 @@ func generate_city_map():
 					city_matrix[coord.y][coord.x] = -1
 				else:
 					city_matrix[coord.y][coord.x] = decide_if_block_street_and_return_id(coord, closest_center, city_matrix)
-			$Map.set_cell(coord, 0, get_atlas_coord(city_matrix[coord.y][coord.x]))
+			$Map.set_cell(coord, 1, get_atlas_coord(city_matrix[coord.y][coord.x]))
 			
 	# Just for debugging purposes coloring the voronoi centers yellow
-	for center in voronoi_area_centers:
-		$Map.set_cell(center, 0, Vector2i(0, 1))
+	#for center in voronoi_area_centers:
+	#	$Map.set_cell(center, 1, Vector2i(0, 1))
 	TilesInterface.region_matrix = city_matrix
 	return true
 
@@ -209,12 +209,12 @@ func decide_if_block_street_and_return_id(tile_coords: Vector2i, closest_center:
 
 func get_atlas_coord(id) -> Vector2i:
 	if id <= -3:
-		return Vector2i(1, 0)
+		return Vector2i(5, 1)
 	elif id == -2:
-		return Vector2i(1, 1)
+		return Vector2i(9, 1)
 	elif id == -1:
-		return Vector2i(1, 1)
-	elif id > 1:
 		return Vector2i(0, 0)
+	elif id > 1:
+		return Vector2i(4, 1)
 		
-	return Vector2i(0, 0)
+	return Vector2i(4, 1)

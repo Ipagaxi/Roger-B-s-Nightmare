@@ -9,6 +9,8 @@ const number_sec_level_centers = 5
 var region_matrix = TilesInterface.region_matrix
 var region_matrix_loaded = TilesInterface.region_matrix_loaded
 
+var outgoing_street_coords: Array[Vector2i]
+
 func _ready():
 	create_matrix()
 	print("City matrix generated")
@@ -45,6 +47,7 @@ func generate_city_map():
 	var inner_centers = get_two_random_inner_center()
 	voronoi_area_centers.append_array(inner_centers)
 	var inner_voronoi_cells = {}
+	var tmp_outgoing_street_coords: Array[Vector2i]
 	for center in inner_centers:
 		inner_voronoi_cells[center] = [center]
 	
@@ -69,8 +72,8 @@ func generate_city_map():
 				city_matrix[y][x] = city_matrix[closest_center.y][closest_center.x]
 				if has_neighbour_of_diff_region(Vector2i(x, y), city_matrix):
 					city_matrix[y][x] = -2
-				#elif Vector2i(x, y).distance_to(closest_center) < 20:
-				#	apply_block_pattern_to_city_district(Vector2i(x, y), closest_center)
+					if x == 0 or x == region_size-1 or y == 0 or y == region_size -1:
+						tmp_outgoing_street_coords.append(Vector2i(x,y))
 			$Map.set_cell(Vector2i(x, y), 1, get_atlas_coord(city_matrix[y][x]))
 	
 	# Now create second level voronoi diagrams in inner regions
@@ -117,9 +120,34 @@ func generate_city_map():
 	#for center in voronoi_area_centers:
 	#	$Map.set_cell(center, 1, Vector2i(0, 1))
 	TilesInterface.region_matrix = city_matrix
+	tmp_outgoing_street_coords = merge_neighbouring_outgoing_street_coords(tmp_outgoing_street_coords, city_matrix)
+	outgoing_street_coords = tmp_outgoing_street_coords
 	return true
+	
+func get_number_neighbouring_street_tiles(coord: Vector2i, current_region_matrix: Array[Array]) -> int:
+	var neighbour_counter = 0
+	if coord.x > 0 and current_region_matrix[coord.y][coord.x-1] == -2:
+		neighbour_counter += 1
+	if coord.x < (region_size-1) and current_region_matrix[coord.y][coord.x+1] == -2:
+		neighbour_counter += 1
+	if coord.y > 0 and current_region_matrix[coord.y-1][coord.x] == -2:
+		neighbour_counter += 1
+	if coord.y < (region_size-1) and current_region_matrix[coord.y+1][coord.x] == -2:
+		neighbour_counter += 1
+	return neighbour_counter
 
-
+# Delete the coords that have a neighbour that is connecting tile to outgoing street part
+# e.g. street coords (2, 1), (2, 0), (1, 0) -> Two border tiles (2, 0) and (1, 0) but (2, 0) gets deleted
+# because due to (2, 1) we know that (1, 0) is the connecting tile to the outgoing street part
+func merge_neighbouring_outgoing_street_coords(tmp_outgoing_street_coords: Array[Vector2i], current_region_matrix: Array[Array]) -> Array[Vector2i]:
+	var i = 0
+	while i < len(tmp_outgoing_street_coords):
+		if get_number_neighbouring_street_tiles(tmp_outgoing_street_coords[i], current_region_matrix) == 2:
+			tmp_outgoing_street_coords.remove_at(i)
+		else:
+			i += 1
+	return tmp_outgoing_street_coords
+	
 func get_random_circular_coords(num_values, min_radius, max_radius, offset: Vector2) -> Array[Vector2i]:
 	var even_random_angles = get_random_evenly_distributed_angles(0, 2*PI, num_values)
 	var random_vectors: Array[Vector2i] = []

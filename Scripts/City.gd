@@ -181,6 +181,7 @@ func get_two_random_inner_center() -> Array[Vector2i]:
 func set_spawn_location():
 	var invalid_house_spawn_location = true
 	var location: Vector2i
+	var current_location_continent = TilesInterface.current_location_continent
 	while invalid_house_spawn_location:
 		location.x = randi_range(0, region_size-1)
 		location.y = randi_range(0, region_size-1)

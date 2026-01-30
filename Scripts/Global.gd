@@ -4,7 +4,7 @@ var current_scene = null
 
 const LOCAL_RADIUS = 2
 
-const REGION_LOAD_RADIUS = 1
+const REGION_LOAD_RADIUS = 2
 const REGION_UNLOAD_RADIUS = 2
 
 func _ready():

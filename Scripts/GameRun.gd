@@ -71,7 +71,7 @@ func change_to_layer(layer_id: int):
 		elif valid_layer_id == 1:
 			#city_inst = city_scene.instantiate()
 			#add_child(city_inst)
-			player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_region)
+			player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_region + TilesInterface.current_location_continent*TilesInterface.REGION_SIZE_TILES)
 			region_inst.visible = true
 		elif valid_layer_id == 2:
 			#continent_inst = continent_scene.instantiate()

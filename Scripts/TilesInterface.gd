@@ -111,9 +111,7 @@ func trueCoords_to_tileCoords(position: Vector2i) -> Vector2i:
 
 # It is a little bit confusing: the local is provided via region_coords (coords in the current region)
 func get_global_tile_coords_of_local(region_coords: Vector2i) -> Vector2i:
-	#var offset_x = (CONTINENT_SIZE_TILES_WIDTH * REGION_SIZE_TILES * LOCAL_SIZE_TILES) / 2
-	#var offset_y = (CONTINENT_SIZE_TILES_HEIGHT * REGION_SIZE_TILES * LOCAL_SIZE_TILES) / 2
-	return current_location_continent * REGION_SIZE_TILES * LOCAL_SIZE_TILES + region_coords * LOCAL_SIZE_TILES #- Vector2i(offset_x, offset_y)
+	return current_location_continent * REGION_SIZE_TILES * LOCAL_SIZE_TILES + region_coords * LOCAL_SIZE_TILES
 	
 func get_location_region(global_tile_coords: Vector2i) -> Vector2i:
 	var location_region_in_local_tiles = global_tile_coords - (current_location_continent * REGION_SIZE_TILES * LOCAL_SIZE_TILES)

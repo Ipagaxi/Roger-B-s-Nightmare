@@ -42,21 +42,5 @@ func unload_all_far_away_locals():
 		if local_coord.distance_to(TilesInterface.current_location_region) > Global.LOCAL_RADIUS:
 			unload_local(local_coord)
 
-	
-func load_locals():
-	var num_locals_loading_in_each_dir = Global.LOCAL_RADIUS
-	for y in range(num_locals_loading_in_each_dir*2 + 1):
-		if TilesInterface.current_location_region.y+y-num_locals_loading_in_each_dir < 0:
-			continue
-		elif TilesInterface.current_location_region.y+y-num_locals_loading_in_each_dir >= TilesInterface.REGION_SIZE_TILES:
-			break
-		for x in range(num_locals_loading_in_each_dir*2 + 1):
-			if TilesInterface.current_location_region.x+x-num_locals_loading_in_each_dir < 0:
-				continue
-			elif TilesInterface.current_location_region.x+x-num_locals_loading_in_each_dir >= TilesInterface.REGION_SIZE_TILES:
-				break
-			generate_local(Vector2i(TilesInterface.current_location_region.x+x-num_locals_loading_in_each_dir, TilesInterface.current_location_region.y+y-num_locals_loading_in_each_dir))
-	TilesInterface.current_location_local = Vector2i(TilesInterface.LOCAL_SIZE_TILES, TilesInterface.LOCAL_SIZE_TILES)/2
-
 func load_from_file(continent_coords: Vector2i, region_coords: Vector2i):
 	print("Load specific chunk")

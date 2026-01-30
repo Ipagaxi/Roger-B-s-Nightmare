@@ -23,13 +23,11 @@ func load_all_near_regions():
 	var continent_coords = TilesInterface.current_location_continent
 	for y in range(continent_coords.y - load_radius, continent_coords.y + load_radius + 1):
 		for x in range(continent_coords.x - load_radius, continent_coords.x + load_radius + 1):
-			print("load region: ", x, ", ", y)
 			var coords = Vector2i(x, y)
 			if x < 0 or y < 0:
 				continue
 			if x >= TilesInterface.CONTINENT_SIZE_TILES_WIDTH or y >= TilesInterface.CONTINENT_SIZE_TILES_HEIGHT:
 				continue
-
 			if coords.distance_to(continent_coords) <= load_radius:
 				generate_region(coords)
 					

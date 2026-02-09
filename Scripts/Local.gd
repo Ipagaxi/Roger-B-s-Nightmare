@@ -6,7 +6,8 @@ var street_2_edge_scene = preload("res://Map/Streets/street_2_edge.tmx")
 var street_3_scene = preload("res://Map/Streets/street_3.tmx")
 var street_4_scene = preload("res://Map/Streets/street_4.tmx")
 
-var region_matrix = TilesInterface.region_matrix
+var grassland_scene = preload("res://Scenes/LocalGrassland.tscn")
+
 var local_matrix = TilesInterface.local_matrix
 var street_asset_size = TilesInterface.STREET_ASSET_SIZE_TILE
 
@@ -16,31 +17,31 @@ var streets_insts: Array
 func _ready() -> void:
 	pass
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-	
 
-func init(region_coords: Vector2i):
-	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords)
-	#for y_tile in range(TilesInterface.LOCAL_SIZE_TILES):
-	#	for x_tile in range(TilesInterface.LOCAL_SIZE_TILES):
-	#		#if y_tile == 0 || x_tile == 0 || y_tile == TilesInterface.LOCAL_SIZE_TILES-1 || x_tile == TilesInterface.LOCAL_SIZE_TILES-1:
-	#		#	$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 1, Vector2i(1, 0))
-	#		#else:
-	#		$TileMapLayer.set_cell(Vector2i(x_tile, y_tile) + global_tile_coords, 2, Vector2i(9, 1))
-	# If current region tile is a street...
+func init(region_coords: Vector2i, continent_coords: Vector2i):
+	var region_matrix = TilesInterface.continent_region_matrices[continent_coords.y][continent_coords.x]
+	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords, continent_coords)
+	var grassland_inst = grassland_scene.instantiate()
+	grassland_inst.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
+	add_child(grassland_inst)
 	if region_matrix[region_coords.y][region_coords.x] == -2:
-		set_correct_street_asset(region_coords, global_tile_coords)
+		# Generate road local
+		set_correct_street_asset(region_coords, global_tile_coords, continent_coords)
 	elif region_matrix[region_coords.y][region_coords.x] <= -1:
-		set_correct_street_asset(region_coords, global_tile_coords)
-	elif region_matrix[region_coords.y][region_coords.x] > 1:
-		var building_insts = Building.generate_building(region_coords)
+		# Generate block street local
+		set_correct_street_asset(region_coords, global_tile_coords, continent_coords)
+	elif region_matrix[region_coords.y][region_coords.x] >= Global.LOWER_BOUNDARY_CENTER_IDS+Global.NUMBER_CIRCULAR_CENTERS:
+		# Generate building local
+		var building_insts = Building.generate_building(region_coords, continent_coords)
 		for inst in building_insts:
 			add_child(inst)
+	elif region_matrix[region_coords.y][region_coords.x] >= Global.LOWER_BOUNDARY_CENTER_IDS:
+		pass
 
-func apply_variation(street_inst: Node2D):
+func apply_variation_to_street_tiles(street_inst: Node2D):
 	var street_asphalt_tilemap := street_inst.get_child(0)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = hash(street_inst.position)# + variation_seed_offset
@@ -58,7 +59,8 @@ func apply_variation(street_inst: Node2D):
 					variant
 				)
 
-func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vector2i):
+func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vector2i, continent_coords: Vector2i):
+	var region_matrix = TilesInterface.continent_region_matrices[continent_coords.y][continent_coords.x]
 	var top_street = false
 	var bottom_street = false
 	var left_street = false
@@ -158,9 +160,8 @@ func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vecto
 	else:
 		print("Problem with placing center street")
 	
-	var street_position = (TilesInterface.LOCAL_SIZE_TILES-street_asset_size.x)/2
 	#for cell in streets_insts.back().get_used_cells():
 	#	print(cell, ": ", streets_insts.back().get_cell_atlas_coords(cell))
 	streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords) + position_correction
-	apply_variation(streets_insts.back())
+	apply_variation_to_street_tiles(streets_insts.back())
 	add_child(streets_insts.back())

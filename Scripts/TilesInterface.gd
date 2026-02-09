@@ -36,10 +36,10 @@ var region_spawn_location = Vector2i.ZERO
 var continent_matrix: Array[Array]
 # continent_matrix_loaded stores for every region if it is already loaded
 var continent_matrix_loaded: Array[Array]
+# all_region_matrices is a continent matrix where each cell is a region_matrix
+var continent_region_matrices: Array[Array]
 # The region_matrix of the current continent tile
 var region_matrix: Array[Array]
-# region_matrix_loaded holds for every local in the current region if it is already loaded
-var region_matrix_loaded: Array[Array]
 # The chunk_matrix of the current chunk
 var local_matrix: Array[Array]
 
@@ -110,9 +110,13 @@ func trueCoords_to_tileCoords(position: Vector2i) -> Vector2i:
 	return position / TILE_SIZE
 
 # It is a little bit confusing: the local is provided via region_coords (coords in the current region)
-func get_global_tile_coords_of_local(region_coords: Vector2i) -> Vector2i:
-	return current_location_continent * REGION_SIZE_TILES * LOCAL_SIZE_TILES + region_coords * LOCAL_SIZE_TILES
+func get_global_tile_coords_of_local(region_coords: Vector2i, continent_coords: Vector2i) -> Vector2i:
+	return continent_coords * REGION_SIZE_TILES * LOCAL_SIZE_TILES + region_coords * LOCAL_SIZE_TILES
 	
 func get_location_region(global_tile_coords: Vector2i) -> Vector2i:
 	var location_region_in_local_tiles = global_tile_coords - (current_location_continent * REGION_SIZE_TILES * LOCAL_SIZE_TILES)
 	return location_region_in_local_tiles / LOCAL_SIZE_TILES
+	
+func get_location_continent(global_tile_coords: Vector2i) -> Vector2i:
+	var tile_size_of_one_region = REGION_SIZE_TILES*LOCAL_SIZE_TILES
+	return Vector2i(global_tile_coords.x / tile_size_of_one_region, global_tile_coords.y / tile_size_of_one_region)

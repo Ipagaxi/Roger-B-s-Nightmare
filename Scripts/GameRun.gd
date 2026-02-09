@@ -23,10 +23,11 @@ func _ready():
 	continent_inst.set_city_connecting_roads()
 	# Generate chunk
 	local_inst = local_scene.instantiate()
+	local_inst.load_all_near_locals(TilesInterface.current_location_continent)
 	add_child(local_inst)
 	player_inst = player_scene.instantiate()
 	player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
-	player_inst.global_position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_local + TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region))
+	player_inst.global_position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_local + TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent))
 	print("Player starting position: ", player_inst.global_position)
 	add_child(player_inst)
 	player_inst.local_world = local_inst
@@ -66,7 +67,7 @@ func change_to_layer(layer_id: int):
 		if valid_layer_id == 0:
 			#chunk_inst = chunk_scene.instantiate()
 			#add_child(chunk_inst)
-			player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region)+ TilesInterface.current_location_local)
+			player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent)+ TilesInterface.current_location_local)
 			local_inst.visible = true
 		elif valid_layer_id == 1:
 			#city_inst = city_scene.instantiate()

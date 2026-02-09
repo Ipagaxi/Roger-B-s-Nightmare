@@ -2,10 +2,14 @@ extends Node
 
 var current_scene = null
 
-const LOCAL_RADIUS = 2
+const LOCAL_LOAD_RADIUS = 2
+const LOCAL_UNLOAD_RADIUS = 3
 
 const REGION_LOAD_RADIUS = 2
 const REGION_UNLOAD_RADIUS = 2
+
+const NUMBER_CIRCULAR_CENTERS = 6
+const LOWER_BOUNDARY_CENTER_IDS = 3
 
 func _ready():
 	var root = get_tree().root

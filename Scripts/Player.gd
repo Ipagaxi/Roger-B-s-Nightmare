@@ -10,7 +10,8 @@ func _input(event):
 			
 			var new_global_pos = TilesInterface.trueCoords_to_tileCoords(TilesInterface.move(dir, self))
 			TilesInterface.current_location_region = TilesInterface.get_location_region(new_global_pos);
-			TilesInterface.current_location_local = Vector2i(posmod(new_global_pos.x, local_size), posmod(new_global_pos.y, local_size))			
+			TilesInterface.current_location_local = Vector2i(posmod(new_global_pos.x, local_size), posmod(new_global_pos.y, local_size))
+			TilesInterface.current_location_continent = TilesInterface.get_location_continent(new_global_pos)
 			
-			local_world.load_all_near_locals()
+			local_world.load_all_near_locals(TilesInterface.current_location_continent)
 			local_world.unload_all_far_away_locals()

@@ -10,6 +10,7 @@ const NUM_CITIES = 4
 
 var continent_matrix = TilesInterface.continent_matrix
 var continent_matrix_loaded = TilesInterface.continent_matrix_loaded
+var continent_region_matrices = TilesInterface.continent_region_matrices
 
 var city_positions = []
 
@@ -37,15 +38,19 @@ func init_continent_matrix():
 	for i in range(HEIGHT):
 		var init_array = []
 		var init_array_loaded = []
+		var init_array_region_matrices = []
 		
 		init_array.resize(WIDTH)
 		init_array_loaded.resize(WIDTH)
+		init_array_region_matrices.resize(WIDTH)
 		
 		init_array.fill(0)
 		init_array_loaded.fill(0)
+		init_array_region_matrices.fill([])
 		
 		continent_matrix.append(init_array)
 		continent_matrix_loaded.append(init_array_loaded)
+		continent_region_matrices.append(init_array_region_matrices)
 			
 func set_cities():
 	for i in range(NUM_CITIES):

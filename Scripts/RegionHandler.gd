@@ -17,7 +17,8 @@ func generate_region(continent_coords: Vector2i):
 	add_child(region)
 	region.init(continent_coords)
 	loaded_regions[continent_coords] = region
-	
+
+
 func load_all_near_regions():
 	var load_radius = Global.REGION_LOAD_RADIUS
 	var continent_coords = TilesInterface.current_location_continent

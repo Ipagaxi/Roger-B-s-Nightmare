@@ -2,46 +2,46 @@ extends Node2D
 
 const region_size = TilesInterface.REGION_SIZE_TILES
 const number_inner_centers = 2
-const number_circular_centers = 6
-const number_centers = number_circular_centers + number_inner_centers
+var number_circular_centers = Global.NUMBER_CIRCULAR_CENTERS
+var number_centers = number_circular_centers + number_inner_centers
 const number_sec_level_centers = 5
-
-var region_matrix = TilesInterface.region_matrix
-var region_matrix_loaded = TilesInterface.region_matrix_loaded
+var lower_boundary_center_ids = Global.LOWER_BOUNDARY_CENTER_IDS
 
 var outgoing_street_coords: Array[Vector2i]
 
 func _ready():
+	pass
+	
+func generate_region() -> Array[Array]:
+	var region_matrix: Array[Array]
 	create_matrix()
 	print("City matrix generated")
-	var correct_city_generated = false
-	while not correct_city_generated:
+	while region_matrix.is_empty():
 		print("Generate city map...")
-		correct_city_generated = generate_city_map()
+		region_matrix = generate_city_map()
 	print("Generated city map successfully!")
-	set_spawn_location()
+	set_spawn_location(region_matrix)
 	print("Spawn location set")
+	return region_matrix
 
-func create_matrix():
+func create_matrix() -> Array[Array]:
+	var region_matrix: Array[Array]
 	for i in range(region_size):
 		var init_array = []
-		var init_arrray_loaded = []
 		
 		init_array.resize(region_size)
-		init_arrray_loaded.resize(region_size)
 		
 		init_array.fill(0)
-		init_arrray_loaded.fill(false)
 		
 		region_matrix.append(init_array)
-		region_matrix_loaded.append(init_arrray_loaded)
+	return region_matrix
 		
 # Voronoi Diagrams are used for city map generation
 # Each city tile gets an identifier:
 #### Area centers: 3 - number areas-1 + 3 
 #### Not border cells: identifier of closest center
-func generate_city_map():
-	var city_matrix = region_matrix.duplicate_deep()
+func generate_city_map() -> Array[Array]:
+	var city_matrix = create_matrix()
 	var half_region_size = region_size * 0.5
 	var voronoi_area_centers = get_random_circular_coords(number_circular_centers, half_region_size*0.9, half_region_size*0.97, Vector2(half_region_size, half_region_size))
 	var inner_centers = get_two_random_inner_center()
@@ -52,7 +52,7 @@ func generate_city_map():
 		inner_voronoi_cells[center] = [center]
 	
 	for i in range(number_centers):
-		city_matrix[voronoi_area_centers[i].y][voronoi_area_centers[i].x] = i+3
+		city_matrix[voronoi_area_centers[i].y][voronoi_area_centers[i].x] = i+lower_boundary_center_ids
 
 	# Create first level Voronoi regions
 	for y in range(region_size):
@@ -66,7 +66,7 @@ func generate_city_map():
 						if inner_centers.has(closest_center):
 							# If a tile of the inner area is to close to border return function and restart
 							if x <= region_size * 0.05 || x >= region_size * 0.95 || y <= region_size * 0.05 || y >= region_size * 0.95:
-								return false
+								return []
 							inner_voronoi_cells[closest_center].append(Vector2i(x, y))
 						
 				city_matrix[y][x] = city_matrix[closest_center.y][closest_center.x]
@@ -98,7 +98,7 @@ func generate_city_map():
 						valid_center = false
 				if valid_center:
 					break
-			city_matrix[random_center.y][random_center.x] = i+3
+			city_matrix[random_center.y][random_center.x] = i+lower_boundary_center_ids+number_circular_centers
 			voronoi_centers.append(random_center)
 			voronoi_area_centers.append(random_center)
 			
@@ -119,10 +119,10 @@ func generate_city_map():
 	# Just for debugging purposes coloring the voronoi centers yellow
 	#for center in voronoi_area_centers:
 	#	$Map.set_cell(center, 1, Vector2i(0, 1))
-	TilesInterface.region_matrix = city_matrix
+	#TilesInterface.region_matrix = city_matrix
 	tmp_outgoing_street_coords = merge_neighbouring_outgoing_street_coords(tmp_outgoing_street_coords, city_matrix)
 	outgoing_street_coords = tmp_outgoing_street_coords
-	return true
+	return city_matrix
 	
 func get_number_neighbouring_street_tiles(coord: Vector2i, current_region_matrix: Array[Array]) -> int:
 	var neighbour_counter = 0
@@ -178,7 +178,7 @@ func get_two_random_inner_center() -> Array[Vector2i]:
 	random_vectors.append(int_vector*(-1) + Vector2i(map_offset, map_offset))
 	return random_vectors
 
-func set_spawn_location():
+func set_spawn_location(region_matrix: Array[Array]):
 	var invalid_house_spawn_location = true
 	var location: Vector2i
 	var current_location_continent = TilesInterface.current_location_continent
@@ -186,45 +186,45 @@ func set_spawn_location():
 		location.x = randi_range(0, region_size-1)
 		location.y = randi_range(0, region_size-1)
 		# spawn on street
-		if TilesInterface.region_matrix[location.y][location.x] == -2:
+		if region_matrix[location.y][location.x] == -2:
 			invalid_house_spawn_location = false
-	TilesInterface.current_location_region = location
+	TilesInterface.current_location_region = outgoing_street_coords[randi_range(0, len(outgoing_street_coords)-1)] #location
 
-func satisfy_neighbour_condition(neighbour_cell_value: int, coords: Vector2i, city_matrix: Array[Array]) -> bool:
+func satisfy_diff_neighbour_condition(neighbour_cell_value: int, coords: Vector2i, city_matrix: Array[Array]) -> bool:
 	return abs(neighbour_cell_value) != city_matrix[coords.y][coords.x] and neighbour_cell_value != 0 and neighbour_cell_value != -1 and neighbour_cell_value != -2
 		
 func has_neighbour_of_diff_region(coords: Vector2i, city_matrix: Array[Array]) -> bool:
 	# top left
 	var neighbout_cell_value = city_matrix[max(coords.y - 1, 0)][max(coords.x - 1, 0)]
-	if satisfy_neighbour_condition(neighbout_cell_value, coords, city_matrix):
+	if satisfy_diff_neighbour_condition(neighbout_cell_value, coords, city_matrix):
 		return true;
 	# top mid
 	neighbout_cell_value = city_matrix[max(coords.y - 1, 0)][coords.x]
-	if satisfy_neighbour_condition(neighbout_cell_value, coords, city_matrix):
+	if satisfy_diff_neighbour_condition(neighbout_cell_value, coords, city_matrix):
 		return true;
 	# top right
 	neighbout_cell_value = city_matrix[max(coords.y - 1, 0)][min(coords.x + 1, region_size-1)]
-	if satisfy_neighbour_condition(neighbout_cell_value, coords, city_matrix):
+	if satisfy_diff_neighbour_condition(neighbout_cell_value, coords, city_matrix):
 		return true;
 	# left
 	neighbout_cell_value = city_matrix[coords.y][max(coords.x - 1, 0)]
-	if satisfy_neighbour_condition(neighbout_cell_value, coords, city_matrix):
+	if satisfy_diff_neighbour_condition(neighbout_cell_value, coords, city_matrix):
 		return true;
 	# right
 	neighbout_cell_value = city_matrix[coords.y][min(coords.x + 1, region_size-1)]
-	if satisfy_neighbour_condition(neighbout_cell_value, coords, city_matrix):
+	if satisfy_diff_neighbour_condition(neighbout_cell_value, coords, city_matrix):
 		return true;
 	# bottom left
 	neighbout_cell_value = city_matrix[min(coords.y + 1, region_size-1)][max(coords.x - 1, 0)]
-	if satisfy_neighbour_condition(neighbout_cell_value, coords, city_matrix):
+	if satisfy_diff_neighbour_condition(neighbout_cell_value, coords, city_matrix):
 		return true;
 	# bottom mid
 	neighbout_cell_value = city_matrix[min(coords.y + 1, region_size-1)][coords.x]
-	if satisfy_neighbour_condition(neighbout_cell_value, coords, city_matrix):
+	if satisfy_diff_neighbour_condition(neighbout_cell_value, coords, city_matrix):
 		return true;
 	# bottom right
 	neighbout_cell_value = city_matrix[min(coords.y + 1, region_size-1)][min(coords.x + 1, region_size-1)]
-	if satisfy_neighbour_condition(neighbout_cell_value, coords, city_matrix):
+	if satisfy_diff_neighbour_condition(neighbout_cell_value, coords, city_matrix):
 		return true;
 	return false
 
@@ -243,7 +243,9 @@ func get_atlas_coord(id) -> Vector2i:
 		return Vector2i(9, 1)
 	elif id == -1:
 		return Vector2i(0, 0)
-	elif id > 1:
+	elif id < lower_boundary_center_ids+number_circular_centers:
 		return Vector2i(4, 1)
+	elif id >= lower_boundary_center_ids+number_circular_centers:
+		return Vector2i(0, 1)
 		
-	return Vector2i(4, 1)
+	return Vector2i(7, 0)

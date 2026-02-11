@@ -1,6 +1,8 @@
 extends StaticBody2D
 
-var local_world: Node2D
+var local_handler: Node2D
+
+var region_handler: Node2D
 
 
 func _input(event):
@@ -11,6 +13,8 @@ func _input(event):
 			
 			TilesInterface.update_layer_positions(new_global_pos)
 			
-			local_world.load_all_near_locals(TilesInterface.current_location_continent)
+			local_handler.load_all_near_locals(TilesInterface.current_location_continent)
+			local_handler.unload_all_far_away_locals()
 			
-			local_world.unload_all_far_away_locals()
+			region_handler.load_all_near_regions()
+			region_handler.unload_all_far_away_regions()

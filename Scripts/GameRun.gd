@@ -30,7 +30,8 @@ func _ready():
 	player_inst.global_position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_local + TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent))
 	print("Player starting position: ", player_inst.global_position)
 	add_child(player_inst)
-	player_inst.local_world = local_inst
+	player_inst.local_handler = local_inst
+	player_inst.region_handler = region_inst
 	$Camera2D.zoom = Vector2(0.5, 0.5)
 	
 func _physics_process(_delta):

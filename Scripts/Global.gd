@@ -12,6 +12,8 @@ const NUMBER_CIRCULAR_CENTERS = 6
 const LOWER_BOUNDARY_CENTER_IDS = 3
 
 func _ready():
+	var target_screen = 0  # 0 = primary monitor, 1 = second monitor, etc.
+	DisplayServer.window_set_current_screen(target_screen)
 	var root = get_tree().root
 	current_scene = root.get_child(-1)
 

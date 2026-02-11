@@ -119,4 +119,11 @@ func get_location_region(global_tile_coords: Vector2i) -> Vector2i:
 	
 func get_location_continent(global_tile_coords: Vector2i) -> Vector2i:
 	var tile_size_of_one_region = REGION_SIZE_TILES*LOCAL_SIZE_TILES
+	@warning_ignore("integer_division")
 	return Vector2i(global_tile_coords.x / tile_size_of_one_region, global_tile_coords.y / tile_size_of_one_region)
+	
+func update_layer_positions(global_tile_coords: Vector2i):
+	# The order in which to update is important!
+	current_location_continent = get_location_continent(global_tile_coords)
+	current_location_region = get_location_region(global_tile_coords);
+	current_location_local = Vector2i(posmod(global_tile_coords.x, LOCAL_SIZE_TILES), posmod(global_tile_coords.y, LOCAL_SIZE_TILES))

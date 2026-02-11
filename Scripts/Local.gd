@@ -23,6 +23,8 @@ func _process(delta: float) -> void:
 
 func init(region_coords: Vector2i, continent_coords: Vector2i):
 	var region_matrix = TilesInterface.continent_region_matrices[continent_coords.y][continent_coords.x]
+	if region_matrix.is_empty():
+		print("region matrix is empty!")
 	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords, continent_coords)
 	var grassland_inst = grassland_scene.instantiate()
 	grassland_inst.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)

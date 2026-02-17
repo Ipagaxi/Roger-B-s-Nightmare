@@ -10,15 +10,15 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "building_premises.tmx": {
-            "scale": 0.125,
+            "scale": 0.33,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 904,
-                "y": 216
+                "x": 1112.121212121212,
+                "y": 1007.5757575757575
             }
         },
         "tileset_gen4.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 0.75,
             "scaleInEditor": 1
         }
     },

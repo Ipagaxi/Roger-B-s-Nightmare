@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://hibou18knp0k" path="res://Scripts/RegionOutland.gd" id="1_v87lf"]
 [ext_resource type="Texture2D" uid="uid://c56grr4s5e7pj" path="res://assets/Tilesets/tileset_gen4.png" id="2_64ebk"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dt1h6"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_64ebk"]
 texture = ExtResource("2_64ebk")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
@@ -47,7 +47,7 @@ texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSet" id="TileSet_pb5kv"]
 tile_size = Vector2i(32, 32)
-sources/0 = SubResource("TileSetAtlasSource_dt1h6")
+sources/2 = SubResource("TileSetAtlasSource_64ebk")
 
 [node name="RegionOutland" type="Node2D"]
 script = ExtResource("1_v87lf")

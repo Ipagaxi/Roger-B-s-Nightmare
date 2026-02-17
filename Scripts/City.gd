@@ -188,7 +188,7 @@ func set_spawn_location(region_matrix: Array[Array]):
 		# spawn on street
 		if region_matrix[location.y][location.x] == -2:
 			invalid_house_spawn_location = false
-	TilesInterface.current_location_region = outgoing_street_coords[randi_range(0, len(outgoing_street_coords)-1)] #location
+	TilesInterface.current_location_region = location #outgoing_street_coords[randi_range(0, len(outgoing_street_coords)-1)]
 
 func satisfy_diff_neighbour_condition(neighbour_cell_value: int, coords: Vector2i, city_matrix: Array[Array]) -> bool:
 	return abs(neighbour_cell_value) != city_matrix[coords.y][coords.x] and neighbour_cell_value != 0 and neighbour_cell_value != -1 and neighbour_cell_value != -2

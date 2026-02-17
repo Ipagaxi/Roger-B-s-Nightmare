@@ -1,8 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dgyy520pdfu8r"]
 
 [ext_resource type="Script" uid="uid://bht7e6ixii1gi" path="res://Scripts/MainMenu.gd" id="1_iixxu"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7wx01"]
+[ext_resource type="Texture2D" uid="uid://djdbv6rtnaaa5" path="res://assets/menu_backgrounds/cyverbank.png" id="2_853f1"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -19,24 +18,25 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="UI/ColorRect"]
-position = Vector2(576, 325)
-scale = Vector2(1148, 642)
-texture = SubResource("PlaceholderTexture2D_7wx01")
+position = Vector2(960, 540)
+texture = ExtResource("2_853f1")
 
 [node name="PlayButton" type="Button" parent="UI/ColorRect"]
 layout_mode = 0
-offset_left = 433.0
-offset_top = 302.0
-offset_right = 674.0
-offset_bottom = 355.0
+offset_left = 250.0
+offset_top = 289.0
+offset_right = 590.0
+offset_bottom = 379.0
+theme_override_font_sizes/font_size = 30
 text = "Play"
 
 [node name="ExitButton" type="Button" parent="UI/ColorRect"]
 layout_mode = 0
-offset_left = 385.0
-offset_top = 416.0
-offset_right = 721.0
-offset_bottom = 500.0
+offset_left = 250.0
+offset_top = 445.0
+offset_right = 590.0
+offset_bottom = 535.0
+theme_override_font_sizes/font_size = 30
 text = "Exit
 "
 

@@ -32,14 +32,14 @@ func _ready():
 	add_child(player_inst)
 	player_inst.local_handler = local_inst
 	player_inst.region_handler = region_inst
-	$Camera2D.zoom = Vector2(0.5, 0.5)
+	$Camera2D.zoom = Vector2(1, 1)
 	
 func _physics_process(_delta):
 	pass
 
 func _input(event):
 	if event.is_action_pressed("zoom_out"):
-		if $Camera2D.zoom.x >= 0.125:
+		if $Camera2D.zoom.x > 0.5:
 			$Camera2D.zoom *= 0.5
 	elif event.is_action_pressed("zoom_in"):
 		if $Camera2D.zoom.x <= 1.0:

@@ -1,11 +1,14 @@
 extends Node2D
 
+const tileset_file_name = Global.TILESET_FILE_NAME
+@onready var tileset = preload("res://assets/Tilesets/" + tileset_file_name)
+
 var region_size = TilesInterface.REGION_SIZE_TILES
 # We use 3 here because for city generation the grassland tiles outside the inner city beginn with 3
 var id_grassland = 3
 
 func _ready():
-	pass
+	$TileMapLayer.tile_set = tileset
 
 
 func generate_outland() -> Array[Array]:

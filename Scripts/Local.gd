@@ -8,6 +8,9 @@ var street_4_scene = preload("res://Map/Streets/street_4.tmx")
 
 var grassland_scene = preload("res://Scenes/LocalGrassland.tscn")
 
+const tileset_file_name = Global.TILESET_FILE_NAME
+@onready var tileset = preload("res://assets/Tilesets/" + tileset_file_name)
+
 var local_matrix = TilesInterface.local_matrix
 var street_asset_size = TilesInterface.STREET_ASSET_SIZE_TILE
 
@@ -15,7 +18,7 @@ var streets_insts: Array
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	$TileMapLayer.tile_set = tileset
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -56,11 +59,7 @@ func apply_variation_to_street_tiles(street_inst: Node2D):
 		if street_asphalt_tilemap.get_cell_atlas_coords(cell) == Vector2i.ZERO:
 			var variant = atlas_coords[rng.rand_weighted(probabilities)]
 			if variant != Vector2i.ZERO:
-				street_asphalt_tilemap.set_cell(
-					cell,
-					1,
-					variant
-				)
+				street_asphalt_tilemap.set_cell(cell, 1, variant)
 
 func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vector2i, continent_coords: Vector2i):
 	var region_matrix = TilesInterface.continent_region_matrices[continent_coords.y][continent_coords.x]

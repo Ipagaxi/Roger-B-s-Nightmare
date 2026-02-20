@@ -1,5 +1,10 @@
 extends Node2D
 
+const tileset_file_name = Global.TILESET_FILE_NAME
+@onready var tileset = preload("res://assets/Tilesets/" + tileset_file_name)
+
+
+
 const region_size = TilesInterface.REGION_SIZE_TILES
 const number_inner_centers = 2
 var number_circular_centers = Global.NUMBER_CIRCULAR_CENTERS
@@ -10,7 +15,8 @@ var lower_boundary_center_ids = Global.LOWER_BOUNDARY_CENTER_IDS
 var outgoing_street_coords: Array[Vector2i]
 
 func _ready():
-	pass
+	$Map.tile_set = tileset
+	print($Map.tile_set)
 	
 func generate_region() -> Array[Array]:
 	var region_matrix: Array[Array]
@@ -74,7 +80,8 @@ func generate_city_map() -> Array[Array]:
 					city_matrix[y][x] = -2
 					if x == 0 or x == region_size-1 or y == 0 or y == region_size -1:
 						tmp_outgoing_street_coords.append(Vector2i(x,y))
-			$Map.set_cell(Vector2i(x, y), 1, get_atlas_coord(city_matrix[y][x]))
+			$Map.set_cell(Vector2i(x, y), 0, get_atlas_coord(city_matrix[y][x]))
+			print("debugging")
 	
 	# Now create second level voronoi diagrams in inner regions
 	var index = 0
@@ -114,7 +121,7 @@ func generate_city_map() -> Array[Array]:
 					city_matrix[coord.y][coord.x] = -1
 				else:
 					city_matrix[coord.y][coord.x] = decide_if_block_street_and_return_id(coord, closest_center, city_matrix)
-			$Map.set_cell(coord, 1, get_atlas_coord(city_matrix[coord.y][coord.x]))
+			$Map.set_cell(coord, 0, get_atlas_coord(city_matrix[coord.y][coord.x]))
 			
 	# Just for debugging purposes coloring the voronoi centers yellow
 	#for center in voronoi_area_centers:

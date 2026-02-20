@@ -24,8 +24,6 @@ func generate_local(region_coords: Vector2i, continent_coords: Vector2i):
 func load_all_near_locals(continent_coords: Vector2i):
 	#print("Load Locals ##################")
 	counter = 0
-	var start_time: int
-	var end_time: int
 	var load_radius = Global.LOCAL_LOAD_RADIUS
 	var region_coords = TilesInterface.current_location_region
 	var region_size = TilesInterface.REGION_SIZE_TILES
@@ -45,13 +43,9 @@ func load_all_near_locals(continent_coords: Vector2i):
 				var cont_coord = continent_coords + continent_coords_offset
 				if (cont_coord.x < 0 or cont_coord.y < 0 or cont_coord.x >= TilesInterface.CONTINENT_SIZE_TILES_WIDTH or cont_coord.y >= TilesInterface.CONTINENT_SIZE_TILES_HEIGHT):
 					continue
-				start_time = Time.get_ticks_usec()
 				var new_region_coords = Vector2i(posmod(coords.x, region_size), posmod(coords.y, region_size))
 				var new_continent_coords = continent_coords+continent_coords_offset
-				#print("reg coords: ", new_region_coords, " | cont coords: ", new_continent_coords)
 				generate_local(new_region_coords, new_continent_coords)
-				end_time = Time.get_ticks_usec()
-				#print(end_time - start_time)
 					
 			
 func unload_local(region_coords: Vector2i, continent_coords: Vector2i):

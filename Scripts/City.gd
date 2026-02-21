@@ -16,7 +16,6 @@ var outgoing_street_coords: Array[Vector2i]
 
 func _ready():
 	$Map.tile_set = tileset
-	print($Map.tile_set)
 	
 func generate_region() -> Array[Array]:
 	var region_matrix: Array[Array]

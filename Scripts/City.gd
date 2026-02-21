@@ -80,8 +80,8 @@ func generate_city_map() -> Array[Array]:
 					city_matrix[y][x] = -2
 					if x == 0 or x == region_size-1 or y == 0 or y == region_size -1:
 						tmp_outgoing_street_coords.append(Vector2i(x,y))
-			$Map.set_cell(Vector2i(x, y), 0, get_atlas_coord(city_matrix[y][x]))
-			print("debugging")
+			# Set cell of city surrounding area
+			$Map.set_cell(Vector2i(x, y), 1, get_atlas_coord(city_matrix[y][x]))
 	
 	# Now create second level voronoi diagrams in inner regions
 	var index = 0
@@ -121,7 +121,8 @@ func generate_city_map() -> Array[Array]:
 					city_matrix[coord.y][coord.x] = -1
 				else:
 					city_matrix[coord.y][coord.x] = decide_if_block_street_and_return_id(coord, closest_center, city_matrix)
-			$Map.set_cell(coord, 0, get_atlas_coord(city_matrix[coord.y][coord.x]))
+			# Set cell of inner city area
+			$Map.set_cell(coord, 1, get_atlas_coord(city_matrix[coord.y][coord.x]))
 			
 	# Just for debugging purposes coloring the voronoi centers yellow
 	#for center in voronoi_area_centers:

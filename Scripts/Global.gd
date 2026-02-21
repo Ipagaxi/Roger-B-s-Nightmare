@@ -11,7 +11,7 @@ const REGION_UNLOAD_RADIUS = 2
 const NUMBER_CIRCULAR_CENTERS = 6
 const LOWER_BOUNDARY_CENTER_IDS = 3
 
-const TILESET_FILE_NAME = "tileset_gen5.tres"
+const TILESET_FILE_NAME = "tileset_gen6.tres"
 
 func _ready():
 	var target_screen = 0  # 0 = primary monitor, 1 = second monitor, etc.

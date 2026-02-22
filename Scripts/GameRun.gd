@@ -81,3 +81,7 @@ func change_to_layer(layer_id: int):
 			player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_continent)
 			continent_inst.visible = true
 	TilesInterface.current_layer_id = valid_layer_id
+
+
+func _on_exit_button_button_up() -> void:
+	get_tree().quit()

@@ -245,14 +245,22 @@ func decide_if_block_street_and_return_id(tile_coords: Vector2i, closest_center:
 
 func get_atlas_coord(id) -> Vector2i:
 	if id <= -3:
+		# City block streets
 		return Vector2i(5, 1)
 	elif id == -2:
+		# City surrounding roads
 		return Vector2i(9, 1)
 	elif id == -1:
 		return Vector2i(0, 0)
 	elif id < lower_boundary_center_ids+number_circular_centers:
-		return Vector2i(4, 1)
+		# Surrounding city areas (grassland)
+		var rng := RandomNumberGenerator.new()
+		var atlas_coords = [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(0, 6), Vector2i(1, 6), Vector2i(2, 6), Vector2i(0, 7), Vector2i(1, 7), Vector2i(2, 7)]
+		var probabilities = [1, 1, 1, 1, 0.1, 1, 1, 1, 1];
+		var variant = atlas_coords[rng.rand_weighted(probabilities)]
+		return variant
 	elif id >= lower_boundary_center_ids+number_circular_centers:
-		return Vector2i(0, 1)
+		# Inner city building tiles
+		return Vector2i(1, 1)
 		
 	return Vector2i(7, 0)

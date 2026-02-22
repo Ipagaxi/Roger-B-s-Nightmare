@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://buy5aviwghl3i"]
+[gd_scene load_steps=9 format=3 uid="uid://buy5aviwghl3i"]
 
 [ext_resource type="Script" uid="uid://b0xukajyobjri" path="res://Scripts/GameRun.gd" id="1_brfv0"]
 [ext_resource type="Texture2D" uid="uid://cac8lki7sw45d" path="res://assets/UI/UI_Screen_Main.png" id="2_vokpv"]
@@ -7,6 +7,14 @@
 [sub_resource type="AtlasTexture" id="AtlasTexture_doesu"]
 atlas = ExtResource("3_sbj7t")
 region = Rect2(35.952797, 16, 12.047203, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbj7t"]
+atlas = ExtResource("3_sbj7t")
+region = Rect2(64, 16, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ngirm"]
+atlas = ExtResource("3_sbj7t")
+region = Rect2(50, 16, 12, 12)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j4msf"]
 atlas = ExtResource("3_sbj7t")
@@ -43,6 +51,8 @@ offset_right = 1873.0
 offset_bottom = 31.0
 scale = Vector2(3, 3)
 texture_normal = SubResource("AtlasTexture_doesu")
+texture_pressed = SubResource("AtlasTexture_sbj7t")
+texture_hover = SubResource("AtlasTexture_ngirm")
 
 [node name="WindowButton" type="TextureButton" parent="CanvasLayer/Control"]
 layout_mode = 0

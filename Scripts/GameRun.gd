@@ -44,44 +44,24 @@ func _input(event):
 	elif event.is_action_pressed("zoom_in"):
 		if $Camera2D.zoom.x <= 1.0:
 			$Camera2D.zoom *= 2.0
-	elif event.is_action_pressed("move_layer_down"):
-		change_to_layer(TilesInterface.current_layer_id-1)
-	elif event.is_action_pressed("move_layer_up"):
-		change_to_layer(TilesInterface.current_layer_id+1)
-
-func change_to_layer(layer_id: int):
-	var valid_layer_id = clamp(layer_id, 0, 2)
-	if valid_layer_id != TilesInterface.current_layer_id:
-		if TilesInterface.current_layer_id == 0:
-			if local_inst:
-				local_inst.visible = false
-				#chunk_inst.free()
-		elif TilesInterface.current_layer_id == 1:
-			if region_inst:
-				#city_inst.free()
-				region_inst.visible = false
-		elif TilesInterface.current_layer_id == 2:
-			if continent_inst:
-				continent_inst.visible = false
-				#continent_inst.free()
-		
-		if valid_layer_id == 0:
-			#chunk_inst = chunk_scene.instantiate()
-			#add_child(chunk_inst)
-			player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent)+ TilesInterface.current_location_local)
-			local_inst.visible = true
-		elif valid_layer_id == 1:
-			#city_inst = city_scene.instantiate()
-			#add_child(city_inst)
-			player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_region + TilesInterface.current_location_continent*TilesInterface.REGION_SIZE_TILES)
-			region_inst.visible = true
-		elif valid_layer_id == 2:
-			#continent_inst = continent_scene.instantiate()
-			#add_child(continent_inst)
-			player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_continent)
-			continent_inst.visible = true
-	TilesInterface.current_layer_id = valid_layer_id
-
+	elif event.is_action_pressed("open_continent_layer"):
+		local_inst.visible = false
+		region_inst.visible = false
+		player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_continent)
+		Global.current_layer = Global.Layer.CONTINENT_LAYER
+		continent_inst.visible = true
+	elif event.is_action_pressed("open_region_layer"):
+		local_inst.visible = false
+		continent_inst.visible = false
+		player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_region + TilesInterface.current_location_continent*TilesInterface.REGION_SIZE_TILES)
+		Global.current_layer = Global.Layer.REGION_LAYER
+		region_inst.visible = true
+	elif event.is_action_pressed("open_local_layer"):
+		region_inst.visible = false
+		continent_inst.visible = false
+		player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent)+ TilesInterface.current_location_local)
+		Global.current_layer = Global.Layer.LOCAL_LAYER
+		local_inst.visible = true
 
 func _on_exit_button_button_up() -> void:
 	get_tree().quit()

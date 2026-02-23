@@ -45,8 +45,6 @@ var local_matrix: Array[Array]
 
 var current_local = null
 
-var current_layer_id = 0
-
 const INPUTS = {"right": Vector2.RIGHT,
 				"left": Vector2.LEFT,
 				"up": Vector2.UP,

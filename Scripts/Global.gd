@@ -1,5 +1,7 @@
 extends Node
 
+enum Layer {LOCAL_LAYER, REGION_LAYER, CONTINENT_LAYER}
+
 var current_scene = null
 
 const LOCAL_LOAD_RADIUS = 2
@@ -12,6 +14,8 @@ const NUMBER_CIRCULAR_CENTERS = 6
 const LOWER_BOUNDARY_CENTER_IDS = 3
 
 const TILESET_FILE_NAME = "tileset_gen6.tres"
+
+var current_layer = Layer.LOCAL_LAYER
 
 func _ready():
 	var target_screen = 0  # 0 = primary monitor, 1 = second monitor, etc.

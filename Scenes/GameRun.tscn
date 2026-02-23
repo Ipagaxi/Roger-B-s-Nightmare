@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://buy5aviwghl3i"]
+[gd_scene load_steps=13 format=3 uid="uid://buy5aviwghl3i"]
 
 [ext_resource type="Script" uid="uid://b0xukajyobjri" path="res://Scripts/GameRun.gd" id="1_brfv0"]
 [ext_resource type="Texture2D" uid="uid://cac8lki7sw45d" path="res://assets/UI/UI_Screen_Main.png" id="2_vokpv"]
@@ -20,9 +20,25 @@ region = Rect2(50, 16, 12, 12)
 atlas = ExtResource("3_sbj7t")
 region = Rect2(36, 2, 12, 12)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_nc2fg"]
+atlas = ExtResource("3_sbj7t")
+region = Rect2(64, 2, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_te7m7"]
+atlas = ExtResource("3_sbj7t")
+region = Rect2(50, 2, 12, 12)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_xig7e"]
 atlas = ExtResource("3_sbj7t")
 region = Rect2(36, 30, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eg8u2"]
+atlas = ExtResource("3_sbj7t")
+region = Rect2(64, 30, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfg1x"]
+atlas = ExtResource("3_sbj7t")
+region = Rect2(50, 30, 12, 12)
 
 [node name="GameRun" type="Node2D"]
 script = ExtResource("1_brfv0")
@@ -62,6 +78,8 @@ offset_right = 1826.0
 offset_bottom = 31.0
 scale = Vector2(3, 3)
 texture_normal = SubResource("AtlasTexture_j4msf")
+texture_pressed = SubResource("AtlasTexture_nc2fg")
+texture_hover = SubResource("AtlasTexture_te7m7")
 
 [node name="MinimizeButton" type="TextureButton" parent="CanvasLayer/Control"]
 layout_mode = 0
@@ -71,5 +89,9 @@ offset_right = 1779.0
 offset_bottom = 31.0
 scale = Vector2(3, 3)
 texture_normal = SubResource("AtlasTexture_xig7e")
+texture_pressed = SubResource("AtlasTexture_eg8u2")
+texture_hover = SubResource("AtlasTexture_bfg1x")
 
 [connection signal="button_up" from="CanvasLayer/Control/ExitButton" to="." method="_on_exit_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/Control/WindowButton" to="." method="_on_window_button_button_up"]
+[connection signal="button_up" from="CanvasLayer/Control/MinimizeButton" to="." method="_on_minimize_button_button_up"]

@@ -13,6 +13,7 @@ var local_inst
 var cursor_inst
 
 func _ready():
+	set_window_button_according_to_mode()
 	await get_tree().process_frame
 	# Generate continent
 	continent_inst = continent_scene.instantiate()
@@ -80,3 +81,42 @@ func _input(event):
 
 func _on_exit_button_button_up() -> void:
 	get_tree().quit()
+
+
+func _on_minimize_button_button_up() -> void:
+	# minimize window
+	get_window().mode = 1
+
+
+func _on_window_button_button_up() -> void:
+	var current_window_mode = get_window().mode
+	var atlas_tex_normal = $CanvasLayer/Control/WindowButton.texture_normal as AtlasTexture
+	var atlas_tex_hovered = $CanvasLayer/Control/WindowButton.texture_hover as AtlasTexture
+	var atlas_tex_pressed = $CanvasLayer/Control/WindowButton.texture_pressed as AtlasTexture
+	if current_window_mode == 3:
+		# change from fullscreen to windowed modus
+		get_window().mode = 0
+		atlas_tex_normal.region = Rect2(36, 58, 12, 12)
+		atlas_tex_hovered.region = Rect2(50, 58, 12, 12)
+		atlas_tex_pressed.region = Rect2(64, 58, 12, 12)
+	elif current_window_mode == 0:
+		get_window().mode = 3
+		atlas_tex_normal.region = Rect2(36, 2, 12, 12)
+		atlas_tex_hovered.region = Rect2(50, 2, 12, 12)
+		atlas_tex_pressed.region = Rect2(64, 2, 12, 12)
+
+func set_window_button_according_to_mode():
+	var current_window_mode = get_window().mode
+	var atlas_tex_normal = $CanvasLayer/Control/WindowButton.texture_normal as AtlasTexture
+	var atlas_tex_hovered = $CanvasLayer/Control/WindowButton.texture_hover as AtlasTexture
+	var atlas_tex_pressed = $CanvasLayer/Control/WindowButton.texture_pressed as AtlasTexture
+	if current_window_mode == 0:
+		# use windowed icon
+		atlas_tex_normal.region = Rect2(36, 58, 12, 12)
+		atlas_tex_hovered.region = Rect2(50, 58, 12, 12)
+		atlas_tex_pressed.region = Rect2(64, 58, 12, 12)
+	else:
+		# use fullscreen icon
+		atlas_tex_normal.region = Rect2(36, 2, 12, 12)
+		atlas_tex_hovered.region = Rect2(50, 2, 12, 12)
+		atlas_tex_pressed.region = Rect2(64, 2, 12, 12)

@@ -66,13 +66,11 @@ func _input(event):
 		local_inst.visible = true
 	elif event.is_action_pressed("use_cursor"):
 		if cursor_inst:
-			print("Remove Cursor")
 			player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 			cursor_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
 			cursor_inst.queue_free()
 			player_inst.set_process_input(true)
 		else:
-			print("Instantiate Cursor")
 			player_inst.set_process_input(false)
 			cursor_inst = cursor_scene.instantiate()
 			cursor_inst.position = player_inst.position

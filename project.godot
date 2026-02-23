@@ -13,7 +13,7 @@ config_version=5
 config/name="CyberRoguelike"
 run/main_scene="res://Scenes/MainMenu.tscn"
 config/features=PackedStringArray("4.5", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="uid://devmdryavp71n"
 
 [autoload]
 

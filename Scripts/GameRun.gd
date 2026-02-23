@@ -4,11 +4,13 @@ extends Node2D
 @onready var continent_scene = preload("res://Scenes/Continent.tscn")
 @onready var region_scene = preload("res://Scenes/RegionHandler.tscn")
 @onready var local_scene = preload("res://Scenes/LocalHandler.tscn")
+@onready var cursor_scene = preload("res://Scenes/Cursor.tscn")
 
 var player_inst
 var continent_inst
 var region_inst
 var local_inst
+var cursor_inst
 
 func _ready():
 	await get_tree().process_frame
@@ -62,6 +64,21 @@ func _input(event):
 		player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent)+ TilesInterface.current_location_local)
 		Global.current_layer = Global.Layer.LOCAL_LAYER
 		local_inst.visible = true
+	elif event.is_action_pressed("use_cursor"):
+		if cursor_inst:
+			print("Remove Cursor")
+			player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
+			cursor_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
+			cursor_inst.queue_free()
+			player_inst.set_process_input(true)
+		else:
+			print("Instantiate Cursor")
+			player_inst.set_process_input(false)
+			cursor_inst = cursor_scene.instantiate()
+			cursor_inst.position = player_inst.position
+			add_child(cursor_inst)
+			cursor_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
+			player_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
 
 func _on_exit_button_button_up() -> void:
 	get_tree().quit()

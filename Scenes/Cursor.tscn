@@ -1,20 +1,35 @@
-[gd_scene load_steps=4 format=3 uid="uid://bam7laq1i67us"]
+[gd_scene load_steps=6 format=3 uid="uid://bam7laq1i67us"]
 
-[ext_resource type="Texture2D" uid="uid://vffgnckkonr0" path="res://assets/UI/UI_sheet_big.png" id="1_ri6lo"]
+[ext_resource type="Script" uid="uid://dv3ataf1xbgp8" path="res://Scripts/cursor.gd" id="1_5vcpq"]
+[ext_resource type="Texture2D" uid="uid://b4kau4rkwy14x" path="res://assets/cursor/Target_UI.png" id="1_ri6lo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5vcpq"]
 size = Vector2(32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6qa2i"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vcpq"]
 atlas = ExtResource("1_ri6lo")
-region = Rect2(2, 2, 32, 32)
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6qa2i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vcpq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Cursor" type="StaticBody2D"]
+script = ExtResource("1_5vcpq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_5vcpq")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(16, 16)
-texture = SubResource("AtlasTexture_6qa2i")
+sprite_frames = SubResource("SpriteFrames_6qa2i")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]

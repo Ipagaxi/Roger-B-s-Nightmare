@@ -54,9 +54,14 @@ const INPUTS = {"right": Vector2.RIGHT,
 				"bottom_left": Vector2(-1, 1),
 				"bottom_right": Vector2(1, 1),
 				"stay": Vector2i.ZERO}
-
+				
+				
 func move(direction, body) -> Vector2i:
 	var motion = TilesInterface.tileCoords_to_trueCoords(INPUTS[direction]) / 1.0
+	body.global_position += motion
+	return body.global_position
+
+func player_move(direction, body) -> Vector2i:
 	var ray_up = body.get_node("BodyCollisionDetector").get_node("RayUp")
 	var ray_top_right = body.get_node("BodyCollisionDetector").get_node("RayTopRight")
 	var ray_right = body.get_node("BodyCollisionDetector").get_node("RayRight")
@@ -65,16 +70,7 @@ func move(direction, body) -> Vector2i:
 	var ray_bottom_left = body.get_node("BodyCollisionDetector").get_node("RayBottomLeft")
 	var ray_left = body.get_node("BodyCollisionDetector").get_node("RayLeft")
 	var ray_top_left = body.get_node("BodyCollisionDetector").get_node("RayTopLeft")
-	#for ray in body.get_node("BodyCollisionDetector").get_children():
-	#	print("ray is colliding: ", ray.is_colliding())
-	#	print("ray rotation: ", ray.rotation, ", motion angle: ", motion.angle())
-	#	if ray.is_colliding() and motion.angle() == ray.rotation:
-	#		print("Collision!")
-	#		return body.global_position
-	#print("#######################")
 	
-	
-	#if body.test_move(body.transform, motion):
 	if ray_up.is_colliding() and direction == "up":
 		return body.global_position
 	elif ray_top_right.is_colliding() and direction == "top_right":
@@ -91,9 +87,7 @@ func move(direction, body) -> Vector2i:
 		return body.global_position
 	elif ray_top_left.is_colliding() and direction == "top_left":
 		return body.global_position
-	#body.move_and_collide(motion, false, 0.0, true)
-	body.global_position += motion
-	return body.global_position
+	return move(direction, body)
 	#var cell_data = current_chunk.get_node("house").get_node("Foreground").get_cell_tile_data(globalPos_to_tileCoords(new_pos))
 	#if !cell_data:
 	#	body.position = new_pos

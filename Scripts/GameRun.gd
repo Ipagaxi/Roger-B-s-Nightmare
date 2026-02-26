@@ -16,8 +16,14 @@ var local_inst
 var cursor_inst
 var loading_inst
 
+var thread = Thread.new()
+
 func _ready():
+	thread.start(_generate_world_threaded)
 	_generate_run()
+	
+func _generate_world_threaded():
+	pass
 
 func _generate_run():
 	set_window_button_according_to_mode()
@@ -28,28 +34,30 @@ func _generate_run():
 	# Generate continent
 	continent_inst = continent_scene.instantiate()
 	continent_inst.visible = false
-	add_child(continent_inst)
+	continent_inst.generate_continent()
+	
 	# Generate map/city
 	region_inst = region_scene.instantiate()
 	region_inst.visible = false
-	add_child(region_inst)
 	continent_inst.set_city_connecting_roads()
-	# Generate chunk
+	
+	# Generate local
 	local_inst = local_scene.instantiate()
 	local_inst.load_all_near_locals(TilesInterface.current_location_continent)
-	add_child(local_inst)
+	
 	player_inst = player_scene.instantiate()
-	player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 	player_inst.global_position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_local + TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent))
-	print("Player starting position: ", player_inst.global_position)
+	emit_signal("generation_finished")
+	
+func add_layers_to_scene_tree():
+	add_child(continent_inst)
+	add_child(region_inst)
+	add_child(local_inst)
+	player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 	add_child(player_inst)
 	player_inst.local_handler = local_inst
 	player_inst.region_handler = region_inst
 	$Camera2D.zoom = Vector2(1, 1)
-	emit_signal("generation_finished")
-	
-func _physics_process(_delta):
-	pass
 
 func _input(event):
 	if event.is_action_pressed("zoom_out"):

@@ -11,14 +11,14 @@ const TILE_SIZE = 32
 
 const NUM_CITIES = 4
 
-var continent_matrix = TilesInterface.continent_matrix
 var continent_matrix_loaded = TilesInterface.continent_matrix_loaded
 var continent_region_matrices = TilesInterface.continent_region_matrices
 
 var city_positions = []
 
-func _ready():
+func generate_continent():
 	$Map.tile_set = tileset
+	var continent_matrix = TilesInterface.continent_matrix
 	init_continent_matrix()
 	
 	var noise = FastNoiseLite.new();
@@ -33,7 +33,6 @@ func _ready():
 	for x in range(WIDTH):
 		for y in range(HEIGHT):
 			var value = noise.get_noise_2d(x * 32, y * 32)  # Scale factor
-			var tile_id = set_tile_id(value, x, y)
 			if value < -0.3:
 				# Id 1 for water tile
 				continent_matrix[y][x] = 1
@@ -41,13 +40,14 @@ func _ready():
 				# Id 2 for coast tile
 				continent_matrix[y][x] = 2
 			else:
-				# Id 3 for land tile
-				continent_matrix[y][x] = 3
+				# Id 4 for land tile
+				continent_matrix[y][x] = 4
 			#tilemap.set_cell(Vector2i(x, y), 1, tile_id)
 			
 	set_cities()
 			
 func init_continent_matrix():
+	var continent_matrix = TilesInterface.continent_matrix
 	for i in range(HEIGHT):
 		var init_array = []
 		var init_array_loaded = []
@@ -66,6 +66,7 @@ func init_continent_matrix():
 		continent_region_matrices.append(init_array_region_matrices)
 			
 func set_cities():
+	var continent_matrix = TilesInterface.continent_matrix
 	for i in range(NUM_CITIES):
 		var x_coord: int
 		var y_coord: int
@@ -81,10 +82,10 @@ func set_cities():
 					if too_close:
 						not_suitable_tile = true
 		
-		# Id 4 for city tile
-		continent_matrix[y_coord][x_coord] = 4
+		# Id 5 for city tile
+		continent_matrix[y_coord][x_coord] = 5
 		city_positions.append(Vector2i(x_coord, y_coord))
-		tilemap.set_cell(Vector2i(x_coord, y_coord), 1, Vector2i(0, 1))
+		#tilemap.set_cell(Vector2i(x_coord, y_coord), 1, Vector2i(0, 1))
 		
 	TilesInterface.current_location_continent = city_positions[randi_range(0, NUM_CITIES-1)]
 
@@ -95,14 +96,24 @@ func set_tile_id(value) -> Vector2i:
 	elif value == 2:
 		# Id 2 for coast tile
 		return Vector2i(3, 5)
+	elif value == 3:
+		# Id 3 for road tile
+		return Vector2i(5, 1)
+	elif value == 4:
+		# id 4 for land tile
+		return Vector2i(0, 6)
+	elif value == 5:
+		# id 5 for city tile
+		return Vector2i(0, 1)
 	else:
-		# Id 3 for land tile
+		# should not be reached
 		return Vector2i(0, 6)
 		
 func get_a_star_cell_id(coords: Vector2) -> int:
 	return coords.y * TilesInterface.CONTINENT_SIZE_TILES_WIDTH + coords.x
 		
 func set_city_connecting_roads():
+	var continent_matrix = TilesInterface.continent_matrix
 	var continent_height = TilesInterface.CONTINENT_SIZE_TILES_HEIGHT
 	var continent_width = TilesInterface.CONTINENT_SIZE_TILES_WIDTH
 	var a_star = AStar2D.new()
@@ -123,10 +134,11 @@ func set_city_connecting_roads():
 			var path_points = a_star.get_point_path(get_a_star_cell_id(city_positions[i_1]), get_a_star_cell_id(city_positions[i_2]))
 			for coord in path_points:
 				if not city_positions.has(coord):
-					tilemap.set_cell(coord, 1, Vector2i(5, 1))
+					continent_matrix[coord.y][coord.x] = 3
+					#tilemap.set_cell(coord, 1, Vector2i(5, 1))
 					
-	for coord in city_positions:
-		tilemap.set_cell(coord, 1, Vector2i(0, 1))
+	#for coord in city_positions:
+		#tilemap.set_cell(coord, 1, Vector2i(0, 1))
 	
 	
 	#for i in range(len(city_positions)):
@@ -134,4 +146,4 @@ func set_city_connecting_roads():
 
 
 func draw_continent(continent_matrix: Array[Array]):
-	
+	pass

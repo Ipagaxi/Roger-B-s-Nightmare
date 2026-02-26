@@ -14,8 +14,6 @@ var lower_boundary_center_ids = Global.LOWER_BOUNDARY_CENTER_IDS
 
 var outgoing_street_coords: Array[Vector2i]
 
-var thread = Thread.new()
-
 func _ready():
 	$Map.tile_set = tileset
 

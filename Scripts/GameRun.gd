@@ -5,16 +5,23 @@ extends Node2D
 @onready var region_scene = preload("res://Scenes/RegionHandler.tscn")
 @onready var local_scene = preload("res://Scenes/LocalHandler.tscn")
 @onready var cursor_scene = preload("res://Scenes/Cursor.tscn")
+@onready var loading_scene = preload("res://Scenes/Loading.tscn")
 
 var player_inst
 var continent_inst
 var region_inst
 var local_inst
 var cursor_inst
+var loading_inst
 
 func _ready():
 	set_window_button_according_to_mode()
+	loading_inst = loading_scene.instantiate()
+	add_child(loading_inst)
+	
+	# I dont know why the following
 	await get_tree().process_frame
+	
 	# Generate continent
 	continent_inst = continent_scene.instantiate()
 	continent_inst.visible = false

@@ -1,21 +1,21 @@
 [gd_scene load_steps=7 format=3 uid="uid://cvgs4nt686327"]
 
 [ext_resource type="Script" uid="uid://c1pwqomfjr7np" path="res://Scripts/Player.gd" id="1_p1nlm"]
-[ext_resource type="Texture2D" uid="uid://br4btekowinkd" path="res://assets/Tilesets/tileset_gen5.png" id="3_dewec"]
+[ext_resource type="Texture2D" uid="uid://wf76di06pivs" path="res://assets/actors/character_sheets.png" id="2_gntrk"]
 [ext_resource type="PackedScene" uid="uid://chyd6wpwpax6y" path="res://Scenes/Body_Collision_Detector.tscn" id="4_dewec"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jucab"]
 size = Vector2(32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5ixxa"]
-atlas = ExtResource("3_dewec")
-region = Rect2(160, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_gntrk"]
+atlas = ExtResource("2_gntrk")
+region = Rect2(32, 0, 32, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nn08x"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5ixxa")
+"texture": SubResource("AtlasTexture_gntrk")
 }],
 "loop": true,
 "name": &"default",
@@ -30,7 +30,7 @@ position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_jucab")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(16, 16)
+position = Vector2(16, 8)
 sprite_frames = SubResource("SpriteFrames_nn08x")
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]

@@ -43,6 +43,7 @@ func _ready():
 	player_inst.local_handler = local_inst
 	player_inst.region_handler = region_inst
 	$Camera2D.zoom = Vector2(1, 1)
+	$CanvasLayer.visible = true
 	
 func _physics_process(_delta):
 	pass
@@ -100,13 +101,13 @@ func _on_window_button_button_up() -> void:
 	var atlas_tex_normal = $CanvasLayer/Control/WindowButton.texture_normal as AtlasTexture
 	var atlas_tex_hovered = $CanvasLayer/Control/WindowButton.texture_hover as AtlasTexture
 	var atlas_tex_pressed = $CanvasLayer/Control/WindowButton.texture_pressed as AtlasTexture
-	if current_window_mode == 3:
+	if current_window_mode >= 3:
 		# change from fullscreen to windowed modus
 		get_window().mode = 0
 		atlas_tex_normal.region = Rect2(36, 58, 12, 12)
 		atlas_tex_hovered.region = Rect2(50, 58, 12, 12)
 		atlas_tex_pressed.region = Rect2(64, 58, 12, 12)
-	elif current_window_mode == 0:
+	elif current_window_mode <= 2:
 		get_window().mode = 3
 		atlas_tex_normal.region = Rect2(36, 2, 12, 12)
 		atlas_tex_hovered.region = Rect2(50, 2, 12, 12)
@@ -117,13 +118,13 @@ func set_window_button_according_to_mode():
 	var atlas_tex_normal = $CanvasLayer/Control/WindowButton.texture_normal as AtlasTexture
 	var atlas_tex_hovered = $CanvasLayer/Control/WindowButton.texture_hover as AtlasTexture
 	var atlas_tex_pressed = $CanvasLayer/Control/WindowButton.texture_pressed as AtlasTexture
-	if current_window_mode == 0:
-		# use windowed icon
+	if current_window_mode <= 2:
+		# use fullscreen icon when windowed
 		atlas_tex_normal.region = Rect2(36, 58, 12, 12)
 		atlas_tex_hovered.region = Rect2(50, 58, 12, 12)
 		atlas_tex_pressed.region = Rect2(64, 58, 12, 12)
 	else:
-		# use fullscreen icon
+		# use windowed icon when fullscreen
 		atlas_tex_normal.region = Rect2(36, 2, 12, 12)
 		atlas_tex_hovered.region = Rect2(50, 2, 12, 12)
 		atlas_tex_pressed.region = Rect2(64, 2, 12, 12)

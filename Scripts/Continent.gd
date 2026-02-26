@@ -34,7 +34,16 @@ func _ready():
 		for y in range(HEIGHT):
 			var value = noise.get_noise_2d(x * 32, y * 32)  # Scale factor
 			var tile_id = set_tile_id(value, x, y)
-			tilemap.set_cell(Vector2i(x, y), 1, tile_id)
+			if value < -0.3:
+				# Id 1 for water tile
+				continent_matrix[y][x] = 1
+			elif value < -0.2:
+				# Id 2 for coast tile
+				continent_matrix[y][x] = 2
+			else:
+				# Id 3 for land tile
+				continent_matrix[y][x] = 3
+			#tilemap.set_cell(Vector2i(x, y), 1, tile_id)
 			
 	set_cities()
 			
@@ -79,18 +88,15 @@ func set_cities():
 		
 	TilesInterface.current_location_continent = city_positions[randi_range(0, NUM_CITIES-1)]
 
-func set_tile_id(value, x, y) -> Vector2i:
-	if value < -0.3:
+func set_tile_id(value) -> Vector2i:
+	if value == 1:
 		# Id 1 for water tile
-		continent_matrix[y][x] = 1
 		return Vector2i(2, 1)
-	elif value < -0.2:
+	elif value == 2:
 		# Id 2 for coast tile
-		continent_matrix[y][x] = 2
 		return Vector2i(3, 5)
 	else:
 		# Id 3 for land tile
-		continent_matrix[y][x] = 3
 		return Vector2i(0, 6)
 		
 func get_a_star_cell_id(coords: Vector2) -> int:
@@ -125,3 +131,7 @@ func set_city_connecting_roads():
 	
 	#for i in range(len(city_positions)):
 	#	a_star.add_point(i, city_positions[i])
+
+
+func draw_continent(continent_matrix: Array[Array]):
+	

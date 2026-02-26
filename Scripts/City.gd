@@ -14,20 +14,39 @@ var lower_boundary_center_ids = Global.LOWER_BOUNDARY_CENTER_IDS
 
 var outgoing_street_coords: Array[Vector2i]
 
+var thread = Thread.new()
+
 func _ready():
 	$Map.tile_set = tileset
-	
+
 func generate_region() -> Array[Array]:
+	thread.start(_generate_region_threaded)
+	var region_matrix = thread.wait_to_finish()
+	call_deferred("draw_region", region_matrix)
+	return region_matrix
+	
+func _generate_region_threaded() -> Array[Array]:
+	var region_matrix = generate_region_data()
+	#call_deferred("_draw_region", region_matrix)
+	return region_matrix
+	
+func generate_region_data() -> Array[Array]:
 	var region_matrix: Array[Array]
 	create_matrix()
 	print("City matrix generated")
 	while region_matrix.is_empty():
 		print("Generate city map...")
-		region_matrix = await generate_city_map()
+		region_matrix = generate_city_map()
 	print("Generated city map successfully!")
 	set_spawn_location(region_matrix)
 	print("Spawn location set")
 	return region_matrix
+	
+func _draw_region(region_matrix: Array[Array]):
+	print("Draw region...")
+	for y in range(region_size):
+		for x in range(region_size):
+			$Map.set_cell(Vector2i(x, y), 1, get_atlas_coord(region_matrix[y][x]))
 
 func create_matrix() -> Array[Array]:
 	var region_matrix: Array[Array]
@@ -80,7 +99,7 @@ func generate_city_map() -> Array[Array]:
 					if x == 0 or x == region_size-1 or y == 0 or y == region_size -1:
 						tmp_outgoing_street_coords.append(Vector2i(x,y))
 			# Set cell of city surrounding area
-			$Map.set_cell(Vector2i(x, y), 1, get_atlas_coord(city_matrix[y][x]))
+			#$Map.set_cell(Vector2i(x, y), 1, get_atlas_coord(city_matrix[y][x]))
 				
 	# Now create second level voronoi diagrams in inner regions
 	var index = 0
@@ -121,7 +140,7 @@ func generate_city_map() -> Array[Array]:
 				else:
 					city_matrix[coord.y][coord.x] = decide_if_block_street_and_return_id(coord, closest_center, city_matrix)
 			# Set cell of inner city area
-			$Map.set_cell(coord, 1, get_atlas_coord(city_matrix[coord.y][coord.x]))
+			#$Map.set_cell(coord, 1, get_atlas_coord(city_matrix[coord.y][coord.x]))
 			
 	# Just for debugging purposes coloring the voronoi centers yellow
 	#for center in voronoi_area_centers:

@@ -17,7 +17,7 @@ var cursor_inst
 var loading_inst
 
 func _ready():
-	await _generate_run()
+	_generate_run()
 
 func _generate_run():
 	set_window_button_according_to_mode()

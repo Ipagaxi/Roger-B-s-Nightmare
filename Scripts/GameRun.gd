@@ -7,6 +7,8 @@ extends Node2D
 @onready var cursor_scene = preload("res://Scenes/Cursor.tscn")
 @onready var loading_scene = preload("res://Scenes/Loading.tscn")
 
+signal generation_finished
+
 var player_inst
 var continent_inst
 var region_inst
@@ -15,9 +17,10 @@ var cursor_inst
 var loading_inst
 
 func _ready():
+	await _generate_run()
+
+func _generate_run():
 	set_window_button_according_to_mode()
-	loading_inst = loading_scene.instantiate()
-	add_child(loading_inst)
 	
 	# I dont know why the following
 	await get_tree().process_frame
@@ -43,7 +46,7 @@ func _ready():
 	player_inst.local_handler = local_inst
 	player_inst.region_handler = region_inst
 	$Camera2D.zoom = Vector2(1, 1)
-	$CanvasLayer.visible = true
+	emit_signal("generation_finished")
 	
 func _physics_process(_delta):
 	pass

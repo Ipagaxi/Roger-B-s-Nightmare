@@ -23,7 +23,7 @@ func generate_region() -> Array[Array]:
 	print("City matrix generated")
 	while region_matrix.is_empty():
 		print("Generate city map...")
-		region_matrix = generate_city_map()
+		region_matrix = await generate_city_map()
 	print("Generated city map successfully!")
 	set_spawn_location(region_matrix)
 	print("Spawn location set")
@@ -81,7 +81,7 @@ func generate_city_map() -> Array[Array]:
 						tmp_outgoing_street_coords.append(Vector2i(x,y))
 			# Set cell of city surrounding area
 			$Map.set_cell(Vector2i(x, y), 1, get_atlas_coord(city_matrix[y][x]))
-	
+				
 	# Now create second level voronoi diagrams in inner regions
 	var index = 0
 	for cell in inner_voronoi_cells:

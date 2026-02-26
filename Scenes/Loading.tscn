@@ -1,33 +1,34 @@
-[gd_scene load_steps=9 format=3 uid="uid://c2cthbm6yo325"]
+[gd_scene load_steps=10 format=3 uid="uid://c2cthbm6yo325"]
 
+[ext_resource type="Script" uid="uid://7g2vtobx465r" path="res://Scripts/loading.gd" id="1_0pxc8"]
 [ext_resource type="Texture2D" uid="uid://en8fp7mceu4a" path="res://assets/menu_backgrounds/Loading.png" id="1_hgo68"]
 [ext_resource type="Texture2D" uid="uid://bfpoalhml142y" path="res://assets/UI/Loading_Phase1.png" id="2_0pxc8"]
 [ext_resource type="Texture2D" uid="uid://baeky588n6sd8" path="res://assets/UI/Loading_Phase2.png" id="3_y2s0j"]
 [ext_resource type="Texture2D" uid="uid://cxxv86a54kyt3" path="res://assets/UI/Loading_Phase3.png" id="4_6s5k6"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nwbea"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pxc8"]
 atlas = ExtResource("2_0pxc8")
 region = Rect2(0, 0, 480, 270)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jyc5h"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2s0j"]
 atlas = ExtResource("3_y2s0j")
 region = Rect2(0, 0, 480, 270)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yed1v"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6s5k6"]
 atlas = ExtResource("4_6s5k6")
 region = Rect2(0, 0, 480, 270)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_w54v8"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_nwbea"]
 animations = [{
 "frames": [{
-"duration": 1.5,
-"texture": SubResource("AtlasTexture_nwbea")
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pxc8")
 }, {
-"duration": 1.5,
-"texture": SubResource("AtlasTexture_jyc5h")
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y2s0j")
 }, {
-"duration": 2.0,
-"texture": SubResource("AtlasTexture_yed1v")
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6s5k6")
 }],
 "loop": true,
 "name": &"default",
@@ -35,18 +36,33 @@ animations = [{
 }]
 
 [node name="Loading" type="Node2D"]
+script = ExtResource("1_0pxc8")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="CanvasLayer"]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="AspectRatioContainer" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/AspectRatioContainer"]
-position = Vector2(240, 135)
+position = Vector2(960, 540)
+scale = Vector2(4, 4)
 texture = ExtResource("1_hgo68")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CanvasLayer/AspectRatioContainer"]
-position = Vector2(240, 135)
-sprite_frames = SubResource("SpriteFrames_w54v8")
-frame_progress = 0.76620686
+[node name="LoadingIcon" type="AnimatedSprite2D" parent="CanvasLayer/AspectRatioContainer"]
+position = Vector2(961, 540)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_nwbea")
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/AspectRatioContainer"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 887.0
+offset_top = 977.0
+offset_right = 1043.0
+offset_bottom = 1050.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
+theme_override_font_sizes/font_size = 50

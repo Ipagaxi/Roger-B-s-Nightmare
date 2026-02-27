@@ -14,33 +14,35 @@ var lower_boundary_center_ids = Global.LOWER_BOUNDARY_CENTER_IDS
 
 var outgoing_street_coords: Array[Vector2i]
 
+var region_matrix
+
 func _ready():
-	$Map.tile_set = tileset
+	pass
 
 func generate() -> Array[Array]:
-	var region_matrix = generate_region_data()
+	region_matrix = generate_region_data()
 	return region_matrix
 	
 func generate_region_data() -> Array[Array]:
-	var region_matrix: Array[Array]
-	create_matrix()
-	print("City matrix generated")
+	region_matrix = []
+	#print("City matrix generated")
 	while region_matrix.is_empty():
 		print("Generate city map...")
 		region_matrix = generate_city_map()
-	print("Generated city map successfully!")
+	#print("Generated city map successfully!")
 	set_spawn_location(region_matrix)
-	print("Spawn location set")
+	#print("Spawn location set")
 	return region_matrix
 	
-func draw(region_matrix: Array[Array]):
+func draw():
+	$Map.tile_set = tileset
 	print("Draw region...")
 	for y in range(region_size):
 		for x in range(region_size):
 			$Map.set_cell(Vector2i(x, y), 1, get_atlas_coord(region_matrix[y][x]))
 
 func create_matrix() -> Array[Array]:
-	var region_matrix: Array[Array]
+	var tmp_matrix: Array[Array]
 	for i in range(region_size):
 		var init_array = []
 		
@@ -48,8 +50,8 @@ func create_matrix() -> Array[Array]:
 		
 		init_array.fill(0)
 		
-		region_matrix.append(init_array)
-	return region_matrix
+		tmp_matrix.append(init_array)
+	return tmp_matrix
 		
 # Voronoi Diagrams are used for city map generation
 # Each city tile gets an identifier:
@@ -272,5 +274,5 @@ func get_atlas_coord(id) -> Vector2i:
 	elif id >= lower_boundary_center_ids+number_circular_centers:
 		# Inner city building tiles
 		return Vector2i(1, 1)
-		
+
 	return Vector2i(7, 0)

@@ -32,28 +32,33 @@ func generate_run():
 	#await get_tree().process_frame
 	
 	# Generate continent
+	print("Generate continent...")
 	continent_inst = continent_scene.instantiate()
 	continent_inst.visible = false
 	continent_inst.generate_continent()
 	
 	# Generate region
+	print("Generate regions...")
 	region_inst = region_scene.instantiate()
 	region_inst.visible = false
 	region_inst.generate_all_near_regions()
 	continent_inst.set_city_connecting_roads()
 	
 	# Generate local
+	print("Generate locals...")
 	local_inst = local_scene.instantiate()
 	local_inst.generate_all_near_locals(TilesInterface.current_location_continent)
 	
+	print("Instantiate player...")
 	player_inst = player_scene.instantiate()
 	player_inst.global_position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_local + TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent))
+	print("Generation finished!")
 	emit_signal("generation_finished")
 	
 func draw_run():
 	set_window_button_according_to_mode()
 	add_child(continent_inst)
-	region_inst.draw_all_near_region()
+	region_inst.draw_all_near_regions()
 	add_child(region_inst)
 	local_inst.draw_all_near_locals()
 	add_child(local_inst)

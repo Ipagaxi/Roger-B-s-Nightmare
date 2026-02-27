@@ -13,8 +13,10 @@ func _input(event):
 			
 			TilesInterface.update_layer_positions(new_global_pos)
 			
-			local_handler.load_all_near_locals(TilesInterface.current_location_continent)
+			local_handler.generate_all_near_locals(TilesInterface.current_location_continent)
+			local_handler.draw_all_near_locals()
 			local_handler.unload_all_far_away_locals()
 			
-			region_handler.load_all_near_regions()
+			region_handler.generate_all_near_regions()
+			region_handler.draw_all_near_regions()
 			region_handler.unload_all_far_away_regions()

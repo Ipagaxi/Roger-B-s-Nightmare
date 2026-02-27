@@ -17,7 +17,6 @@ var continent_region_matrices = TilesInterface.continent_region_matrices
 var city_positions = []
 
 func generate_continent():
-	$Map.tile_set = tileset
 	var continent_matrix = TilesInterface.continent_matrix
 	init_continent_matrix()
 	
@@ -45,7 +44,7 @@ func generate_continent():
 			#tilemap.set_cell(Vector2i(x, y), 1, tile_id)
 			
 	set_cities()
-			
+
 func init_continent_matrix():
 	var continent_matrix = TilesInterface.continent_matrix
 	for i in range(HEIGHT):
@@ -146,4 +145,7 @@ func set_city_connecting_roads():
 
 
 func draw_continent(continent_matrix: Array[Array]):
-	pass
+	$Map.tile_set = tileset
+	for y in range(WIDTH):
+		for x in range(HEIGHT):
+			pass#tilemap.set_cell(Vector2i(x, y), 1, Vector2i(5, 1))

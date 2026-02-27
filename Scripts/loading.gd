@@ -18,10 +18,11 @@ func _process(delta):
 		ResourceLoader.THREAD_LOAD_LOADED:
 			var packed_scene = ResourceLoader.load_threaded_get(Global.new_scene_path)
 			var game_instance = packed_scene.instantiate()
-			get_tree().root.add_child(game_instance)
-			get_tree().current_scene = game_instance
 			
 			game_instance.connect("generation_finished", Callable(self, "_on_generation_done"))
+			
+			get_tree().root.add_child(game_instance)
+			get_tree().current_scene = game_instance
 			
 			set_process(false) # stop checking loader
 		
@@ -29,6 +30,6 @@ func _process(delta):
 			print("Failed to load scene.")
 
 func _on_generation_done():
-	get_tree().current_scene.draw_run()
 	get_tree().current_scene = get_tree().root.get_child(-1)
+	get_tree().current_scene.draw_run()
 	queue_free() # remove loading scene

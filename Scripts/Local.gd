@@ -45,13 +45,13 @@ func generate(region_coords: Vector2i, continent_coords: Vector2i):
 	elif region_matrix[region_coords.y][region_coords.x] >= Global.LOWER_BOUNDARY_CENTER_IDS+Global.NUMBER_CIRCULAR_CENTERS:
 		# Generate building local
 		assigned_local = building_scene.instantiate()
-		for inst in assigned_local:
-			add_child(inst)
+		assigned_local.generate()
+		assigned_local.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
 	elif region_matrix[region_coords.y][region_coords.x] >= Global.LOWER_BOUNDARY_CENTER_IDS:
-		pass
-		
-	assigned_local.generate()
-	assigned_local.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
+		assigned_local = grassland_scene.instantiate()
+		assigned_local.generate()
+		assigned_local.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
+
 
 func draw():
 	if background_inst:
@@ -68,7 +68,7 @@ func draw():
 	for street in streets_insts:
 		apply_variation_to_street_tiles(street)
 		add_child(street)
-	
+
 
 func apply_variation_to_street_tiles(street_inst: Node2D):
 	var street_asphalt_tilemap := street_inst.get_child(0)

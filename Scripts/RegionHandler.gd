@@ -2,24 +2,16 @@ extends Node2D
 
 @onready var region_scene = preload("res://Scenes/Region.tscn")
 
+var generated_regions := {}
 var loaded_regions := {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	load_all_near_regions()
+	#load_all_near_regions()
+	pass
 
 
-func generate_region(continent_coords: Vector2i):
-	if loaded_regions.has(continent_coords):
-		return
-	TilesInterface.continent_matrix_loaded[continent_coords.y][continent_coords.x] = true
-	var region = region_scene.instantiate()
-	add_child(region)
-	region.init(continent_coords)
-	loaded_regions[continent_coords] = region
-
-
-func load_all_near_regions():
+func generate_all_near_regions():
 	var load_radius = Global.REGION_LOAD_RADIUS
 	var continent_coords = TilesInterface.current_location_continent
 	for y in range(continent_coords.y - load_radius, continent_coords.y + load_radius + 1):
@@ -31,6 +23,22 @@ func load_all_near_regions():
 				continue
 			if coords.distance_to(continent_coords) <= load_radius:
 				generate_region(coords)
+				
+func draw_all_near_regions():
+	for region_coords in generated_regions:
+		var region_inst = generated_regions[region_coords]
+		region_inst.draw()
+		loaded_regions[region_coords] = region_inst
+
+func generate_region(continent_coords: Vector2i):
+	if generated_regions.has(continent_coords):
+		return
+	TilesInterface.continent_matrix_loaded[continent_coords.y][continent_coords.x] = true
+	region_scene = preload("res://Scenes/Region.tscn")
+	var region = region_scene.instantiate()
+	#add_child(region)
+	region.generate(continent_coords)
+	generated_regions[continent_coords] = region
 					
 			
 func unload_region(continent_coords: Vector2i):

@@ -7,6 +7,7 @@ var street_3_scene = preload("res://Map/Streets/street_3.tmx")
 var street_4_scene = preload("res://Map/Streets/street_4.tmx")
 
 var grassland_scene = preload("res://Scenes/LocalGrassland.tscn")
+var building_scene = preload("res://Scenes/Building.tscn")
 
 const tileset_file_name = Global.TILESET_FILE_NAME
 @onready var tileset = preload("res://assets/Tilesets/" + tileset_file_name)
@@ -14,7 +15,9 @@ const tileset_file_name = Global.TILESET_FILE_NAME
 var local_matrix = TilesInterface.local_matrix
 var street_asset_size = TilesInterface.STREET_ASSET_SIZE_TILE
 
+var background_inst
 var streets_insts: Array
+var assigned_local
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -24,15 +27,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func init(region_coords: Vector2i, continent_coords: Vector2i):
+func generate(region_coords: Vector2i, continent_coords: Vector2i):
 	var region_matrix = TilesInterface.continent_region_matrices[continent_coords.y][continent_coords.x]
 	if region_matrix.is_empty():
 		print("region matrix is empty!")
 		print(TilesInterface.continent_region_matrices)
 	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords, continent_coords)
-	var grassland_inst = grassland_scene.instantiate()
-	grassland_inst.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
-	add_child(grassland_inst)
+	background_inst = grassland_scene.instantiate()
+	background_inst.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
+	#add_child(grassland_inst)
 	if region_matrix[region_coords.y][region_coords.x] == -2:
 		# Generate road local
 		set_correct_street_asset(region_coords, global_tile_coords, continent_coords)
@@ -41,11 +44,31 @@ func init(region_coords: Vector2i, continent_coords: Vector2i):
 		set_correct_street_asset(region_coords, global_tile_coords, continent_coords)
 	elif region_matrix[region_coords.y][region_coords.x] >= Global.LOWER_BOUNDARY_CENTER_IDS+Global.NUMBER_CIRCULAR_CENTERS:
 		# Generate building local
-		var building_insts = Building.generate_building(region_coords, continent_coords)
-		for inst in building_insts:
+		assigned_local = building_scene.instantiate()
+		for inst in assigned_local:
 			add_child(inst)
 	elif region_matrix[region_coords.y][region_coords.x] >= Global.LOWER_BOUNDARY_CENTER_IDS:
 		pass
+		
+	assigned_local.generate()
+	assigned_local.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
+
+func draw():
+	if background_inst:
+		add_child(background_inst)
+	else:
+		print("backgound_inst not instantiated!")
+		
+	if assigned_local:
+		assigned_local.draw()
+		add_child(assigned_local)
+	else:
+		print("assigned_local not instantiated!")
+	
+	for street in streets_insts:
+		apply_variation_to_street_tiles(street)
+		add_child(street)
+	
 
 func apply_variation_to_street_tiles(street_inst: Node2D):
 	var street_asphalt_tilemap := street_inst.get_child(0)
@@ -165,5 +188,5 @@ func set_correct_street_asset(region_coords: Vector2i, global_tile_coords: Vecto
 	#for cell in streets_insts.back().get_used_cells():
 	#	print(cell, ": ", streets_insts.back().get_cell_atlas_coords(cell))
 	streets_insts.back().position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords) + position_correction
-	apply_variation_to_street_tiles(streets_insts.back())
-	add_child(streets_insts.back())
+	#apply_variation_to_street_tiles(streets_insts.back())
+	#add_child(streets_insts.back())

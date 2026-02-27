@@ -29,5 +29,6 @@ func _process(delta):
 			print("Failed to load scene.")
 
 func _on_generation_done():
+	get_tree().current_scene.draw_run()
 	get_tree().current_scene = get_tree().root.get_child(-1)
 	queue_free() # remove loading scene

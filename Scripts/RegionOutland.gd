@@ -11,11 +11,16 @@ func _ready():
 	$TileMapLayer.tile_set = tileset
 
 
-func generate_outland() -> Array[Array]:
+func generate() -> Array[Array]:
 	var region_matrix: Array[Array]
 	for y in region_size:
 		region_matrix.append([])
 		for x in region_size:
 			region_matrix[y].append(id_grassland)
-			$TileMapLayer.set_cell(Vector2i(x, y), 0, Vector2i(4, 1))
 	return region_matrix
+	
+func draw():
+	for y in region_size:
+		for x in region_size:
+			$TileMapLayer.set_cell(Vector2i(x, y), 0, Vector2i(4, 1))
+	

@@ -17,15 +17,8 @@ var outgoing_street_coords: Array[Vector2i]
 func _ready():
 	$Map.tile_set = tileset
 
-func generate_region() -> Array[Array]:
-	thread.start(_generate_region_threaded)
-	var region_matrix = thread.wait_to_finish()
-	call_deferred("draw_region", region_matrix)
-	return region_matrix
-	
-func _generate_region_threaded() -> Array[Array]:
+func generate() -> Array[Array]:
 	var region_matrix = generate_region_data()
-	#call_deferred("_draw_region", region_matrix)
 	return region_matrix
 	
 func generate_region_data() -> Array[Array]:
@@ -40,7 +33,7 @@ func generate_region_data() -> Array[Array]:
 	print("Spawn location set")
 	return region_matrix
 	
-func _draw_region(region_matrix: Array[Array]):
+func draw(region_matrix: Array[Array]):
 	print("Draw region...")
 	for y in range(region_size):
 		for x in range(region_size):

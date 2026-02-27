@@ -5,23 +5,12 @@ extends Node2D
 
 @onready var local_scene = preload("res://Scenes/Local.tscn")
 
+var generated_locals := {}
 var loaded_locals := {}
 	
 var counter = 0
-	
-func generate_local(region_coords: Vector2i, continent_coords: Vector2i):
-	counter += 1
-	if loaded_locals.has([region_coords, continent_coords]):
-		#print("Already there: ", counter)
-		return
-	#print("Not there: ", counter)
-	local_scene = preload("res://Scenes/Local.tscn")
-	var local = local_scene.instantiate()
-	add_child(local)
-	local.init(region_coords, continent_coords)
-	loaded_locals[[region_coords, continent_coords]] = local
 
-func load_all_near_locals(continent_coords: Vector2i):
+func generate_all_near_locals(continent_coords: Vector2i):
 	#print("Load Locals ##################")
 	counter = 0
 	var load_radius = Global.LOCAL_LOAD_RADIUS
@@ -46,8 +35,28 @@ func load_all_near_locals(continent_coords: Vector2i):
 				var new_region_coords = Vector2i(posmod(coords.x, region_size), posmod(coords.y, region_size))
 				var new_continent_coords = continent_coords+continent_coords_offset
 				generate_local(new_region_coords, new_continent_coords)
-					
-			
+	
+func draw_all_near_locals():
+	for item in generated_locals:
+		var local_inst = generated_locals[item]
+		local_inst.draw()
+		loaded_locals[item] = local_inst
+		add_child(local_inst)
+		
+
+func generate_local(region_coords: Vector2i, continent_coords: Vector2i):
+	counter += 1
+	if generated_locals.has([region_coords, continent_coords]):
+		#print("Already there: ", counter)
+		return
+	#print("Not there: ", counter)
+	local_scene = preload("res://Scenes/Local.tscn")
+	var local = local_scene.instantiate()
+	#add_child(local)
+	local.generate(region_coords, continent_coords)
+	generated_locals[[region_coords, continent_coords]] = local
+
+
 func unload_local(region_coords: Vector2i, continent_coords: Vector2i):
 	if loaded_locals.has([region_coords, continent_coords]):
 		loaded_locals[[region_coords, continent_coords]].queue_free()

@@ -8,8 +8,7 @@ var region_size = TilesInterface.REGION_SIZE_TILES
 var id_grassland = 3
 
 func _ready():
-	$TileMapLayer.tile_set = tileset
-
+	pass
 
 func generate() -> Array[Array]:
 	var region_matrix: Array[Array]
@@ -20,7 +19,12 @@ func generate() -> Array[Array]:
 	return region_matrix
 	
 func draw():
+	$TileMapLayer.tile_set = tileset
+	var rng := RandomNumberGenerator.new()
+	var atlas_coords = [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(0, 6), Vector2i(1, 6), Vector2i(2, 6), Vector2i(0, 7), Vector2i(1, 7), Vector2i(2, 7)]
+	var probabilities = [1, 1, 1, 1, 0.1, 1, 1, 1, 1];
 	for y in region_size:
 		for x in region_size:
-			$TileMapLayer.set_cell(Vector2i(x, y), 0, Vector2i(4, 1))
+			var variant = atlas_coords[rng.rand_weighted(probabilities)]
+			$TileMapLayer.set_cell(Vector2i(x, y), 1, variant)
 	

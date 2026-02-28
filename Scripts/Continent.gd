@@ -146,7 +146,6 @@ func set_city_connecting_roads():
 
 func draw():
 	var continent_matrix = TilesInterface.continent_matrix
-	print(continent_matrix)
 	$Map.tile_set = tileset
 	for y in range(WIDTH):
 		for x in range(HEIGHT):

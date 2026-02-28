@@ -86,7 +86,6 @@ func _input(event):
 		local_inst.visible = false
 		continent_inst.visible = false
 		player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_region + TilesInterface.current_location_continent*TilesInterface.REGION_SIZE_TILES)
-		print("player pos: ", player_inst.global_position)
 		Global.current_layer = Global.Layer.REGION_LAYER
 		region_inst.visible = true
 	elif event.is_action_pressed("open_local_layer"):

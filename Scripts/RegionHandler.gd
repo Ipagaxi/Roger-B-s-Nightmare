@@ -38,10 +38,8 @@ func generate_region(continent_coords: Vector2i):
 	TilesInterface.continent_matrix_loaded[continent_coords.y][continent_coords.x] = true
 	region_scene = preload("res://Scenes/Region.tscn")
 	var region = region_scene.instantiate()
-	#add_child(region)
 	region.generate(continent_coords)
 	generated_regions[continent_coords] = region
-
 
 func unload_region(continent_coords: Vector2i):
 	if loaded_regions.has(continent_coords):

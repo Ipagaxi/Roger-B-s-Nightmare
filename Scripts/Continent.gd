@@ -150,3 +150,4 @@ func draw():
 	for y in range(WIDTH):
 		for x in range(HEIGHT):
 			$Map.set_cell(Vector2i(x, y), 1, set_tile_id(continent_matrix[y][x]))
+		await get_tree().process_frame

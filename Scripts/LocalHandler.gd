@@ -38,10 +38,11 @@ func generate_all_near_locals(continent_coords: Vector2i):
 	
 func draw_all_near_locals():
 	for item in generated_locals:
-		var local_inst = generated_locals[item]
-		local_inst.draw()
-		loaded_locals[item] = local_inst
-		add_child(local_inst)
+		if not loaded_locals.has(item):
+			var local_inst = generated_locals[item]
+			local_inst.draw()
+			loaded_locals[item] = local_inst
+			add_child(local_inst)
 		
 
 func generate_local(region_coords: Vector2i, continent_coords: Vector2i):
@@ -61,6 +62,7 @@ func unload_local(region_coords: Vector2i, continent_coords: Vector2i):
 	if loaded_locals.has([region_coords, continent_coords]):
 		loaded_locals[[region_coords, continent_coords]].queue_free()
 		loaded_locals.erase([region_coords, continent_coords])
+		generated_locals.erase([region_coords, continent_coords])
 		
 func unload_all_far_away_locals():
 	var current_location_region_global = TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent)

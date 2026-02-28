@@ -36,7 +36,7 @@ func generate_region_data() -> Array[Array]:
 	
 func draw():
 	$Map.tile_set = tileset
-	print("Draw region...")
+	print("Draw city...")
 	for y in range(region_size):
 		for x in range(region_size):
 			$Map.set_cell(Vector2i(x, y), 1, get_atlas_coord(region_matrix[y][x]))

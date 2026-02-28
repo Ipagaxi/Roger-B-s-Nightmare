@@ -40,5 +40,5 @@ func generate(continent_coords: Vector2i):
 
 func draw():
 	if assigned_region:
-		assigned_region.draw()
 		add_child(assigned_region)
+		assigned_region.draw()

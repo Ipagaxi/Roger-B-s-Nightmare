@@ -63,7 +63,7 @@ func draw():
 		assigned_local.draw()
 		add_child(assigned_local)
 	else:
-		print("assigned_local not instantiated!")
+		pass
 	
 	for street in streets_insts:
 		apply_variation_to_street_tiles(street)

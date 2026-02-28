@@ -58,10 +58,11 @@ func generate_run():
 func draw_run():
 	set_window_button_according_to_mode()
 	add_child(continent_inst)
-	region_inst.draw_all_near_regions()
+	continent_inst.draw()
 	add_child(region_inst)
-	local_inst.draw_all_near_locals()
+	region_inst.draw_all_near_regions()
 	add_child(local_inst)
+	local_inst.draw_all_near_locals()
 	player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 	add_child(player_inst)
 	player_inst.local_handler = local_inst
@@ -70,7 +71,7 @@ func draw_run():
 
 func _input(event):
 	if event.is_action_pressed("zoom_out"):
-		if $Camera2D.zoom.x > 0.5:
+		if $Camera2D.zoom.x > 0.25:
 			$Camera2D.zoom *= 0.5
 	elif event.is_action_pressed("zoom_in"):
 		if $Camera2D.zoom.x <= 1.0:
@@ -85,6 +86,7 @@ func _input(event):
 		local_inst.visible = false
 		continent_inst.visible = false
 		player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_region + TilesInterface.current_location_continent*TilesInterface.REGION_SIZE_TILES)
+		print("player pos: ", player_inst.global_position)
 		Global.current_layer = Global.Layer.REGION_LAYER
 		region_inst.visible = true
 	elif event.is_action_pressed("open_local_layer"):

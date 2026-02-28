@@ -144,8 +144,10 @@ func set_city_connecting_roads():
 	#	a_star.add_point(i, city_positions[i])
 
 
-func draw_continent(continent_matrix: Array[Array]):
+func draw():
+	var continent_matrix = TilesInterface.continent_matrix
+	print(continent_matrix)
 	$Map.tile_set = tileset
 	for y in range(WIDTH):
 		for x in range(HEIGHT):
-			pass#tilemap.set_cell(Vector2i(x, y), 1, Vector2i(5, 1))
+			$Map.set_cell(Vector2i(x, y), 1, set_tile_id(continent_matrix[y][x]))

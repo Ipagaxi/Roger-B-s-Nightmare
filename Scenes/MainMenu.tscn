@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dgyy520pdfu8r"]
 
 [ext_resource type="Script" uid="uid://bht7e6ixii1gi" path="res://Scripts/MainMenu.gd" id="1_iixxu"]
-[ext_resource type="Texture2D" uid="uid://djdbv6rtnaaa5" path="res://assets/menu_backgrounds/cyverbank.png" id="2_853f1"]
+[ext_resource type="Texture2D" uid="uid://5t4nghjtacq4" path="res://assets/menu_backgrounds/cyverbank.png" id="2_853f1"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -40,5 +40,5 @@ theme_override_font_sizes/font_size = 30
 text = "Exit
 "
 
-[connection signal="button_up" from="UI/ColorRect/PlayButton" to="." method="_on_play_button_button_up"]
+[connection signal="pressed" from="UI/ColorRect/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="button_up" from="UI/ColorRect/ExitButton" to="." method="_on_exit_button_button_up"]

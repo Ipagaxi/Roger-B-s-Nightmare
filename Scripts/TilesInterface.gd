@@ -119,3 +119,8 @@ func update_layer_positions(global_tile_coords: Vector2i):
 	current_location_continent = get_location_continent(global_tile_coords)
 	current_location_region = get_location_region(global_tile_coords);
 	current_location_local = Vector2i(posmod(global_tile_coords.x, LOCAL_SIZE_TILES), posmod(global_tile_coords.y, LOCAL_SIZE_TILES))
+
+func _input(event):
+	if event is InputEventMouseButton:
+		print("Mouse event: ", event.button_index, " pressed: ", event.pressed, " pos: ", event.position)
+		print("Input handled: ", event.is_action_pressed("ui_accept"))

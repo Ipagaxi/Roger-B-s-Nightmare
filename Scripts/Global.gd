@@ -28,3 +28,8 @@ func goto_scene(path):
 	ResourceLoader.load_threaded_request(path)
 	get_tree().change_scene_to_file("res://Scenes/Loading.tscn")
 	
+func _input(event):
+	if event is InputEventMouseButton:
+		print("Mouse event: ", event.button_index, " pressed: ", event.pressed, " pos: ", event.position)
+		print("Input handled: ", event.is_action_pressed("ui_accept"))
+	

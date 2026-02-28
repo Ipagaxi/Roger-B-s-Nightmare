@@ -19,7 +19,7 @@ var loading_inst
 var thread = Thread.new()
 
 func _ready():
-	pass
+	print("Init run...")
 
 func start_world_generation():
 	thread.start(_generate_world_threaded)

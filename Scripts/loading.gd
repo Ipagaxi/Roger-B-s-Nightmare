@@ -20,6 +20,7 @@ func _process(delta):
 			var game_instance = packed_scene.instantiate()
 			
 			game_instance.connect("generation_finished", Callable(self, "_on_generation_done"))
+			game_instance.start_world_generation()
 			
 			get_tree().root.add_child(game_instance)
 			get_tree().current_scene = game_instance

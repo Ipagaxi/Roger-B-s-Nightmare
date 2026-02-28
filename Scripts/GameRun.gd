@@ -19,11 +19,13 @@ var loading_inst
 var thread = Thread.new()
 
 func _ready():
-	#thread.start(_generate_world_threaded)
-	generate_run()
+	pass
+
+func start_world_generation():
+	thread.start(_generate_world_threaded)
 	
 func _generate_world_threaded():
-	pass
+	generate_run()
 
 func generate_run():
 	
@@ -33,6 +35,7 @@ func generate_run():
 	
 	# Generate continent
 	print("Generate continent...")
+	continent_scene = preload("res://Scenes/Continent.tscn")
 	continent_inst = continent_scene.instantiate()
 	continent_inst.visible = false
 	continent_inst.generate_continent()
@@ -53,7 +56,9 @@ func generate_run():
 	player_inst = player_scene.instantiate()
 	player_inst.global_position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_local + TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent))
 	print("Generation finished!")
-	emit_signal("generation_finished")
+	# call_deferred deferes a function call to the next available time frame of the main thread
+	# otherwise the signal would be send on the background thread, therefore, not available by the main thread
+	call_deferred("emit_signal", "generation_finished")
 	
 func draw_run():
 	set_window_button_according_to_mode()

@@ -15,4 +15,5 @@ func generate():
 	
 	
 func draw():
-	pass
+	for building in building_insts:
+		add_child(building)

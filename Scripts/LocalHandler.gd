@@ -42,8 +42,7 @@ func draw_all_near_locals():
 			var local_inst = generated_locals[item]
 			local_inst.draw()
 			loaded_locals[item] = local_inst
-			add_child(local_inst)
-		
+			add_child(local_inst)		
 
 func generate_local(region_coords: Vector2i, continent_coords: Vector2i):
 	counter += 1

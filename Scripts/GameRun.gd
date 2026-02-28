@@ -64,10 +64,16 @@ func draw_run():
 	set_window_button_according_to_mode()
 	add_child(continent_inst)
 	continent_inst.draw()
+	#await get_tree().process_frame
+	
 	add_child(region_inst)
 	region_inst.draw_all_near_regions()
+	#await get_tree().process_frame
+	
 	add_child(local_inst)
 	local_inst.draw_all_near_locals()
+	#await get_tree().process_frame
+	
 	player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 	add_child(player_inst)
 	player_inst.local_handler = local_inst

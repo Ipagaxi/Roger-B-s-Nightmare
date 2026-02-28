@@ -32,5 +32,6 @@ func _process(delta):
 
 func _on_generation_done():
 	get_tree().current_scene = get_tree().root.get_child(-1)
+	get_tree().current_scene.thread.wait_to_finish()
 	get_tree().current_scene.draw_run()
 	queue_free() # remove loading scene

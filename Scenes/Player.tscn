@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cvgs4nt686327"]
 
-[ext_resource type="Script" uid="uid://c1pwqomfjr7np" path="res://Scripts/Player.gd" id="1_p1nlm"]
+[ext_resource type="Script" uid="uid://c1pwqomfjr7np" path="res://Scripts/player.gd" id="1_p1nlm"]
 [ext_resource type="Texture2D" uid="uid://wf76di06pivs" path="res://assets/actors/character_sheets.png" id="2_gntrk"]
 [ext_resource type="PackedScene" uid="uid://chyd6wpwpax6y" path="res://Scenes/Body_Collision_Detector.tscn" id="4_dewec"]
 

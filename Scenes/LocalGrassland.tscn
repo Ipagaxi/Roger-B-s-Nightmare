@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=4 uid="uid://cq302bfa4qclr"]
 
-[ext_resource type="Script" uid="uid://cv3crp0mn2t8t" path="res://Scripts/LocalGrassland.gd" id="1_1gyry"]
+[ext_resource type="Script" uid="uid://cv3crp0mn2t8t" path="res://Scripts/localGrassland.gd" id="1_1gyry"]
 [ext_resource type="TileSet" uid="uid://qsjfo38ootth" path="res://assets/Tilesets/tileset_gen6.tres" id="2_55jv3"]
 
 [node name="LocalGrassland" type="Node2D"]

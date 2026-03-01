@@ -38,7 +38,7 @@ func generate(region_coords: Vector2i, continent_coords: Vector2i):
 	elif region_matrix[region_coords.y][region_coords.x] <= -1:
 		# Generate block street local
 		assigned_local = street_scene.instantiate()
-		assigned_local.generate()
+		assigned_local.generate(region_coords, continent_coords)
 		assigned_local.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
 	elif region_matrix[region_coords.y][region_coords.x] >= Global.LOWER_BOUNDARY_CENTER_IDS+Global.NUMBER_CIRCULAR_CENTERS:
 		# Generate building local

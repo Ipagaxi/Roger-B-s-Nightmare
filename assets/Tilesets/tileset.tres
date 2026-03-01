@@ -1,9 +1,9 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://qsjfo38ootth"]
 
-[ext_resource type="Texture2D" uid="uid://djcv5v6mmeqox" path="res://assets/Tilesets/tileset_gen6.png" id="1_0krx3"]
+[ext_resource type="Texture2D" uid="uid://bfknskf4mxm3l" path="res://assets/Tilesets/tileset_gen8.png" id="1_jhcc4"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0krx3"]
-texture = ExtResource("1_0krx3")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_upwsq"]
+texture = ExtResource("1_jhcc4")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 1:0/0 = 0
@@ -13,6 +13,8 @@ texture_region_size = Vector2i(32, 32)
 5:0/0 = 0
 6:0/0 = 0
 7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
 0:1/0 = 0
 1:1/0 = 0
 2:1/0 = 0
@@ -54,30 +56,28 @@ texture_region_size = Vector2i(32, 32)
 8:4/0 = 0
 9:4/0 = 0
 0:5/0 = 0
-0:5/0/terrain_set = 0
 1:5/0 = 0
-1:5/0/terrain_set = 0
 2:5/0 = 0
-2:5/0/terrain_set = 0
 3:5/0 = 0
 4:5/0 = 0
 5:5/0 = 0
+6:5/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
 0:6/0 = 0
-0:6/0/terrain_set = 0
 1:6/0 = 0
-1:6/0/terrain_set = 0
-1:6/0/probability = 0.25
 2:6/0 = 0
-2:6/0/terrain_set = 0
 3:6/0 = 0
 4:6/0 = 0
 5:6/0 = 0
+6:6/0 = 0
+7:6/0 = 0
+8:6/0 = 0
+9:6/0 = 0
 0:7/0 = 0
-0:7/0/terrain_set = 0
 1:7/0 = 0
-1:7/0/terrain_set = 0
 2:7/0 = 0
-2:7/0/terrain_set = 0
 3:7/0 = 0
 4:7/0 = 0
 5:7/0 = 0
@@ -87,4 +87,4 @@ tile_size = Vector2i(32, 32)
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Grass"
 terrain_set_0/terrain_0/color = Color(0.07450981, 0.46666667, 0.15294118, 1)
-sources/1 = SubResource("TileSetAtlasSource_0krx3")
+sources/0 = SubResource("TileSetAtlasSource_upwsq")

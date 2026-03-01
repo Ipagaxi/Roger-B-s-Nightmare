@@ -26,6 +26,6 @@ func draw():
 	for y in region_size:
 		for x in region_size:
 			var variant = atlas_coords[rng.rand_weighted(probabilities)]
-			$TileMapLayer.set_cell(Vector2i(x, y), 1, variant)
+			$TileMapLayer.set_cell(Vector2i(x, y), Global.TILESET_USED_ID, variant)
 		await get_tree().process_frame
 	

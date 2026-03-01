@@ -41,7 +41,6 @@ func generate_continent():
 			else:
 				# Id 4 for land tile
 				continent_matrix[y][x] = 4
-			#tilemap.set_cell(Vector2i(x, y), 1, tile_id)
 			
 	set_cities()
 
@@ -84,7 +83,6 @@ func set_cities():
 		# Id 5 for city tile
 		continent_matrix[y_coord][x_coord] = 5
 		city_positions.append(Vector2i(x_coord, y_coord))
-		#tilemap.set_cell(Vector2i(x_coord, y_coord), 1, Vector2i(0, 1))
 		
 	TilesInterface.current_location_continent = city_positions[randi_range(0, NUM_CITIES-1)]
 
@@ -149,5 +147,5 @@ func draw():
 	$Map.tile_set = tileset
 	for y in range(WIDTH):
 		for x in range(HEIGHT):
-			$Map.set_cell(Vector2i(x, y), 1, set_tile_id(continent_matrix[y][x]))
+			$Map.set_cell(Vector2i(x, y), Global.TILESET_USED_ID, set_tile_id(continent_matrix[y][x]))
 		await get_tree().process_frame

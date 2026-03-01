@@ -13,7 +13,8 @@ const REGION_UNLOAD_RADIUS = 3
 const NUMBER_CIRCULAR_CENTERS = 6
 const LOWER_BOUNDARY_CENTER_IDS = 3
 
-const TILESET_FILE_NAME = "tileset_gen6.tres"
+const TILESET_FILE_NAME = "tileset.tres"
+const TILESET_USED_ID = 0
 
 var current_layer = Layer.LOCAL_LAYER
 

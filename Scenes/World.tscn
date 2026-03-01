@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dbnqdy8ghfowj"]
+[gd_scene load_steps=2 format=3 uid="uid://bmg8t6i2ifiqd"]
 
-[ext_resource type="Script" path="res://Scripts/World.gd" id="1_83q20"]
+[sub_resource type="GDScript" id="GDScript_o3h3i"]
+script/source = "extends Node2D
+"
 
 [node name="GenerateWorld" type="Node2D"]
-script = ExtResource("1_83q20")
+script = SubResource("GDScript_o3h3i")

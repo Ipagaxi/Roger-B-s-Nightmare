@@ -12,7 +12,10 @@ var number_centers = number_circular_centers + number_inner_centers
 const number_sec_level_centers = 5
 var lower_boundary_center_ids = Global.LOWER_BOUNDARY_CENTER_IDS
 
+var all_street_coords: Array[Vector2i]
 var outgoing_street_coords: Array[Vector2i]
+
+var building_coords: Array[Vector2i]
 
 var region_matrix
 
@@ -44,6 +47,9 @@ func draw():
 		for x in range(region_size):
 			$Map.set_cell(Vector2i(x, y), Global.TILESET_USED_ID, get_atlas_coord(region_matrix[y][x]))
 		await get_tree().process_frame
+		
+	$Map.set_cells_terrain_connect(all_street_coords, 0, 1)
+	#$Map.set_cells_terrain_connect(building_coords, 0, 2)
 
 func create_matrix() -> Array[Array]:
 	var tmp_matrix: Array[Array]
@@ -92,6 +98,7 @@ func generate_city_map() -> Array[Array]:
 						
 				city_matrix[y][x] = city_matrix[closest_center.y][closest_center.x]
 				if has_neighbour_of_diff_region(Vector2i(x, y), city_matrix):
+					all_street_coords.append(Vector2i(x, y))
 					city_matrix[y][x] = -2
 					if x == 0 or x == region_size-1 or y == 0 or y == region_size -1:
 						tmp_outgoing_street_coords.append(Vector2i(x,y))
@@ -254,8 +261,11 @@ func decide_if_block_street_and_return_id(tile_coords: Vector2i, closest_center:
 	var rng = RandomNumberGenerator.new()
 	rng.seed = city_matrix[closest_center.y][closest_center.x]
 	if ((tile_coords.x - closest_center.x) % rng.randi_range(4, 9) == 0 or (tile_coords.y - closest_center.y) % rng.randi_range(4, 9) == 0) and tile_coords != closest_center:
+		all_street_coords.append(tile_coords)
 		return city_matrix[tile_coords.y][tile_coords.x] * -1
-	return city_matrix[tile_coords.y][tile_coords.x]
+	else:
+		building_coords.append(tile_coords)
+		return city_matrix[tile_coords.y][tile_coords.x]
 
 func get_atlas_coord(id) -> Vector2i:
 	if id <= -3:

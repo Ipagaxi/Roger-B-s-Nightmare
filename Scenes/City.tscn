@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://3ltq118q7q5j"]
+[gd_scene format=3 uid="uid://3ltq118q7q5j"]
 
-[ext_resource type="Script" path="res://Scripts/regionCity.gd" id="1_ctyy3"]
+[ext_resource type="Script" uid="uid://xl1lu0lsuknf" path="res://Scripts/regionCity.gd" id="1_ctyy3"]
 
-[node name="CityGenerator" type="Node2D"]
+[node name="CityGenerator" type="Node2D" unique_id=1773023943]
 script = ExtResource("1_ctyy3")
 
-[node name="Map" type="TileMapLayer" parent="."]
+[node name="Map" type="TileMapLayer" parent="." unique_id=445291984]

@@ -12,15 +12,17 @@ var number_centers = number_circular_centers + number_inner_centers
 const number_sec_level_centers = 5
 var lower_boundary_center_ids = Global.LOWER_BOUNDARY_CENTER_IDS
 
-var all_street_coords: Array[Vector2i]
+var street_coords: Array[Vector2i]
 var outgoing_street_coords: Array[Vector2i]
 
 var building_coords: Array[Vector2i]
 
+var grass_coords: Array[Vector2i]
+
 var region_matrix
 
 var rng := RandomNumberGenerator.new()
-var grass_coords = [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(0, 6), Vector2i(1, 6), Vector2i(2, 6), Vector2i(0, 7), Vector2i(1, 7), Vector2i(2, 7)]
+var grass_atlas_coords = [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(0, 6), Vector2i(1, 6), Vector2i(2, 6), Vector2i(0, 7), Vector2i(1, 7), Vector2i(2, 7)]
 var grass_weights = [1, 1, 1, 1, 0.1, 1, 1, 1, 1]
 
 func _ready():
@@ -42,14 +44,23 @@ func generate_region_data() -> Array[Array]:
 	return region_matrix
 	
 func draw():
+	print("print city map")
 	$Map.tile_set = tileset
-	for y in range(region_size):
+	'''for y in range(region_size):
 		for x in range(region_size):
 			$Map.set_cell(Vector2i(x, y), Global.TILESET_USED_ID, get_atlas_coord(region_matrix[y][x]))
-		await get_tree().process_frame
+		await get_tree().process_frame'''
 		
-	$Map.set_cells_terrain_connect(all_street_coords, 0, 1)
-	#$Map.set_cells_terrain_connect(building_coords, 0, 2)
+	$Map.set_cells_terrain_connect(street_coords, 0, 1)
+	await get_tree().process_frame
+	$Map.set_cells_terrain_connect(building_coords, 0, 2)
+	await get_tree().process_frame
+	$Map.set_cells_terrain_connect(grass_coords, 0, 0)
+	await get_tree().process_frame
+	
+	# Just for debugging purposes coloring the voronoi centers yellow
+	#for center in voronoi_area_centers:
+	#	$Map.set_cell(center, 1, Vector2i(0, 1))
 
 func create_matrix() -> Array[Array]:
 	var tmp_matrix: Array[Array]
@@ -89,22 +100,23 @@ func generate_city_map() -> Array[Array]:
 				for center in voronoi_area_centers:
 					if (center - Vector2i(x, y)).length() <= (closest_center - Vector2i(x, y)).length():
 						closest_center = center
-						# This step is a preperation to generate second level voronoi diagrams in these inner regions
-						if inner_centers.has(closest_center):
-							# If a tile of the inner area is to close to border return function and restart
-							if x <= region_size * 0.05 || x >= region_size * 0.95 || y <= region_size * 0.05 || y >= region_size * 0.95:
-								return []
-							inner_voronoi_cells[closest_center].append(Vector2i(x, y))
-						
+				
+				# This step is a preperation to generate second level voronoi diagrams in these inner regions
+				if inner_centers.has(closest_center):
+					# If a tile of the inner area is to close to border return function and restart
+					if x <= region_size * 0.05 || x >= region_size * 0.95 || y <= region_size * 0.05 || y >= region_size * 0.95:
+						return []
+					inner_voronoi_cells[closest_center].append(Vector2i(x, y))
+				else:
+					grass_coords.append(Vector2i(x, y))
 				city_matrix[y][x] = city_matrix[closest_center.y][closest_center.x]
 				if has_neighbour_of_diff_region(Vector2i(x, y), city_matrix):
-					all_street_coords.append(Vector2i(x, y))
+					street_coords.append(Vector2i(x, y))
 					city_matrix[y][x] = -2
+					grass_coords.erase(Vector2i(x, y))
 					if x == 0 or x == region_size-1 or y == 0 or y == region_size -1:
 						tmp_outgoing_street_coords.append(Vector2i(x,y))
-			# Set cell of city surrounding area
-			#$Map.set_cell(Vector2i(x, y), 0, get_atlas_coord(city_matrix[y][x]))
-				
+
 	# Now create second level voronoi diagrams in inner regions
 	var index = 0
 	for cell in inner_voronoi_cells:
@@ -140,14 +152,11 @@ func generate_city_map() -> Array[Array]:
 						
 				city_matrix[coord.y][coord.x] = city_matrix[closest_center.y][closest_center.x]
 				if has_neighbour_of_diff_region(coord, city_matrix):
+					street_coords.append(coord)
 					city_matrix[coord.y][coord.x] = -1
 				else:
 					city_matrix[coord.y][coord.x] = decide_if_block_street_and_return_id(coord, closest_center, city_matrix)
 			
-	# Just for debugging purposes coloring the voronoi centers yellow
-	#for center in voronoi_area_centers:
-	#	$Map.set_cell(center, 1, Vector2i(0, 1))
-	#TilesInterface.region_matrix = city_matrix
 	tmp_outgoing_street_coords = merge_neighbouring_outgoing_street_coords(tmp_outgoing_street_coords, city_matrix)
 	outgoing_street_coords = tmp_outgoing_street_coords
 	return city_matrix
@@ -220,7 +229,7 @@ func set_spawn_location(region_matrix: Array[Array]):
 
 func satisfy_diff_neighbour_condition(neighbour_cell_value: int, coords: Vector2i, city_matrix: Array[Array]) -> bool:
 	return abs(neighbour_cell_value) != city_matrix[coords.y][coords.x] and neighbour_cell_value != 0 and neighbour_cell_value != -1 and neighbour_cell_value != -2
-		
+
 func has_neighbour_of_diff_region(coords: Vector2i, city_matrix: Array[Array]) -> bool:
 	# top left
 	var neighbout_cell_value = city_matrix[max(coords.y - 1, 0)][max(coords.x - 1, 0)]
@@ -261,7 +270,7 @@ func decide_if_block_street_and_return_id(tile_coords: Vector2i, closest_center:
 	var rng = RandomNumberGenerator.new()
 	rng.seed = city_matrix[closest_center.y][closest_center.x]
 	if ((tile_coords.x - closest_center.x) % rng.randi_range(4, 9) == 0 or (tile_coords.y - closest_center.y) % rng.randi_range(4, 9) == 0) and tile_coords != closest_center:
-		all_street_coords.append(tile_coords)
+		street_coords.append(tile_coords)
 		return city_matrix[tile_coords.y][tile_coords.x] * -1
 	else:
 		building_coords.append(tile_coords)
@@ -275,10 +284,11 @@ func get_atlas_coord(id) -> Vector2i:
 		# City surrounding roads
 		return Vector2i(9, 1)
 	elif id == -1:
+		# Roads that surround inner city areas (borders of second level voronois)
 		return Vector2i(0, 0)
 	elif id < lower_boundary_center_ids+number_circular_centers:
 		# Surrounding city areas (grassland)
-		return grass_coords[rng.rand_weighted(grass_weights)]
+		return grass_atlas_coords[rng.rand_weighted(grass_weights)]
 	elif id >= lower_boundary_center_ids+number_circular_centers:
 		# Inner city building tiles
 		return Vector2i(1, 1)

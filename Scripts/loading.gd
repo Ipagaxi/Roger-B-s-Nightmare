@@ -18,7 +18,6 @@ func _process(delta):
 			$CanvasLayer/AspectRatioContainer/ProgressBar.value = progress[0] * 100
 		
 		ResourceLoader.THREAD_LOAD_LOADED:
-			print("scene loaded, instantiating...")
 			scene_loaded = true  # set immediately to block any re-entry
 			set_process(false)
 			
@@ -28,17 +27,12 @@ func _process(delta):
 			get_tree().root.add_child(game_instance)
 			get_tree().current_scene = game_instance
 			game_instance.start_world_generation()
-			print("start_world_generation called")
 		
 		ResourceLoader.THREAD_LOAD_FAILED:
 			print("Failed to load scene.")
 
 func _on_generation_done():
-	print("generation_done signal received")
 	var game_scene = get_tree().current_scene
-	print("got game_scene: ", game_scene)
 	game_scene.thread.wait_to_finish()
-	print("thread finished")
 	game_scene.draw_run()
-	print("draw_run done")
 	queue_free()

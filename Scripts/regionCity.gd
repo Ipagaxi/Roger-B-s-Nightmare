@@ -12,7 +12,9 @@ var number_centers = number_circular_centers + number_inner_centers
 const number_sec_level_centers = 5
 var lower_boundary_center_ids = Global.LOWER_BOUNDARY_CENTER_IDS
 
-var street_coords: Array[Vector2i]
+var road_coords: Array[Vector2i]
+var block_street_coords: Array[Vector2i]
+
 var outgoing_street_coords: Array[Vector2i]
 
 var building_coords: Array[Vector2i]
@@ -24,6 +26,9 @@ var region_matrix
 var rng := RandomNumberGenerator.new()
 var grass_atlas_coords = [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(0, 6), Vector2i(1, 6), Vector2i(2, 6), Vector2i(0, 7), Vector2i(1, 7), Vector2i(2, 7)]
 var grass_weights = [1, 1, 1, 1, 0.1, 1, 1, 1, 1]
+
+var building_atlas_coords = [Vector2i(1, 1), Vector2i(0, 4), Vector2i(1, 4), Vector2i(2, 4)]
+var building_weights = [1, 1, 1, 1]
 
 func _ready():
 	pass
@@ -44,19 +49,11 @@ func generate_region_data() -> Array[Array]:
 	return region_matrix
 	
 func draw():
-	print("print city map")
 	$Map.tile_set = tileset
-	'''for y in range(region_size):
+	for y in range(region_size):
 		for x in range(region_size):
-			$Map.set_cell(Vector2i(x, y), Global.TILESET_USED_ID, get_atlas_coord(region_matrix[y][x]))
-		await get_tree().process_frame'''
-		
-	$Map.set_cells_terrain_connect(street_coords, 0, 1)
-	await get_tree().process_frame
-	$Map.set_cells_terrain_connect(building_coords, 0, 2)
-	await get_tree().process_frame
-	$Map.set_cells_terrain_connect(grass_coords, 0, 0)
-	await get_tree().process_frame
+			$Map.set_cell(Vector2i(x, y), Global.TILESET_USED_ID, get_atlas_coord(Vector2i(x, y)))
+		await get_tree().process_frame
 	
 	# Just for debugging purposes coloring the voronoi centers yellow
 	#for center in voronoi_area_centers:
@@ -111,7 +108,7 @@ func generate_city_map() -> Array[Array]:
 					grass_coords.append(Vector2i(x, y))
 				city_matrix[y][x] = city_matrix[closest_center.y][closest_center.x]
 				if has_neighbour_of_diff_region(Vector2i(x, y), city_matrix):
-					street_coords.append(Vector2i(x, y))
+					road_coords.append(Vector2i(x, y))
 					city_matrix[y][x] = -2
 					grass_coords.erase(Vector2i(x, y))
 					if x == 0 or x == region_size-1 or y == 0 or y == region_size -1:
@@ -122,7 +119,7 @@ func generate_city_map() -> Array[Array]:
 	for cell in inner_voronoi_cells:
 		var coords = inner_voronoi_cells[cell]
 		for coord in coords:
-			if city_matrix[coord.y][coord.x] != -2:
+			if city_matrix[coord.y][coord.x] > 0:
 				city_matrix[coord.y][coord.x] = 0
 			
 		var voronoi_centers = []
@@ -152,7 +149,7 @@ func generate_city_map() -> Array[Array]:
 						
 				city_matrix[coord.y][coord.x] = city_matrix[closest_center.y][closest_center.x]
 				if has_neighbour_of_diff_region(coord, city_matrix):
-					street_coords.append(coord)
+					road_coords.append(coord)
 					city_matrix[coord.y][coord.x] = -1
 				else:
 					city_matrix[coord.y][coord.x] = decide_if_block_street_and_return_id(coord, closest_center, city_matrix)
@@ -267,30 +264,78 @@ func has_neighbour_of_diff_region(coords: Vector2i, city_matrix: Array[Array]) -
 
 	
 func decide_if_block_street_and_return_id(tile_coords: Vector2i, closest_center: Vector2i, city_matrix: Array[Array]) -> int:
-	var rng = RandomNumberGenerator.new()
 	rng.seed = city_matrix[closest_center.y][closest_center.x]
 	if ((tile_coords.x - closest_center.x) % rng.randi_range(4, 9) == 0 or (tile_coords.y - closest_center.y) % rng.randi_range(4, 9) == 0) and tile_coords != closest_center:
-		street_coords.append(tile_coords)
+		block_street_coords.append(tile_coords)
 		return city_matrix[tile_coords.y][tile_coords.x] * -1
 	else:
 		building_coords.append(tile_coords)
 		return city_matrix[tile_coords.y][tile_coords.x]
 
-func get_atlas_coord(id) -> Vector2i:
+func get_atlas_coord(coord: Vector2i) -> Vector2i:
+	var id = region_matrix[coord.y][coord.x]
 	if id <= -3:
 		# City block streets
-		return Vector2i(5, 1)
+		return get_fitting_street_atlas_coord(coord)
 	elif id == -2:
 		# City surrounding roads
-		return Vector2i(9, 1)
+		return get_fitting_street_atlas_coord(coord)
 	elif id == -1:
 		# Roads that surround inner city areas (borders of second level voronois)
-		return Vector2i(0, 0)
+		return get_fitting_street_atlas_coord(coord)
 	elif id < lower_boundary_center_ids+number_circular_centers:
 		# Surrounding city areas (grassland)
 		return grass_atlas_coords[rng.rand_weighted(grass_weights)]
 	elif id >= lower_boundary_center_ids+number_circular_centers:
 		# Inner city building tiles
-		return Vector2i(1, 1)
+		return building_atlas_coords[rng.rand_weighted(building_weights)]
 
 	return Vector2i(7, 0)
+
+
+func get_fitting_street_atlas_coord(coord: Vector2i):
+	# left, right, top, bottom
+	var neighbours = [false, false, false, false]
+
+	if coord.x == 0 or region_matrix[coord.y][coord.x-1] < 0:
+		neighbours[0] = true
+	if coord.x == region_size-1 or region_matrix[coord.y][coord.x+1] < 0:
+		neighbours[1] = true
+	if coord.y == 0 or region_matrix[coord.y-1][coord.x] < 0:
+		neighbours[2] = true
+	if coord.y == region_size-1 or region_matrix[coord.y+1][coord.x] < 0:
+		neighbours[3] = true
+		
+	match neighbours:
+		[true, true, true, true]:
+			return Vector2i(5, 4)
+		[true, true, true, false]:
+			return Vector2i(7, 5)
+		[true, true, false, true]:
+			return Vector2i(9, 5)
+		[true, true, false, false]:
+			return Vector2i(3, 4)
+		[true, false, true, true]:
+			return Vector2i(6, 5)
+		[true, false, true, false]:
+			return Vector2i(6, 4)
+		[true, false, false, true]:
+			return Vector2i(9, 4)
+		[true, false, false, false]:
+			return Vector2i(8, 6)
+		[false, true, true, true]:
+			return Vector2i(8, 5)
+		[false, true, true, false]:
+			return Vector2i(7, 4)
+		[false, true, false, true]:
+			return Vector2i(8, 4)
+		[false, true, false, false]:
+			return Vector2i(6, 6)
+		[false, false, true, true]:
+			return Vector2i(4, 4)
+		[false, false, true, false]:
+			return Vector2i(9, 6)
+		[false, false, false, true]:
+			return Vector2i(7, 6)
+	
+	

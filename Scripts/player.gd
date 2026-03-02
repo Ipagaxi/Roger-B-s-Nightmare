@@ -8,7 +8,6 @@ var region_handler: Node2D
 func _input(event):
 	for dir in TilesInterface.INPUTS.keys():
 		if event.is_action(dir) and !event.is_action_released(dir) and Global.current_layer == Global.Layer.LOCAL_LAYER:
-			
 			var new_global_pos = TilesInterface.trueCoords_to_tileCoords(TilesInterface.player_move(dir, self))
 			
 			TilesInterface.update_layer_positions(new_global_pos)

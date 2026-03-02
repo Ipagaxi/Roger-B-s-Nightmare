@@ -16,6 +16,12 @@ var continent_region_matrices = TilesInterface.continent_region_matrices
 
 var city_positions = []
 
+var rng := RandomNumberGenerator.new()
+var close_coast_atlas_coords = [Vector2i(3, 5), Vector2i(3, 6), Vector2i(3, 7)]
+var near_coast_atlas_coords = [Vector2i(4, 5), Vector2i(4, 6), Vector2i(4, 7)]
+var distant_coast_atlas_coords = [Vector2i(5, 5), Vector2i(5, 6), Vector2i(5, 7)]
+var coast_weights = [1, 1, 1]
+
 func generate_continent():
 	var continent_matrix = TilesInterface.continent_matrix
 	init_continent_matrix()
@@ -32,12 +38,18 @@ func generate_continent():
 	for x in range(WIDTH):
 		for y in range(HEIGHT):
 			var value = noise.get_noise_2d(x * 32, y * 32)  # Scale factor
-			if value < -0.3:
+			if value < -0.5:
 				# Id 1 for water tile
 				continent_matrix[y][x] = 1
-			elif value < -0.2:
-				# Id 2 for coast tile
+			elif value < -0.4:
+				# Id 2 for water close coast tile
 				continent_matrix[y][x] = 2
+			elif value < -0.3:
+				# Id 5 for water near coast tile
+				continent_matrix[y][x] = 6
+			elif value < -0.2:
+				# Id 6 for water distant coast tile
+				continent_matrix[y][x] = 7
 			else:
 				# Id 4 for land tile
 				continent_matrix[y][x] = 4
@@ -92,16 +104,22 @@ func set_tile_id(value) -> Vector2i:
 		return Vector2i(2, 1)
 	elif value == 2:
 		# Id 2 for coast tile
-		return Vector2i(3, 5)
+		return close_coast_atlas_coords[rng.rand_weighted(coast_weights)]
 	elif value == 3:
 		# Id 3 for road tile
 		return Vector2i(5, 1)
 	elif value == 4:
-		# id 4 for land tile
+		# Id 4 for land tile
 		return Vector2i(0, 6)
 	elif value == 5:
-		# id 5 for city tile
+		# Id 5 for city tile
 		return Vector2i(0, 1)
+	elif value == 6:
+		# Id 6 for near water coast tile
+		return near_coast_atlas_coords[rng.rand_weighted(coast_weights)]
+	elif value == 7:
+		# Id 7 for distant water coast tile
+		return distant_coast_atlas_coords[rng.rand_weighted(coast_weights)]
 	else:
 		# should not be reached
 		return Vector2i(0, 6)

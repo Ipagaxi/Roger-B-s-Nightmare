@@ -102,7 +102,7 @@ func set_tile_id(value) -> Vector2i:
 	if value == 1:
 		# Id 1 for water tile
 		return Vector2i(2, 1)
-	elif value == 2:
+	elif value == 2: 
 		# Id 2 for coast tile
 		return close_coast_atlas_coords[rng.rand_weighted(coast_weights)]
 	elif value == 3:

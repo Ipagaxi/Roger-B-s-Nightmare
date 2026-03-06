@@ -6,7 +6,10 @@
     "extensionsPath": "extensions",
     "folders": [
         ".",
-        "rooms"
+        "rooms",
+        "flats"
+    ],
+    "properties": [
     ],
     "propertyTypes": [
     ]

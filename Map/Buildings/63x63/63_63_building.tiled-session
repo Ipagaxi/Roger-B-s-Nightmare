@@ -3,22 +3,91 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "building_premises.tmx",
+    "activeFile": "rooms/room_22x20.tmx",
     "expandedProjectPaths": [
-        "."
+        ".",
+        "rooms"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "building_premises.tmx": {
-            "scale": 0.75,
+            "scale": 0.4156,
             "selectedLayer": 1,
             "viewCenter": {
-                "x": 1601.333333333333,
-                "y": 1041.3333333333333
+                "x": 855.3897978825794,
+                "y": 920.3561116458133
+            }
+        },
+        "rooms/room_10x20.tmx": {
+            "scale": 1.340390625,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 160.0279769190418,
+                "y": 320.42897942530743
+            }
+        },
+        "rooms/room_20x20.tmx": {
+            "scale": 0.8587,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 316.1756143006871,
+                "y": 331.3147781530221
+            }
+        },
+        "rooms/room_22x20.tmx": {
+            "scale": 1.0794,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 393.2740411339633,
+                "y": 347.87845099129146
+            }
+        },
+        "rooms/room_27x10.tmx": {
+            "scale": 0.7343,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 425.57537791093563,
+                "y": 552.22661037723
+            }
+        },
+        "rooms/room_27x11.tmx": {
+            "scale": 1.0566550925925926,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 431.07727695930777,
+                "y": 175.55397338298923
+            }
+        },
+        "rooms/room_27x27.tmx": {
+            "scale": 0.6619,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 446.4420607342498,
+                "y": 222.8433298081281
+            }
+        },
+        "rooms/room_30x27.tmx": {
+            "scale": 0.679,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 404.2709867452135,
+                "y": 270.2503681885125
+            }
+        },
+        "rooms/room_31x28.tmx": {
+            "scale": 0.6204,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 526.2733720180529,
+                "y": 627.8207607994842
             }
         },
         "tileset_gen4.tsx": {
             "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "tileset_gen9.tsx": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         }
     },
@@ -27,13 +96,28 @@
     "map.lastUsedFormat": "tmx",
     "map.width": 63,
     "openFiles": [
-        "building_premises.tmx",
-        "tileset_gen4.tsx"
+        "tileset_gen4.tsx",
+        "tileset_gen9.tsx",
+        "rooms/room_31x28.tmx",
+        "rooms/room_10x20.tmx",
+        "rooms/room_22x20.tmx",
+        "rooms/room_27x10.tmx",
+        "rooms/room_27x27.tmx",
+        "rooms/room_27x11.tmx"
     ],
     "project": "63_63_building.tiled-project",
     "property.type": "bool",
     "recentFiles": [
         "tileset_gen4.tsx",
+        "tileset_gen9.tsx",
+        "rooms/room_31x28.tmx",
+        "rooms/room_10x20.tmx",
+        "rooms/room_27x11.tmx",
+        "rooms/room_27x27.tmx",
+        "rooms/room_27x10.tmx",
+        "rooms/room_22x20.tmx",
+        "rooms/room_30x27.tmx",
+        "rooms/room_20x20.tmx",
         "building_premises.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"

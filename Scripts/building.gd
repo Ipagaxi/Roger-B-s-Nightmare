@@ -1,6 +1,9 @@
 extends Node2D
 
 var building_premises_63x63 = preload("res://Map/Buildings/63x63/building_premises.tmx")
+var room_10x20 = preload("res://Map/Buildings/63x63/rooms/room_10x20.tmx")
+var room_27x11 = preload("res://Map/Buildings/63x63/rooms/room_27x11.tmx")
+var room = preload("res://Map/Buildings/63x63/rooms/room_22x20.tmx")
 
 var building_insts: Array
 

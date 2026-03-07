@@ -160,3 +160,7 @@ func set_window_button_according_to_mode():
 		atlas_tex_normal.region = Rect2(36, 2, 12, 12)
 		atlas_tex_hovered.region = Rect2(50, 2, 12, 12)
 		atlas_tex_pressed.region = Rect2(64, 2, 12, 12)
+
+
+func _on_pause_button_pressed() -> void:
+	pass # Replace with function body.

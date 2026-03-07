@@ -27,7 +27,7 @@ func draw():
 		
 func add_flat():
 	var flat_inst = flats[randi() % flats.size()].instantiate()
-	#flat_inst.rotation_degrees = angles[randi() % angles.size()]
+	#flat_inst.rotation_degrees = angles.pick_random()
 	building_insts.append(flat_inst)
 	
 	

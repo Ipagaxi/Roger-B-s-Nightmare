@@ -9,6 +9,8 @@ extends Node2D
 
 signal generation_finished
 
+var thread = Thread.new()
+
 var player_inst
 var continent_inst
 var region_inst
@@ -16,10 +18,55 @@ var local_inst
 var cursor_inst
 var loading_inst
 
-var thread = Thread.new()
+var input_actions := {}
+
+# ---------------------------------------------------------------
+# Godot Callbacks
+# ---------------------------------------------------------------
 
 func _ready():
-	pass
+	input_actions = {
+		"zoom_out": zoom_out,
+		"zoom_in": zoom_in,
+		"open_continent_layer": open_continent_layer,
+		"open_region_layer": open_region_layer,
+		"open_local_layer": open_local_layer,
+		"use_cursor": toggle_cursor
+	}
+	
+func _input(event):
+	for action in input_actions:
+		if event.is_action_pressed(action):
+			input_actions[action].call()
+			return
+
+func _on_window_button_button_up() -> void:
+	var current_window_mode = get_window().mode
+	var atlas_tex_normal = $CanvasLayer/Control/WindowButton.texture_normal as AtlasTexture
+	var atlas_tex_hovered = $CanvasLayer/Control/WindowButton.texture_hover as AtlasTexture
+	var atlas_tex_pressed = $CanvasLayer/Control/WindowButton.texture_pressed as AtlasTexture
+	if current_window_mode >= 3:
+		# change from fullscreen to windowed modus
+		get_window().mode = 0
+		atlas_tex_normal.region = Rect2(36, 58, 12, 12)
+		atlas_tex_hovered.region = Rect2(50, 58, 12, 12)
+		atlas_tex_pressed.region = Rect2(64, 58, 12, 12)
+	elif current_window_mode <= 2:
+		get_window().mode = 3
+		atlas_tex_normal.region = Rect2(36, 2, 12, 12)
+		atlas_tex_hovered.region = Rect2(50, 2, 12, 12)
+		atlas_tex_pressed.region = Rect2(64, 2, 12, 12)
+		
+func _on_exit_button_button_up() -> void:
+	get_tree().quit()
+
+
+func _on_minimize_button_button_up() -> void:
+	# minimize window
+	get_window().mode = 1
+	
+func _on_pause_button_pressed() -> void:
+	pass # Replace with function body.
 
 func start_world_generation():
 	thread.start(_generate_world_threaded)
@@ -28,10 +75,6 @@ func _generate_world_threaded():
 	generate_run()
 
 func generate_run():
-	
-	
-	# I dont know why the following
-	#await get_tree().process_frame
 	
 	# Generate continent
 	print("Generate continent...")
@@ -80,70 +123,6 @@ func draw_run():
 	player_inst.region_handler = region_inst
 	$Camera2D.zoom = Vector2(1, 1)
 
-func _input(event):
-	if event.is_action_pressed("zoom_out"):
-		if $Camera2D.zoom.x > 0.25:
-			$Camera2D.zoom *= 0.5
-	elif event.is_action_pressed("zoom_in"):
-		if $Camera2D.zoom.x <= 1.0:
-			$Camera2D.zoom *= 2.0
-	elif event.is_action_pressed("open_continent_layer"):
-		local_inst.visible = false
-		region_inst.visible = false
-		player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_continent)
-		Global.current_layer = Global.Layer.CONTINENT_LAYER
-		continent_inst.visible = true
-	elif event.is_action_pressed("open_region_layer"):
-		local_inst.visible = false
-		continent_inst.visible = false
-		player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_region + TilesInterface.current_location_continent*TilesInterface.REGION_SIZE_TILES)
-		Global.current_layer = Global.Layer.REGION_LAYER
-		region_inst.visible = true
-	elif event.is_action_pressed("open_local_layer"):
-		region_inst.visible = false
-		continent_inst.visible = false
-		player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent)+ TilesInterface.current_location_local)
-		Global.current_layer = Global.Layer.LOCAL_LAYER
-		local_inst.visible = true
-	elif event.is_action_pressed("use_cursor"):
-		if cursor_inst:
-			player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
-			cursor_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
-			cursor_inst.queue_free()
-			player_inst.set_process_input(true)
-		else:
-			player_inst.set_process_input(false)
-			cursor_inst = cursor_scene.instantiate()
-			cursor_inst.position = player_inst.position
-			add_child(cursor_inst)
-			cursor_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
-			player_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
-
-func _on_exit_button_button_up() -> void:
-	get_tree().quit()
-
-
-func _on_minimize_button_button_up() -> void:
-	# minimize window
-	get_window().mode = 1
-
-
-func _on_window_button_button_up() -> void:
-	var current_window_mode = get_window().mode
-	var atlas_tex_normal = $CanvasLayer/Control/WindowButton.texture_normal as AtlasTexture
-	var atlas_tex_hovered = $CanvasLayer/Control/WindowButton.texture_hover as AtlasTexture
-	var atlas_tex_pressed = $CanvasLayer/Control/WindowButton.texture_pressed as AtlasTexture
-	if current_window_mode >= 3:
-		# change from fullscreen to windowed modus
-		get_window().mode = 0
-		atlas_tex_normal.region = Rect2(36, 58, 12, 12)
-		atlas_tex_hovered.region = Rect2(50, 58, 12, 12)
-		atlas_tex_pressed.region = Rect2(64, 58, 12, 12)
-	elif current_window_mode <= 2:
-		get_window().mode = 3
-		atlas_tex_normal.region = Rect2(36, 2, 12, 12)
-		atlas_tex_hovered.region = Rect2(50, 2, 12, 12)
-		atlas_tex_pressed.region = Rect2(64, 2, 12, 12)
 
 func set_window_button_according_to_mode():
 	var current_window_mode = get_window().mode
@@ -161,6 +140,51 @@ func set_window_button_according_to_mode():
 		atlas_tex_hovered.region = Rect2(50, 2, 12, 12)
 		atlas_tex_pressed.region = Rect2(64, 2, 12, 12)
 
+# ---------------------------------------------------------------
+# Input action functions
+# ---------------------------------------------------------------
+	
+func zoom_out():
+	if $Camera2D.zoom.x > 0.25:
+		$Camera2D.zoom *= 0.5
 
-func _on_pause_button_pressed() -> void:
-	pass # Replace with function body.
+
+func zoom_in():
+	if $Camera2D.zoom.x <= 1.0:
+		$Camera2D.zoom *= 2.0
+		
+func open_continent_layer():
+	set_layer(Global.Layer.CONTINENT_LAYER)
+	player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_continent)
+	
+func open_region_layer():
+	set_layer(Global.Layer.REGION_LAYER)
+	player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_region + TilesInterface.current_location_continent*TilesInterface.REGION_SIZE_TILES)
+	
+func open_local_layer():
+	set_layer(Global.Layer.LOCAL_LAYER)
+	player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent)+ TilesInterface.current_location_local)
+	
+func toggle_cursor():
+	if cursor_inst:
+		player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
+		cursor_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
+		cursor_inst.queue_free()
+		player_inst.set_process_input(true)
+	else:
+		player_inst.set_process_input(false)
+		cursor_inst = cursor_scene.instantiate()
+		cursor_inst.position = player_inst.position
+		add_child(cursor_inst)
+		cursor_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
+		player_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
+
+# ---------------------------------------------------------------
+# Helper functions
+# ---------------------------------------------------------------
+
+func set_layer(layer):
+	Global.current_layer = layer
+	local_inst.visible = Global.current_layer == Global.Layer.LOCAL_LAYER
+	region_inst.visible = Global.current_layer == Global.Layer.REGION_LAYER
+	continent_inst.visible = Global.current_layer == Global.Layer.CONTINENT_LAYER

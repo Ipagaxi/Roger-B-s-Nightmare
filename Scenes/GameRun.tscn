@@ -118,3 +118,4 @@ texture_hover = SubResource("AtlasTexture_6xn6s")
 [connection signal="button_up" from="CanvasLayer/Control/ExitButton" to="." method="_on_exit_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/Control/WindowButton" to="." method="_on_window_button_button_up"]
 [connection signal="button_up" from="CanvasLayer/Control/MinimizeButton" to="." method="_on_minimize_button_button_up"]
+[connection signal="pressed" from="CanvasLayer/Control/PauseButton" to="." method="_on_pause_button_pressed"]

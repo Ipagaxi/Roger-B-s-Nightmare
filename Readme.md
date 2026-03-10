@@ -1,8 +1,8 @@
 <div align="center">
-  <img width="480" height="162" alt="link-to-your-banner-image" src="https://github.com/user-attachments/assets/73b76109-aef9-4a4d-b89e-9fbcdaa1b140" width="100%"/>
 
-  # Cyberpunk Roguelike
-  **1bit Cyberpunk Open-World Old School Roguelike (Name Pending...)**
+  <img width="1240" height="360" alt="Menu_UI_Title_readme" src="https://github.com/user-attachments/assets/ab7ffe66-2348-43c4-a33c-32823b231ea7" />
+
+  **1bit Cyberpunk Open-World Old School Roguelike**
 </div>
 
 ---
@@ -14,7 +14,8 @@ Crime is one of the Ways out of your poor existence and you start by pickpocketi
 Cybernetic Enhancements and Futuristic Weaponery aid you on your Path to Riches. **Who will you become in this World?**
 
 <div align="center">
-  <img src="link-to-your-gameplay-gif.gif" alt="Gameplay Showcase" width="80%">
+  <img width="480" height="162" alt="Banner" src="https://github.com/user-attachments/assets/43a9741a-2011-404e-8308-75bb8d6ef5e2" />
+
 </div>
 
 ## Currently Implemented Features

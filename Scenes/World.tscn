@@ -1,8 +1,0 @@
-[gd_scene format=3 uid="uid://c5v36hyjtvkl"]
-
-[sub_resource type="GDScript" id="GDScript_o3h3i"]
-script/source = "extends Node2D
-"
-
-[node name="GenerateWorld" type="Node2D" unique_id=639172243]
-script = SubResource("GDScript_o3h3i")

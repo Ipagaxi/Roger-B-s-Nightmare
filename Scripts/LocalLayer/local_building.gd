@@ -14,7 +14,6 @@ var building_insts: Array
 func _ready():
 	pass
 
-	
 func generate():
 	var building_premises_inst = building_premises_63x63.instantiate()
 	building_insts.append(building_premises_inst)

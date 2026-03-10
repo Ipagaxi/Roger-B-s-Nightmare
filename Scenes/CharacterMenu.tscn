@@ -1,12 +1,225 @@
 [gd_scene format=3 uid="uid://cnyie3x6y4l6k"]
 
 [ext_resource type="Texture2D" uid="uid://cuk4y33goqw3n" path="res://assets/UI/UI_Screen_Character.png" id="1_pfgd6"]
+[ext_resource type="Script" uid="uid://doxmbqcqcwmp7" path="res://Scripts/character_menu.gd" id="1_vc5j4"]
+[ext_resource type="Texture2D" uid="uid://brlkc16dvcpb7" path="res://assets/UI/UI_Button.png" id="2_ejv0q"]
+[ext_resource type="FontFile" uid="uid://cc83lo0f8upr5" path="res://assets/fonts/CyberRLFont.ttf" id="3_mkje4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkje4"]
+atlas = ExtResource("2_ejv0q")
+region = Rect2(4, 4, 66, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vc5j4"]
+atlas = ExtResource("2_ejv0q")
+region = Rect2(75, 57, 64, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ejv0q"]
+atlas = ExtResource("2_ejv0q")
+region = Rect2(74, 30, 66, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pwivp"]
+atlas = ExtResource("2_ejv0q")
+region = Rect2(75, 57, 64, 20)
 
 [node name="UserInterface" type="Control" unique_id=1346842598]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_vc5j4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1958952188]
 position = Vector2(960, 540)
 scale = Vector2(4, 4)
 texture = ExtResource("1_pfgd6")
+
+[node name="TextureButton" type="TextureButton" parent="." unique_id=1436935394]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 272.0
+offset_right = 98.0
+offset_bottom = 294.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_vc5j4")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="EquipmentButton" type="TextureButton" parent="." unique_id=466329113]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 272.0
+offset_right = 394.0
+offset_bottom = 294.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_vc5j4")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="Label" type="Label" parent="EquipmentButton" unique_id=846237654]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -7.0
+offset_right = 133.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.25, 0.25)
+theme_override_fonts/font = ExtResource("3_mkje4")
+theme_override_font_sizes/font_size = 60
+text = "Equipment"
+
+[node name="CBMButton" type="TextureButton" parent="." unique_id=175789551]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 384.0
+offset_right = 98.0
+offset_bottom = 406.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="Label" type="Label" parent="CBMButton" unique_id=1375123289]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -7.0
+offset_top = -7.0
+offset_right = 68.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.25, 0.25)
+theme_override_fonts/font = ExtResource("3_mkje4")
+theme_override_font_sizes/font_size = 60
+text = "CBMs"
+
+[node name="TextureButton4" type="TextureButton" parent="." unique_id=1842488028]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 384.0
+offset_right = 394.0
+offset_bottom = 406.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="TextureButton5" type="TextureButton" parent="." unique_id=308025612]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 496.0
+offset_right = 98.0
+offset_bottom = 518.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="TextureButton6" type="TextureButton" parent="." unique_id=31517225]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 608.0
+offset_right = 98.0
+offset_bottom = 630.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="TextureButton7" type="TextureButton" parent="." unique_id=2058642371]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 720.0
+offset_right = 98.0
+offset_bottom = 742.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="TextureButton8" type="TextureButton" parent="." unique_id=196435331]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 832.0
+offset_right = 98.0
+offset_bottom = 854.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="TextureButton9" type="TextureButton" parent="." unique_id=2008226932]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 944.0
+offset_right = 98.0
+offset_bottom = 966.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="TextureButton10" type="TextureButton" parent="." unique_id=1581011573]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 496.0
+offset_right = 394.0
+offset_bottom = 518.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="TextureButton11" type="TextureButton" parent="." unique_id=1037268432]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 608.0
+offset_right = 394.0
+offset_bottom = 630.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="TextureButton12" type="TextureButton" parent="." unique_id=828958107]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 720.0
+offset_right = 394.0
+offset_bottom = 742.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="TextureButton13" type="TextureButton" parent="." unique_id=865849719]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 832.0
+offset_right = 394.0
+offset_bottom = 854.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[node name="TextureButton14" type="TextureButton" parent="." unique_id=466199141]
+layout_mode = 0
+offset_left = 328.0
+offset_top = 944.0
+offset_right = 394.0
+offset_bottom = 966.0
+scale = Vector2(4, 4)
+texture_normal = SubResource("AtlasTexture_mkje4")
+texture_pressed = SubResource("AtlasTexture_pwivp")
+texture_hover = SubResource("AtlasTexture_ejv0q")
+
+[connection signal="pressed" from="EquipmentButton" to="." method="_on_equipment_button_pressed"]
+[connection signal="pressed" from="CBMButton" to="." method="_on_cbm_button_pressed"]

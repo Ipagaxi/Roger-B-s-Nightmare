@@ -8,6 +8,8 @@ extends Node2D
 @onready var loading_scene = preload("res://Scenes/Loading.tscn")
 @onready var character_menu_scene = preload("res://Scenes/CharacterMenu.tscn")
 
+@onready var frame_control = $CanvasLayer/Control/FrameControl
+
 signal generation_finished
 
 var thread = Thread.new()
@@ -124,7 +126,7 @@ func draw_run():
 	player_inst.region_handler = region_inst
 	$Camera2D.zoom = Vector2(1, 1)
 	
-	$CanvasLayer.add_child(character_menu_inst)
+	$CanvasLayer/Control/WindowFrame.add_sibling(character_menu_inst)
 	Global.change_game_state_to(Global.GameState.LOCAL)
 
 

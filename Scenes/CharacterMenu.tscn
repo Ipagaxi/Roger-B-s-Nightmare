@@ -42,6 +42,24 @@ texture_normal = SubResource("AtlasTexture_mkje4")
 texture_pressed = SubResource("AtlasTexture_vc5j4")
 texture_hover = SubResource("AtlasTexture_ejv0q")
 
+[node name="Label" type="Label" parent="TextureButton" unique_id=197843763]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -9.0
+offset_top = -7.0
+offset_right = 77.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.25, 0.25)
+theme_override_fonts/font = ExtResource("3_mkje4")
+theme_override_font_sizes/font_size = 60
+text = "Stats"
+
 [node name="EquipmentButton" type="TextureButton" parent="." unique_id=466329113]
 layout_mode = 0
 offset_left = 328.0

@@ -35,6 +35,7 @@ func _ready():
 	InputController.open_local_layer_triggered.connect(open_local_layer)
 	InputController.toggle_cursor_triggered.connect(toggle_cursor)
 	InputController.toggle_character_menu_triggered.connect(toggle_character_menu)
+	$CanvasLayer/Control/PauseMenu.continue_triggered.connect(continue_game)
 	
 func _input(event):
 	pass
@@ -65,7 +66,8 @@ func _on_minimize_button_button_up() -> void:
 	get_window().mode = 1
 	
 func _on_pause_button_pressed() -> void:
-	pass # Replace with function body.
+	Global.change_game_state_to(Global.GameState.PAUSE_MENU)
+	$CanvasLayer/Control/PauseMenu.visible = true
 
 func start_world_generation():
 	thread.start(_generate_world_threaded)
@@ -196,6 +198,10 @@ func toggle_character_menu():
 	else:
 		Global.change_game_state_to(Global.GameState.CHARACTER_MENU)
 		character_menu_inst.visible = true
+
+func continue_game():
+	Global.change_game_state_back()
+	$CanvasLayer/Control/PauseMenu.visible = false
 
 # ---------------------------------------------------------------
 # Helper functions

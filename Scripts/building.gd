@@ -20,7 +20,6 @@ func generate():
 	building_insts.append(building_premises_inst)
 	add_flat()
 	
-	
 func draw():
 	for building in building_insts:
 		add_child(building)

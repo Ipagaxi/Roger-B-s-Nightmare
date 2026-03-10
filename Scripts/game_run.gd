@@ -32,7 +32,7 @@ func _ready():
 	InputController.open_region_layer_triggered.connect(open_region_layer)
 	InputController.open_local_layer_triggered.connect(open_local_layer)
 	InputController.toggle_cursor_triggered.connect(toggle_cursor)
-	InputController.open_character_menu_triggered.connect(open_character_menu)
+	InputController.toggle_character_menu_triggered.connect(toggle_character_menu)
 	
 func _input(event):
 	pass
@@ -125,7 +125,7 @@ func draw_run():
 	$Camera2D.zoom = Vector2(1, 1)
 	
 	$CanvasLayer.add_child(character_menu_inst)
-	Global.game_state = Global.GameState.LOCAL
+	Global.change_game_state_to(Global.GameState.LOCAL)
 
 
 func set_window_button_according_to_mode():
@@ -159,34 +159,41 @@ func zoom_out():
 func open_continent_layer():
 	set_layer(Global.Layer.CONTINENT_LAYER)
 	player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_continent)
-	Global.game_state = Global.GameState.CONTINENT
-	
+	Global.change_game_state_to(Global.GameState.CONTINENT)
+
 func open_region_layer():
 	set_layer(Global.Layer.REGION_LAYER)
 	player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_region + TilesInterface.current_location_continent*TilesInterface.REGION_SIZE_TILES)
-	Global.game_state = Global.GameState.REGION
+	Global.change_game_state_to(Global.GameState.REGION)
 
 func open_local_layer():
 	set_layer(Global.Layer.LOCAL_LAYER)
 	player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent)+ TilesInterface.current_location_local)
-	Global.game_state = Global.GameState.LOCAL
+	Global.change_game_state_to(Global.GameState.LOCAL)
 
 func toggle_cursor():
 	if cursor_inst:
+		Global.change_game_state_back()
 		player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 		cursor_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
 		cursor_inst.queue_free()
 		player_inst.set_process_input(true)
 	else:
 		player_inst.set_process_input(false)
+		Global.change_game_state_to(Global.GameState.CURSOR)
 		cursor_inst = cursor_scene.instantiate()
 		cursor_inst.position = player_inst.position
 		add_child(cursor_inst)
 		cursor_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 		player_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
 
-func open_character_menu():
-	character_menu_inst.visible = not (character_menu_inst.visible)
+func toggle_character_menu():
+	if Global.game_state == Global.GameState.CHARACTER_MENU:
+		Global.change_game_state_back()
+		character_menu_inst.visible = false
+	else:
+		Global.change_game_state_to(Global.GameState.CHARACTER_MENU)
+		character_menu_inst.visible = true
 
 # ---------------------------------------------------------------
 # Helper functions

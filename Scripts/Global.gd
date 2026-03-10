@@ -2,8 +2,10 @@ extends Node
 
 enum Layer {LOCAL_LAYER, REGION_LAYER, CONTINENT_LAYER}
 
-enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, CHARACTER_MENU, PAUSE_MENU, LOADING}
+enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, CHARACTER_MENU, PAUSE_MENU, CURSOR}
+# Change the game state with the provided method
 var game_state = GameState.MAIN_MENU
+var last_game_state = GameState.MAIN_MENU
 
 var current_scene = null
 
@@ -29,8 +31,17 @@ func _ready():
 
 func goto_scene(path):
 	_deferred_goto_scene.call_deferred(path)
-	
+
 func _deferred_goto_scene(path):
 	new_scene_path = path
 	ResourceLoader.load_threaded_request(path)
 	get_tree().change_scene_to_file("res://Scenes/Loading.tscn")
+
+func change_game_state_to(new_game_state: GameState):
+	last_game_state = game_state
+	game_state = new_game_state
+	
+func change_game_state_back():
+	var tmp = last_game_state
+	last_game_state = game_state
+	game_state = tmp

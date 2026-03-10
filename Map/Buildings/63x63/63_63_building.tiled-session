@@ -3,9 +3,10 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "rooms/room_22x20.tmx",
+    "activeFile": "building_premises.tmx",
     "expandedProjectPaths": [
         ".",
+        "flats",
         "rooms"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -104,7 +105,7 @@
         },
         "tileset_gen9.tsx": {
             "scaleInDock": 1,
-            "scaleInEditor": 1
+            "scaleInEditor": 1.5
         }
     },
     "last.imagePath": "D:/Users/georg/Projects/Godot/CyberRoguelike/cyberroguelike/assets/Tilesets",
@@ -117,9 +118,11 @@
         "rooms/room_31x28.tmx",
         "rooms/room_10x20.tmx",
         "rooms/room_22x20.tmx",
-        "rooms/room_27x10.tmx",
         "rooms/room_27x27.tmx",
-        "rooms/room_27x11.tmx"
+        "rooms/room_27x11.tmx",
+        "flats/flat_2.tmx",
+        "flats/flat_1.tmx",
+        "building_premises.tmx"
     ],
     "project": "63_63_building.tiled-project",
     "property.type": "bool",
@@ -128,13 +131,14 @@
         "tileset_gen9.tsx",
         "rooms/room_31x28.tmx",
         "rooms/room_10x20.tmx",
-        "rooms/room_27x11.tmx",
-        "rooms/room_27x27.tmx",
-        "rooms/room_27x10.tmx",
         "rooms/room_22x20.tmx",
-        "rooms/room_30x27.tmx",
-        "rooms/room_20x20.tmx",
-        "building_premises.tmx"
+        "rooms/room_27x27.tmx",
+        "rooms/room_27x11.tmx",
+        "flats/flat_2.tmx",
+        "flats/flat_1.tmx",
+        "building_premises.tmx",
+        "rooms/room_27x10.tmx",
+        "rooms/room_30x27.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }

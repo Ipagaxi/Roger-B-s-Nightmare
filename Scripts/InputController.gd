@@ -6,7 +6,7 @@ signal open_continent_layer_triggered
 signal open_region_layer_triggered
 signal open_local_layer_triggered
 signal toggle_cursor_triggered
-signal open_character_menu_triggered
+signal toggle_character_menu_triggered
 
 var input_actions := {}
 
@@ -23,22 +23,21 @@ func _ready() -> void:
 		[KEY_C, true]: c_shift_pressed
 	}
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
-	
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		for action in input_actions.keys():
 			if event.keycode == action[0] and event.shift_pressed == action[1]:
 				input_actions[action].call()
 				break
-		
+
 # ---------------------------------------------------------------
 # Input action functions
 # ---------------------------------------------------------------
-	
+
 func z_pressed():
 	match Global.game_state:
 		Global.GameState.LOCAL:
@@ -49,7 +48,6 @@ func z_pressed():
 			zoom_in_triggered.emit()
 	
 func z_shift_pressed():
-	print
 	match Global.game_state:
 		Global.GameState.LOCAL:
 			zoom_out_triggered.emit()
@@ -87,12 +85,16 @@ func x_pressed():
 			toggle_cursor_triggered.emit()
 		Global.GameState.CONTINENT:
 			toggle_cursor_triggered.emit()
+		Global.GameState.CURSOR:
+			toggle_cursor_triggered.emit()
 
 func c_shift_pressed():
 	match Global.game_state:
 		Global.GameState.LOCAL:
-			open_character_menu_triggered.emit()
+			toggle_character_menu_triggered.emit()
 		Global.GameState.REGION:
-			open_character_menu_triggered.emit()
+			toggle_character_menu_triggered.emit()
 		Global.GameState.CONTINENT:
-			open_character_menu_triggered.emit()
+			toggle_character_menu_triggered.emit()
+		Global.GameState.CHARACTER_MENU:
+			toggle_character_menu_triggered.emit()

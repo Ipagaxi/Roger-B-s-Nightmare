@@ -6,6 +6,7 @@ extends Node2D
 @onready var local_scene = preload("res://Scenes/LocalHandler.tscn")
 @onready var cursor_scene = preload("res://Scenes/Cursor.tscn")
 @onready var loading_scene = preload("res://Scenes/Loading.tscn")
+@onready var character_menu_scene = preload("res://Scenes/CharacterMenu.tscn")
 
 signal generation_finished
 
@@ -17,28 +18,24 @@ var region_inst
 var local_inst
 var cursor_inst
 var loading_inst
+var character_menu_inst
 
-var input_actions := {}
 
 # ---------------------------------------------------------------
 # Godot Callbacks
 # ---------------------------------------------------------------
 
 func _ready():
-	input_actions = {
-		"zoom_out": zoom_out,
-		"zoom_in": zoom_in,
-		"open_continent_layer": open_continent_layer,
-		"open_region_layer": open_region_layer,
-		"open_local_layer": open_local_layer,
-		"use_cursor": toggle_cursor
-	}
+	InputController.zoom_in_triggered.connect(zoom_in)
+	InputController.zoom_out_triggered.connect(zoom_out)
+	InputController.open_continent_layer_triggered.connect(open_continent_layer)
+	InputController.open_region_layer_triggered.connect(open_region_layer)
+	InputController.open_local_layer_triggered.connect(open_local_layer)
+	InputController.toggle_cursor_triggered.connect(toggle_cursor)
+	InputController.open_character_menu_triggered.connect(open_character_menu)
 	
 func _input(event):
-	for action in input_actions:
-		if event.is_action_pressed(action):
-			input_actions[action].call()
-			return
+	pass
 
 func _on_window_button_button_up() -> void:
 	var current_window_mode = get_window().mode
@@ -99,6 +96,10 @@ func generate_run():
 	player_inst = player_scene.instantiate()
 	player_inst.global_position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_local + TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent))
 	print("Generation finished!")
+	
+	character_menu_inst = character_menu_scene.instantiate()
+	character_menu_inst.visible = false
+	
 	# call_deferred deferes a function call to the next available time frame of the main thread
 	# otherwise the signal would be send on the background thread, therefore, not available by the main thread
 	call_deferred("emit_signal", "generation_finished")
@@ -122,6 +123,9 @@ func draw_run():
 	player_inst.local_handler = local_inst
 	player_inst.region_handler = region_inst
 	$Camera2D.zoom = Vector2(1, 1)
+	
+	$CanvasLayer.add_child(character_menu_inst)
+	Global.game_state = Global.GameState.LOCAL
 
 
 func set_window_button_according_to_mode():
@@ -144,27 +148,29 @@ func set_window_button_according_to_mode():
 # Input action functions
 # ---------------------------------------------------------------
 	
-func zoom_out():
-	if $Camera2D.zoom.x > 0.25:
-		$Camera2D.zoom *= 0.5
-
-
 func zoom_in():
 	if $Camera2D.zoom.x <= 1.0:
 		$Camera2D.zoom *= 2.0
+
+func zoom_out():
+	if $Camera2D.zoom.x > 0.25:
+		$Camera2D.zoom *= 0.5
 		
 func open_continent_layer():
 	set_layer(Global.Layer.CONTINENT_LAYER)
 	player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_continent)
+	Global.game_state = Global.GameState.CONTINENT
 	
 func open_region_layer():
 	set_layer(Global.Layer.REGION_LAYER)
 	player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_region + TilesInterface.current_location_continent*TilesInterface.REGION_SIZE_TILES)
-	
+	Global.game_state = Global.GameState.REGION
+
 func open_local_layer():
 	set_layer(Global.Layer.LOCAL_LAYER)
 	player_inst.position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent)+ TilesInterface.current_location_local)
-	
+	Global.game_state = Global.GameState.LOCAL
+
 func toggle_cursor():
 	if cursor_inst:
 		player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
@@ -178,6 +184,9 @@ func toggle_cursor():
 		add_child(cursor_inst)
 		cursor_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 		player_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
+
+func open_character_menu():
+	character_menu_inst.visible = not (character_menu_inst.visible)
 
 # ---------------------------------------------------------------
 # Helper functions

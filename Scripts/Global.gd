@@ -2,6 +2,9 @@ extends Node
 
 enum Layer {LOCAL_LAYER, REGION_LAYER, CONTINENT_LAYER}
 
+enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, CHARACTER_MENU, PAUSE_MENU, LOADING}
+var game_state = GameState.MAIN_MENU
+
 var current_scene = null
 
 const LOCAL_LOAD_RADIUS = 2

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://3ltq118q7q5j"]
 
-[ext_resource type="Script" uid="uid://xl1lu0lsuknf" path="res://Scripts/regionCity.gd" id="1_ctyy3"]
+[ext_resource type="Script" uid="uid://xl1lu0lsuknf" path="res://Scripts/RegionLayer/region_city.gd" id="1_5p0y1"]
 
 [node name="CityGenerator" type="Node2D" unique_id=1773023943]
-script = ExtResource("1_ctyy3")
+script = ExtResource("1_5p0y1")
 
 [node name="Map" type="TileMapLayer" parent="." unique_id=445291984]

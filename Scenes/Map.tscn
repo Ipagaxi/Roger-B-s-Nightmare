@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://co3xjp3hxd36q"]
+[gd_scene format=3 uid="uid://bkl1fvemmkt4f"]
 
-[ext_resource type="Texture2D" uid="uid://c257byra5q7e6" path="res://assets/Tilesets/cdda_terrain.png" id="2_0oc8e"]
+[ext_resource type="Texture2D" uid="uid://mrvdjx5htui5" path="res://assets/Tilesets/cdda_terrain.png" id="2_0oc8e"]
 
 [sub_resource type="GDScript" id="GDScript_s486e"]
 script/source = "extends Node2D
@@ -4801,8 +4801,8 @@ texture_region_size = Vector2i(32, 32)
 [sub_resource type="TileSet" id="TileSet_olyjm"]
 sources/0 = SubResource("TileSetAtlasSource_5ytj8")
 
-[node name="Map" type="Node2D"]
+[node name="Map" type="Node2D" unique_id=177795890]
 script = SubResource("GDScript_s486e")
 
-[node name="Map" type="TileMapLayer" parent="."]
+[node name="Map" type="TileMapLayer" parent="." unique_id=1757377981]
 tile_set = SubResource("TileSet_olyjm")

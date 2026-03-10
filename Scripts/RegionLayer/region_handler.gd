@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var region_scene = preload("res://Scenes/Region.tscn")
+@onready var region_scene = preload("res://Scenes/RegionLayer/Region.tscn")
 
 var generated_regions := {}
 var loaded_regions := {}
@@ -36,7 +36,7 @@ func generate_region(continent_coords: Vector2i):
 	if generated_regions.has(continent_coords):
 		return
 	TilesInterface.continent_matrix_loaded[continent_coords.y][continent_coords.x] = true
-	region_scene = preload("res://Scenes/Region.tscn")
+	region_scene = preload("res://Scenes/RegionLayer/Region.tscn")
 	var region = region_scene.instantiate()
 	region.generate(continent_coords)
 	generated_regions[continent_coords] = region

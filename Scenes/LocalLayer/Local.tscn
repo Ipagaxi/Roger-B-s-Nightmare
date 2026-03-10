@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cxtaoxv1enok5"]
+
+[ext_resource type="Script" uid="uid://d276hdpm5tlpd" path="res://Scripts/LocalLayer/local.gd" id="1_dvwiw"]
+
+[node name="Node2D" type="Node2D" unique_id=408330097]
+script = ExtResource("1_dvwiw")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=331941913]

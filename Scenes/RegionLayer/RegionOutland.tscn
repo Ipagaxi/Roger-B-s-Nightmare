@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://di4tldwmon487"]
+
+[ext_resource type="Script" uid="uid://hibou18knp0k" path="res://Scripts/RegionLayer/region_outland.gd" id="1_1egfy"]
+
+[node name="RegionOutland" type="Node2D" unique_id=1042402795]
+script = ExtResource("1_1egfy")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=1056220549]

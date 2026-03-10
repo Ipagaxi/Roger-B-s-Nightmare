@@ -3,7 +3,7 @@ extends Node2D
 # LocalHandler.gd manages when and how many Locals to (un-)load/generate
 # whereas Local.gd manages which type of local to generate
 
-@onready var local_scene = preload("res://Scenes/Local.tscn")
+@onready var local_scene = preload("res://Scenes/LocalLayer/Local.tscn")
 
 var generated_locals := {}
 var loaded_locals := {}
@@ -50,7 +50,7 @@ func generate_local(region_coords: Vector2i, continent_coords: Vector2i):
 		#print("Already there: ", counter)
 		return
 	#print("Not there: ", counter)
-	local_scene = preload("res://Scenes/Local.tscn")
+	local_scene = preload("res://Scenes/LocalLayer/Local.tscn")
 	var local = local_scene.instantiate()
 	#add_child(local)
 	local.generate(region_coords, continent_coords)

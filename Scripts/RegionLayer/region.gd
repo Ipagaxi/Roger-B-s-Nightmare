@@ -1,7 +1,7 @@
 extends Node2D
 
-@onready var city_scene = preload("res://Scenes/City.tscn")
-@onready var outland_scene = preload("res://Scenes/RegionOutland.tscn")
+@onready var city_scene = preload("res://Scenes/RegionLayer/RegionCity.tscn")
+@onready var outland_scene = preload("res://Scenes/RegionLayer/RegionOutland.tscn")
 
 var continent_matrix = TilesInterface.continent_matrix
 
@@ -18,7 +18,7 @@ func generate(continent_coords: Vector2i):
 	elif continent_matrix[continent_coords.y][continent_coords.x] == 2:
 		pass
 	elif continent_matrix[continent_coords.y][continent_coords.x] <= 4:
-		outland_scene = preload("res://Scenes/RegionOutland.tscn")
+		outland_scene = preload("res://Scenes/RegionLayer/RegionOutland.tscn")
 		var outland_inst = outland_scene.instantiate()
 		region_matrix = outland_inst.generate()
 		outland_inst.global_position = TilesInterface.tileCoords_to_trueCoords(continent_coords*region_size)
@@ -27,7 +27,7 @@ func generate(continent_coords: Vector2i):
 		
 	elif continent_matrix[continent_coords.y][continent_coords.x] == 5:
 		# Generate city region
-		city_scene = preload("res://Scenes/City.tscn")
+		city_scene = preload("res://Scenes/RegionLayer/RegionCity.tscn")
 		var city_inst = city_scene.instantiate()
 		region_matrix = city_inst.generate()
 		city_inst.global_position = TilesInterface.tileCoords_to_trueCoords((continent_coords)*region_size)

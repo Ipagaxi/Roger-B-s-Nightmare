@@ -2,8 +2,8 @@ extends Node2D
 
 @onready var player_scene = preload("res://Scenes/Player.tscn")
 @onready var continent_scene = preload("res://Scenes/Continent.tscn")
-@onready var region_scene = preload("res://Scenes/RegionHandler.tscn")
-@onready var local_scene = preload("res://Scenes/LocalHandler.tscn")
+@onready var region_scene = preload("res://Scenes/RegionLayer/RegionHandler.tscn")
+@onready var local_scene = preload("res://Scenes/LocalLayer/LocalHandler.tscn")
 @onready var cursor_scene = preload("res://Scenes/Cursor.tscn")
 @onready var loading_scene = preload("res://Scenes/Loading.tscn")
 @onready var character_menu_scene = preload("res://Scenes/CharacterMenu.tscn")

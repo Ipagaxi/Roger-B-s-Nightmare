@@ -1,8 +1,8 @@
 extends Node2D
 
-var grassland_scene = preload("res://Scenes/LocalGrassland.tscn")
-var building_scene = preload("res://Scenes/Building.tscn")
-var street_scene = preload("res://Scenes/LocalStreet.tscn")
+var grassland_scene = preload("res://Scenes/LocalLayer/LocalGrassland.tscn")
+var building_scene = preload("res://Scenes/LocalLayer/LocalBuilding.tscn")
+var street_scene = preload("res://Scenes/LocalLayer/LocalStreet.tscn")
 
 const tileset_file_name = Global.TILESET_FILE_NAME
 @onready var tileset = preload("res://assets/Tilesets/" + tileset_file_name)

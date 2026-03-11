@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2cthbm6yo325"]
+[gd_scene format=3 uid="uid://c2cthbm6yo325"]
 
 [ext_resource type="Script" uid="uid://7g2vtobx465r" path="res://Scripts/loading.gd" id="1_0pxc8"]
-[ext_resource type="Texture2D" uid="uid://en8fp7mceu4a" path="res://assets/menu_backgrounds/Loading.png" id="1_hgo68"]
 [ext_resource type="Texture2D" uid="uid://bfpoalhml142y" path="res://assets/UI/Loading_Phase1.png" id="2_0pxc8"]
+[ext_resource type="Texture2D" uid="uid://cbqi4mfl4epkw" path="res://assets/menu_backgrounds/Experimenting.png" id="2_y2s0j"]
 [ext_resource type="Texture2D" uid="uid://baeky588n6sd8" path="res://assets/UI/Loading_Phase2.png" id="3_y2s0j"]
 [ext_resource type="Texture2D" uid="uid://cxxv86a54kyt3" path="res://assets/UI/Loading_Phase3.png" id="4_6s5k6"]
 
@@ -35,26 +35,26 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Loading" type="Node2D"]
+[node name="Loading" type="Node2D" unique_id=200335383]
 script = ExtResource("1_0pxc8")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1431758559]
 
-[node name="AspectRatioContainer" type="Control" parent="CanvasLayer"]
+[node name="AspectRatioContainer" type="Control" parent="CanvasLayer" unique_id=1308884050]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/AspectRatioContainer"]
+[node name="Background" type="Sprite2D" parent="CanvasLayer/AspectRatioContainer" unique_id=74661577]
 position = Vector2(960, 540)
 scale = Vector2(4, 4)
-texture = ExtResource("1_hgo68")
+texture = ExtResource("2_y2s0j")
 
-[node name="LoadingIcon" type="AnimatedSprite2D" parent="CanvasLayer/AspectRatioContainer"]
+[node name="LoadingIcon" type="AnimatedSprite2D" parent="CanvasLayer/AspectRatioContainer" unique_id=1556399835]
 position = Vector2(961, 540)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_nwbea")
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/AspectRatioContainer"]
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/AspectRatioContainer" unique_id=365233974]
 visible = false
 layout_mode = 1
 anchors_preset = -1

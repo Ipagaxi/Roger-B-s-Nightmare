@@ -10,6 +10,8 @@ signal toggle_character_menu_triggered
 
 var input_actions := {}
 
+var player_inst: StaticBody2D
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# [KEY, SHIFT_PRESSED]
@@ -28,11 +30,24 @@ func _process(delta: float) -> void:
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
+	if Global.game_state == Global.GameState.LOCAL:
+		handle_player_movement(event)
+
 	if event is InputEventKey and event.pressed:
 		for action in input_actions.keys():
 			if event.keycode == action[0] and event.shift_pressed == action[1]:
 				input_actions[action].call()
 				break
+
+# ---------------------------------------------------------------
+# Helper functions
+# ---------------------------------------------------------------
+
+func handle_player_movement(event):
+	if not player_inst.moving:
+		for dir in TilesInterface.INPUTS.keys():
+				if event.is_action(dir) and !event.is_action_released(dir):
+					player_inst.trigger_movement(player_inst.global_position + TilesInterface.tileCoords_to_trueCoords(TilesInterface.INPUTS[dir])/1.0)
 
 # ---------------------------------------------------------------
 # Input action functions

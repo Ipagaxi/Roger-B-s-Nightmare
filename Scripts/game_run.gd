@@ -126,6 +126,7 @@ func draw_run():
 	add_child(player_inst)
 	player_inst.local_handler = local_inst
 	player_inst.region_handler = region_inst
+	InputController.player_inst = player_inst
 	$Camera2D.zoom = Vector2(1, 1)
 	
 	$CanvasLayer/Control/WindowFrame.add_sibling(character_menu_inst)

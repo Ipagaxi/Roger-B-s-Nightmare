@@ -45,7 +45,7 @@ var local_matrix: Array[Array]
 
 var current_local = null
 
-var move_animation_speed = 10
+var move_animation_speed = 20
 
 const INPUTS = {"right": Vector2.RIGHT,
 				"left": Vector2.LEFT,
@@ -56,19 +56,25 @@ const INPUTS = {"right": Vector2.RIGHT,
 				"bottom_left": Vector2(-1, 1),
 				"bottom_right": Vector2(1, 1),
 				"stay": Vector2i.ZERO}
-				
-				
-func move(direction, body) -> Vector2i:
-	var motion = TilesInterface.tileCoords_to_trueCoords(INPUTS[direction]) / 1.0
-	var tween = create_tween()
-	tween.tween_property(body, "position", body.position + motion, 1.0/move_animation_speed).set_trans(Tween.TRANS_SINE)
-	body.moving = true
-	await tween.finished
-	body.moving = false
-	#body.global_position += motion
-	return body.global_position
 
-func player_move(direction, body) -> Vector2i:
+# Moves the body from start to end with each call a step
+# Returns if whole move finished
+func move(start: Vector2, end: Vector2, delta: float, body) -> bool:
+	if not body.moving:
+		return true
+	print("player is moving")
+	var distance = end - start
+	var step = distance * delta*10
+	if abs(step) < abs(end - body.global_position):
+		body.global_position += step
+		return false
+	else:
+		print("Player stops")
+		body.global_position = end
+		body.moving = false
+		return true
+
+func player_move(direction, body) -> bool:
 	var ray_up = body.get_node("BodyCollisionDetector").get_node("RayUp")
 	var ray_top_right = body.get_node("BodyCollisionDetector").get_node("RayTopRight")
 	var ray_right = body.get_node("BodyCollisionDetector").get_node("RayRight")
@@ -79,22 +85,22 @@ func player_move(direction, body) -> Vector2i:
 	var ray_top_left = body.get_node("BodyCollisionDetector").get_node("RayTopLeft")
 	
 	if ray_up.is_colliding() and direction == "up":
-		return body.global_position
+		return true
 	elif ray_top_right.is_colliding() and direction == "top_right":
-		return body.global_position
+		return true
 	elif ray_right.is_colliding() and direction == "right":
-		return body.global_position
+		return true
 	elif ray_bottom_right.is_colliding() and direction == "bottom_right":
-		return body.global_position
+		return true
 	elif ray_down.is_colliding() and direction == "down":
-		return body.global_position
+		return true
 	elif ray_bottom_left.is_colliding() and direction == "bottom_left":
-		return body.global_position
+		return true
 	elif ray_left.is_colliding() and direction == "left":
-		return body.global_position
+		return true
 	elif ray_top_left.is_colliding() and direction == "top_left":
 		return body.global_position
-	return await move(direction, body)
+	return true
 	#var cell_data = current_chunk.get_node("house").get_node("Foreground").get_cell_tile_data(globalPos_to_tileCoords(new_pos))
 	#if !cell_data:
 	#	body.position = new_pos

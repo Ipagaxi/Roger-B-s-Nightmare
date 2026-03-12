@@ -45,6 +45,8 @@ var local_matrix: Array[Array]
 
 var current_local = null
 
+var move_animation_speed = 10
+
 const INPUTS = {"right": Vector2.RIGHT,
 				"left": Vector2.LEFT,
 				"up": Vector2.UP,
@@ -58,7 +60,12 @@ const INPUTS = {"right": Vector2.RIGHT,
 				
 func move(direction, body) -> Vector2i:
 	var motion = TilesInterface.tileCoords_to_trueCoords(INPUTS[direction]) / 1.0
-	body.global_position += motion
+	var tween = create_tween()
+	tween.tween_property(body, "position", body.position + motion, 1.0/move_animation_speed).set_trans(Tween.TRANS_SINE)
+	body.moving = true
+	await tween.finished
+	body.moving = false
+	#body.global_position += motion
 	return body.global_position
 
 func player_move(direction, body) -> Vector2i:
@@ -87,7 +94,7 @@ func player_move(direction, body) -> Vector2i:
 		return body.global_position
 	elif ray_top_left.is_colliding() and direction == "top_left":
 		return body.global_position
-	return move(direction, body)
+	return await move(direction, body)
 	#var cell_data = current_chunk.get_node("house").get_node("Foreground").get_cell_tile_data(globalPos_to_tileCoords(new_pos))
 	#if !cell_data:
 	#	body.position = new_pos

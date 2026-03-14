@@ -13,10 +13,8 @@ func _process(delta: float) -> void:
 	TilesInterface.move(move_start_pos, move_end_pos, delta*player_speed, self)
 
 func trigger_movement(end_position: Vector2):
-	print("play should move")
 	if not moving:
 		moving = true
-		print("player will move")
 		move_start_pos = self.global_position
 		move_end_pos = end_position
 		TilesInterface.update_layer_positions(TilesInterface.trueCoords_to_tileCoords(self.global_position))

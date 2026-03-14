@@ -62,17 +62,19 @@ const INPUTS = {"right": Vector2.RIGHT,
 func move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 	if not body.moving:
 		return true
-	print("player is moving")
 	var distance = end - start
-	var step = distance * delta*10
-	if abs(step) < abs(end - body.global_position):
-		body.global_position += step
-		return false
-	else:
-		print("Player stops")
+	var motion = distance * 1#(distance * delta*5.0).floor()
+	var rest = end - body.global_position
+	var finished_moving = false
+	print(motion)
+	print(rest)
+	if motion.length() >= (rest).length():
 		body.global_position = end
-		body.moving = false
-		return true
+		finished_moving = true
+	else:
+		body.global_position += motion
+	body.moving = not finished_moving
+	return finished_moving
 
 func player_move(direction, body) -> bool:
 	var ray_up = body.get_node("BodyCollisionDetector").get_node("RayUp")

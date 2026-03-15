@@ -56,6 +56,7 @@ const INPUTS = {"right": Vector2.RIGHT,
 				"bottom_left": Vector2(-1, 1),
 				"bottom_right": Vector2(1, 1),
 				"stay": Vector2i.ZERO}
+				
 
 # Moves the body from start to end with each call a step
 # Returns if whole move finished
@@ -66,8 +67,6 @@ func move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 	var motion = distance * 1#(distance * delta*5.0).floor()
 	var rest = end - body.global_position
 	var finished_moving = false
-	print(motion)
-	print(rest)
 	if motion.length() >= (rest).length():
 		body.global_position = end
 		finished_moving = true
@@ -75,40 +74,6 @@ func move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 		body.global_position += motion
 	body.moving = not finished_moving
 	return finished_moving
-
-func player_move(direction, body) -> bool:
-	var ray_up = body.get_node("BodyCollisionDetector").get_node("RayUp")
-	var ray_top_right = body.get_node("BodyCollisionDetector").get_node("RayTopRight")
-	var ray_right = body.get_node("BodyCollisionDetector").get_node("RayRight")
-	var ray_bottom_right = body.get_node("BodyCollisionDetector").get_node("RayBottomRight")
-	var ray_down = body.get_node("BodyCollisionDetector").get_node("RayDown")
-	var ray_bottom_left = body.get_node("BodyCollisionDetector").get_node("RayBottomLeft")
-	var ray_left = body.get_node("BodyCollisionDetector").get_node("RayLeft")
-	var ray_top_left = body.get_node("BodyCollisionDetector").get_node("RayTopLeft")
-	
-	if ray_up.is_colliding() and direction == "up":
-		return true
-	elif ray_top_right.is_colliding() and direction == "top_right":
-		return true
-	elif ray_right.is_colliding() and direction == "right":
-		return true
-	elif ray_bottom_right.is_colliding() and direction == "bottom_right":
-		return true
-	elif ray_down.is_colliding() and direction == "down":
-		return true
-	elif ray_bottom_left.is_colliding() and direction == "bottom_left":
-		return true
-	elif ray_left.is_colliding() and direction == "left":
-		return true
-	elif ray_top_left.is_colliding() and direction == "top_left":
-		return body.global_position
-	return true
-	#var cell_data = current_chunk.get_node("house").get_node("Foreground").get_cell_tile_data(globalPos_to_tileCoords(new_pos))
-	#if !cell_data:
-	#	body.position = new_pos
-	#else:
-	#	if cell_data.get_meta("Passable"):
-	#		body.position = new_pos
 
 func tileCoords_to_trueCoords(position: Vector2i) -> Vector2i:
 	return position * TILE_SIZE

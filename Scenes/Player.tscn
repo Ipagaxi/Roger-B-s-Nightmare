@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://c1pwqomfjr7np" path="res://Scripts/player.gd" id="1_p1nlm"]
 [ext_resource type="Texture2D" uid="uid://wf76di06pivs" path="res://assets/actors/character_sheets.png" id="2_gntrk"]
-[ext_resource type="PackedScene" uid="uid://chyd6wpwpax6y" path="res://Scenes/Body_Collision_Detector.tscn" id="4_dewec"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jucab"]
 size = Vector2(32, 32)
@@ -22,6 +21,8 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gntrk"]
+
 [node name="Player" type="StaticBody2D" unique_id=64357385]
 script = ExtResource("1_p1nlm")
 
@@ -36,4 +37,7 @@ sprite_frames = SubResource("SpriteFrames_nn08x")
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="." unique_id=559914960]
 position = Vector2(16, 15)
 
-[node name="BodyCollisionDetector" parent="." unique_id=606568196 instance=ExtResource("4_dewec")]
+[node name="ShapeCast2D" type="ShapeCast2D" parent="." unique_id=458476592]
+position = Vector2(16, 11)
+shape = SubResource("RectangleShape2D_gntrk")
+target_position = Vector2(0, 10)

@@ -6,13 +6,14 @@
     "activeFile": "map.tmx",
     "expandedProjectPaths": [
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "map.tmx": {
-            "scale": 1.1202083333333333,
+            "scale": 0.25,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 480.2678073275061,
-                "y": 319.5834108238795
+                "x": 2140,
+                "y": 444
             }
         },
         "mini_tileset.tsx": {

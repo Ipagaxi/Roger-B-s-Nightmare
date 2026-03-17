@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://8ghm7od8ukul"]
+
+[ext_resource type="Script" uid="uid://cufudo2mki3po" path="res://Scripts/RegionLayer/region_handler.gd" id="1_lptvb"]
+
+[node name="RegionHandler" type="Node2D" unique_id=1938570455]
+script = ExtResource("1_lptvb")

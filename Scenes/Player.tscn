@@ -1,42 +1,43 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvgs4nt686327"]
+[gd_scene format=3 uid="uid://cvgs4nt686327"]
 
-[ext_resource type="Script" uid="uid://c1pwqomfjr7np" path="res://Scripts/Player.gd" id="1_p1nlm"]
-[ext_resource type="Texture2D" uid="uid://cts5lrpubor0v" path="res://assets/actors/player/player.png" id="1_vyomi"]
-[ext_resource type="Texture2D" uid="uid://c56grr4s5e7pj" path="res://assets/Tilesets/tileset_gen4.png" id="3_gntrk"]
+[ext_resource type="Script" uid="uid://c1pwqomfjr7np" path="res://Scripts/player.gd" id="1_p1nlm"]
+[ext_resource type="Texture2D" uid="uid://wf76di06pivs" path="res://assets/actors/character_sheets.png" id="2_gntrk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jucab"]
 size = Vector2(32, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dewec"]
-atlas = ExtResource("3_gntrk")
-region = Rect2(160, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_gntrk"]
+atlas = ExtResource("2_gntrk")
+region = Rect2(32, 0, 32, 48)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_5ixxa"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_nn08x"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dewec")
+"texture": SubResource("AtlasTexture_gntrk")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }]
 
-[node name="Player" type="Area2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gntrk"]
+
+[node name="Player" type="StaticBody2D" unique_id=64357385]
 script = ExtResource("1_p1nlm")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Collision_Movement" type="CollisionShape2D" parent="." unique_id=1888497799]
 position = Vector2(16, 16)
 shape = SubResource("RectangleShape2D_jucab")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(16, 16)
-texture = ExtResource("1_vyomi")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=109896776]
+position = Vector2(16, 8)
+sprite_frames = SubResource("SpriteFrames_nn08x")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(16, 16)
-sprite_frames = SubResource("SpriteFrames_5ixxa")
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="." unique_id=559914960]
 position = Vector2(16, 15)
+
+[node name="ShapeCast2D" type="ShapeCast2D" parent="." unique_id=458476592]
+position = Vector2(16, 11)
+shape = SubResource("RectangleShape2D_gntrk")
+target_position = Vector2(0, 10)

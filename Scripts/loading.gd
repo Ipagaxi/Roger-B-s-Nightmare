@@ -33,5 +33,7 @@ func _process(delta):
 
 func _on_generation_done():
 	var game_scene = get_tree().current_scene
+	await get_tree().process_frame
+	game_scene.thread.wait_to_finish()
 	game_scene.draw_run()
 	queue_free()

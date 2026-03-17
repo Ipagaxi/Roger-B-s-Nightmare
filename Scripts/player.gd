@@ -31,8 +31,6 @@ func player_move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 	ray.target_position = (end-start) * 0.45
 	ray.force_shapecast_update()
 	if ray.is_colliding():
-		print("ray pos: ", ray.position)
-		print("ray target pos: ", ray.target_position)
 		body.moving = false
 		return true
 	

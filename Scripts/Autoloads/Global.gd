@@ -1,5 +1,7 @@
 extends Node
 
+var loading_scene = preload("res://Scenes/Loading.tscn")
+
 enum Layer {LOCAL_LAYER, REGION_LAYER, CONTINENT_LAYER}
 
 enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, CHARACTER_MENU, PAUSE_MENU, CURSOR}
@@ -35,7 +37,7 @@ func goto_scene(path):
 func _deferred_goto_scene(path):
 	new_scene_path = path
 	ResourceLoader.load_threaded_request(path)
-	get_tree().change_scene_to_file("res://Scenes/Loading.tscn")
+	get_tree().change_scene_to_packed(loading_scene)
 
 func change_game_state_to(new_game_state: GameState):
 	last_game_state = game_state

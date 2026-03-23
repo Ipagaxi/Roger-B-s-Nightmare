@@ -61,7 +61,8 @@ const INPUTS = {"right": Vector2.RIGHT,
 # Moves the body from start to end with each call a step
 # Returns if whole move finished
 func move(start: Vector2, end: Vector2, delta: float, body) -> bool:
-	if not body.moving:
+	var move_operator = body.get_node("MoveOperator")
+	if not move_operator.moving:
 		return true
 	var distance = end - start
 	var motion = distance * 1#(distance * delta*5.0).floor()
@@ -72,7 +73,7 @@ func move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 		finished_moving = true
 	else:
 		body.global_position += motion
-	body.moving = not finished_moving
+	move_operator.moving = not finished_moving
 	return finished_moving
 
 func tileCoords_to_trueCoords(position: Vector2i) -> Vector2i:

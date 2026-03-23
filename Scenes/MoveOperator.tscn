@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bu5motibket7w"]
+
+[ext_resource type="Script" uid="uid://bm6newpbcvyim" path="res://Scripts/move_operator.gd" id="1_pyml7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_evq0p"]
+
+[node name="MoveOperator" type="Node2D" unique_id=803297498]
+script = ExtResource("1_pyml7")
+
+[node name="ShapeCast2D" type="ShapeCast2D" parent="." unique_id=1934733814]
+position = Vector2(16, 11)
+shape = SubResource("RectangleShape2D_evq0p")
+target_position = Vector2(0, 10)

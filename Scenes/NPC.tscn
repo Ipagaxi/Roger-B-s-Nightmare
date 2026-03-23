@@ -23,9 +23,6 @@ shape = SubResource("RectangleShape2D_7fgga")
 position = Vector2(16, 8)
 texture = SubResource("AtlasTexture_fo5tq")
 
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="." unique_id=2058501796]
-position = Vector2(16, 15)
-
 [node name="ShapeCast2D" type="ShapeCast2D" parent="." unique_id=1601016101]
 position = Vector2(16, 11)
 shape = SubResource("RectangleShape2D_fcq3e")

@@ -44,7 +44,7 @@ func _unhandled_input(event: InputEvent) -> void:
 # ---------------------------------------------------------------
 
 func handle_player_movement(event):
-	if not player_inst.moving:
+	if not player_inst.get_node("MoveOperator").moving:
 		for dir in TilesInterface.INPUTS.keys():
 				if event.is_action(dir) and !event.is_action_released(dir):
 					player_inst.trigger_movement(player_inst.global_position + TilesInterface.tileCoords_to_trueCoords(TilesInterface.INPUTS[dir])/1.0)

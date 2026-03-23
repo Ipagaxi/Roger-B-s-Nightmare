@@ -5,7 +5,7 @@ var amplitude_factor = 0.7
 var pulse_speed_factor = 2
 
 func _ready():
-	Global.goto_scene("res://Scenes/GameRun.tscn")
+	pass
 
 func _process(delta: float) -> void:
 	sin_vec = sin_vec.rotated(asin(delta*pulse_speed_factor))

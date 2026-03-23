@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://h7f53oym8f7x"]
+
+[ext_resource type="Script" uid="uid://bh2sqlo7borgd" path="res://Scripts/npc.gd" id="1_fo5tq"]
+[ext_resource type="Texture2D" uid="uid://bjuiodhc7igcu" path="res://assets/actors/character_sheet_Gen2.png" id="2_xs5w8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7fgga"]
+size = Vector2(32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fo5tq"]
+atlas = ExtResource("2_xs5w8")
+region = Rect2(0, 96, 32, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fcq3e"]
+
+[node name="Npc" type="StaticBody2D" unique_id=739547356]
+script = ExtResource("1_fo5tq")
+
+[node name="Collision_Movement" type="CollisionShape2D" parent="." unique_id=1062803210]
+position = Vector2(16, 16)
+shape = SubResource("RectangleShape2D_7fgga")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=190198919]
+position = Vector2(16, 8)
+texture = SubResource("AtlasTexture_fo5tq")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="." unique_id=2058501796]
+position = Vector2(16, 15)
+
+[node name="ShapeCast2D" type="ShapeCast2D" parent="." unique_id=1601016101]
+position = Vector2(16, 11)
+shape = SubResource("RectangleShape2D_fcq3e")
+target_position = Vector2(0, 10)

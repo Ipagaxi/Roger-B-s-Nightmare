@@ -5,25 +5,33 @@ var street_2_scene = preload("res://Map/Streets/street_2.tmx")
 var street_2_edge_scene = preload("res://Map/Streets/street_2_edge.tmx")
 var street_3_scene = preload("res://Map/Streets/street_3.tmx")
 var street_4_scene = preload("res://Map/Streets/street_4.tmx")
+var npc_scene = preload("res://Scenes/NPC.tscn")
 
 var street_asset_size = TilesInterface.STREET_ASSET_SIZE_TILE
 
+var rng := RandomNumberGenerator.new()
+var max_spawing_npcs = 10;
+var npcs = []
+
 var street_inst
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-	
 func generate(region_coords: Vector2i, continent_coords: Vector2i):
 	set_correct_street_asset(region_coords, continent_coords)
+	var number_spawing_npcs = rng.randi_range(0, max_spawing_npcs)
+	var x_positions = range(street_asset_size.x)
+	var y_positions = range(street_asset_size.y)
+	x_positions.shuffle()
+	y_positions.shuffle()
+	for i in range(number_spawing_npcs):
+		npcs.append(npc_scene.instantiate())
+		npcs.back().position = TilesInterface.tileCoords_to_trueCoords(Vector2(x_positions[i], y_positions[i]))
+		
 	
 func draw():
 	add_child(street_inst)
 	apply_variation_to_street_tiles()
+	for npc in npcs:
+		add_child(npc)
 	
 func set_correct_street_asset(region_coords: Vector2i, continent_coords: Vector2i):
 	var region_matrix = TilesInterface.continent_region_matrices[continent_coords.y][continent_coords.x]

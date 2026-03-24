@@ -1,5 +1,7 @@
 extends StaticBody2D
 
+@export var data_inventory: Resource
+
 var local_handler: Node2D
 var region_handler: Node2D
 
@@ -7,7 +9,8 @@ var region_handler: Node2D
 
 
 func _ready() -> void:
-	pass
+	if data_inventory:
+		print(data_inventory.money)
 
 func _process(delta: float) -> void:
 	pass

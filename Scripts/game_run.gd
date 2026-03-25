@@ -7,8 +7,9 @@ extends Node2D
 @onready var cursor_scene = preload("res://Scenes/Cursor.tscn")
 @onready var loading_scene = preload("res://Scenes/Loading.tscn")
 @onready var character_menu_scene = preload("res://Scenes/CharacterMenu.tscn")
+@onready var message_box_scene = preload("res://Scenes/MessageBox.tscn")
 
-@onready var frame_control = $CanvasLayer/Control/FrameControl
+#@onready var frame_control = $CanvasLayer/Control/FrameControl
 
 signal generation_finished
 
@@ -36,6 +37,7 @@ func _ready():
 	InputController.toggle_cursor_triggered.connect(toggle_cursor)
 	InputController.toggle_character_menu_triggered.connect(toggle_character_menu)
 	$CanvasLayer/Control/PauseMenu.continue_triggered.connect(continue_game)
+	Global.message_box_triggered.connect(show_message_box)
 	
 func _input(event):
 	pass
@@ -203,6 +205,21 @@ func toggle_character_menu():
 func continue_game():
 	Global.change_game_state_back()
 	$CanvasLayer/Control/PauseMenu.visible = false
+	
+func show_message_box(text, duration, fadding_out_duration):
+	var message_box_inst = message_box_scene.instantiate()
+	message_box_inst.init(text, duration, fadding_out_duration)
+	message_box_inst.anchor_left = 0.5
+	message_box_inst.anchor_right = 0.5
+	message_box_inst.anchor_top = 0.5
+	message_box_inst.anchor_bottom = 0.5
+	$CanvasLayer/Control.add_child(message_box_inst)
+	var displayed_size = message_box_inst.size * message_box_inst.scale
+	print(displayed_size)
+	message_box_inst.offset_left = -displayed_size.x / 2
+	message_box_inst.offset_right = displayed_size.x / 2
+	message_box_inst.offset_top = -1.7*displayed_size.y
+	#message_box_inst.offset_bottom = displayed_size.y / 2
 
 # ---------------------------------------------------------------
 # Helper functions

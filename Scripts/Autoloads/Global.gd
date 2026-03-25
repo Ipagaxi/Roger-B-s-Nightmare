@@ -5,6 +5,9 @@ var loading_scene = preload("res://Scenes/Loading.tscn")
 enum Layer {LOCAL_LAYER, REGION_LAYER, CONTINENT_LAYER}
 
 enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, CHARACTER_MENU, PAUSE_MENU, CURSOR}
+
+signal message_box_triggered(text, duration, fadding_out_duration)
+
 # Change the game state with the provided method
 var game_state = GameState.MAIN_MENU
 var last_game_state = GameState.MAIN_MENU
@@ -47,3 +50,6 @@ func change_game_state_back():
 	var tmp = last_game_state
 	last_game_state = game_state
 	game_state = tmp
+
+func show_message_box(text: String, duration, fadding_out_duration):
+	message_box_triggered.emit(text, duration, fadding_out_duration)

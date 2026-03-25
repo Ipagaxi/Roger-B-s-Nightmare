@@ -1,5 +1,7 @@
 extends StaticBody2D
 
+@onready var message_box_scene = preload("res://Scenes/MessageBox.tscn")
+
 # Extensions
 var data_inventory = DataInventory.new(5)
 var character_actions = CharacterActions.new()
@@ -29,6 +31,8 @@ func pickpocket_target():
 	var collision_ray = $MoveOperator.get_node("ShapeCast2D")
 	if collision_ray.is_colliding():
 		var target = collision_ray.get_collider(0)
-		character_actions.pickpocket(self, target)
+		var stolen_money = character_actions.pickpocket(self, target)
+		Global.show_message_box("You stole {amount} money!".format({"amount": stolen_money}), 3, 2)
+		data_inventory.money += stolen_money
 	else:
 		print("No victim in sight")

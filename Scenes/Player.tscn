@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cvgs4nt686327"]
 
 [ext_resource type="Script" uid="uid://c1pwqomfjr7np" path="res://Scripts/player.gd" id="1_p1nlm"]
-[ext_resource type="Resource" uid="uid://cfp5k8mgtmaux" path="res://Resources/data_inventory.tres" id="2_dewec"]
 [ext_resource type="Texture2D" uid="uid://wf76di06pivs" path="res://assets/actors/character_sheets.png" id="2_gntrk"]
 [ext_resource type="PackedScene" uid="uid://bu5motibket7w" path="res://Scenes/MoveOperator.tscn" id="3_gntrk"]
 
@@ -25,7 +24,6 @@ animations = [{
 
 [node name="Player" type="StaticBody2D" unique_id=64357385]
 script = ExtResource("1_p1nlm")
-data_inventory = ExtResource("2_dewec")
 
 [node name="Collision_Movement" type="CollisionShape2D" parent="." unique_id=1888497799]
 position = Vector2(16, 16)

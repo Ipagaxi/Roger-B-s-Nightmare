@@ -1,20 +1,17 @@
 extends StaticBody2D
 
-@export var data_inventory: Resource
+# Extensions
+var data_inventory = DataInventory.new(5)
+var character_actions = CharacterActions.new()
 
 var local_handler: Node2D
 var region_handler: Node2D
 
-#@onready var collision_rays = $BodyCollisionDetector.get_children()
-
-
 func _ready() -> void:
-	if data_inventory:
-		print(data_inventory.money)
+	InputController.pickpocket_victim_triggered.connect(pickpocket_target)
 
 func _process(delta: float) -> void:
 	pass
-	#$MoveOperator.move(move_start_pos, move_end_pos, delta*player_speed, self)
 
 func trigger_movement(end_position: Vector2):
 	if $MoveOperator.trigger_movement(end_position, self):
@@ -27,3 +24,11 @@ func trigger_movement(end_position: Vector2):
 		region_handler.generate_all_near_regions()
 		region_handler.draw_all_near_regions()
 		region_handler.unload_all_far_away_regions()
+
+func pickpocket_target():
+	var collision_ray = $MoveOperator.get_node("ShapeCast2D")
+	if collision_ray.is_colliding():
+		var target = collision_ray.get_collider(0)
+		character_actions.pickpocket(self, target)
+	else:
+		print("No victim in sight")

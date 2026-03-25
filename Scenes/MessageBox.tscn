@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://b4cu2akuybujv"]
+
+[ext_resource type="Texture2D" uid="uid://d3prq6q7fws2a" path="res://assets/UI/UI_sheet_big.png" id="1_ooai8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gxapy"]
+atlas = ExtResource("1_ooai8")
+region = Rect2(222, 88, 93, 70)
+
+[node name="MessageBox" type="Control" unique_id=2067191331]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1360596777]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_gxapy")

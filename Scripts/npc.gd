@@ -27,6 +27,8 @@ var move_weights: Array = [600, 1, 1, 1, 1, 1, 1]
 	
 var rng := RandomNumberGenerator.new()
 
+@export var data_inventory = DataInventory.new(15)
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	atlas_regions.shuffle()

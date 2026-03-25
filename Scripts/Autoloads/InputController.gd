@@ -7,6 +7,7 @@ signal open_region_layer_triggered
 signal open_local_layer_triggered
 signal toggle_cursor_triggered
 signal toggle_character_menu_triggered
+signal pickpocket_victim_triggered
 
 var input_actions := {}
 
@@ -22,7 +23,8 @@ func _ready() -> void:
 		[KEY_M, false]: m_pressed,
 		[KEY_L, false]: l_pressed,
 		[KEY_X, false]: x_pressed,
-		[KEY_C, true]: c_shift_pressed
+		[KEY_C, true]: c_shift_pressed,
+		[KEY_P, false]: p_pressed,
 	}
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -113,3 +115,8 @@ func c_shift_pressed():
 			toggle_character_menu_triggered.emit()
 		Global.GameState.CHARACTER_MENU:
 			toggle_character_menu_triggered.emit()
+			
+func p_pressed():
+	match Global.game_state:
+		Global.GameState.LOCAL:
+			pickpocket_victim_triggered.emit()

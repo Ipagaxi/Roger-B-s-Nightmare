@@ -195,7 +195,7 @@ func toggle_cursor():
 		player_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
 
 func toggle_character_menu():
-	if Global.game_state == Global.GameState.CHARACTER_MENU:
+	if Global.get_game_state() == Global.GameState.CHARACTER_MENU:
 		Global.change_game_state_back()
 		character_menu_inst.visible = false
 	else:

@@ -39,6 +39,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Global.game_state == Global.GameState.LOCAL:
+	if Global.get_game_state() == Global.GameState.LOCAL:
 		var end_position = self.global_position + move_dir[rng.rand_weighted(move_weights)] * TilesInterface.TILE_SIZE
 		$MoveOperator.trigger_movement(end_position, self)

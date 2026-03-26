@@ -36,7 +36,7 @@ func _process(delta: float) -> void:
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
-	if Global.game_state == Global.GameState.LOCAL:
+	if Global.get_game_state() == Global.GameState.LOCAL:
 		handle_player_movement(event)
 
 	if event is InputEventKey and event.pressed:
@@ -60,7 +60,7 @@ func handle_player_movement(event):
 # ---------------------------------------------------------------
 
 func z_pressed():
-	match Global.game_state:
+	match Global.get_game_state():
 		Global.GameState.LOCAL:
 			zoom_in_triggered.emit()
 		Global.GameState.REGION:
@@ -69,7 +69,7 @@ func z_pressed():
 			zoom_in_triggered.emit()
 	
 func z_shift_pressed():
-	match Global.game_state:
+	match Global.get_game_state():
 		Global.GameState.LOCAL:
 			zoom_out_triggered.emit()
 		Global.GameState.REGION:
@@ -78,28 +78,28 @@ func z_shift_pressed():
 			zoom_out_triggered.emit()
 		
 func c_pressed():
-	match Global.game_state:
+	match Global.get_game_state():
 		Global.GameState.LOCAL:
 			open_continent_layer_triggered.emit()
 		Global.GameState.REGION:
 			open_continent_layer_triggered.emit()
 	
 func m_pressed():
-	match Global.game_state:
+	match Global.get_game_state():
 			Global.GameState.LOCAL:
 				open_region_layer_triggered.emit()
 			Global.GameState.CONTINENT:
 				open_region_layer_triggered.emit()
 
 func l_pressed():
-	match Global.game_state:
+	match Global.get_game_state():
 		Global.GameState.REGION:
 			open_local_layer_triggered.emit()
 		Global.GameState.CONTINENT:
 			open_local_layer_triggered.emit()
 
 func x_pressed():
-	match Global.game_state:
+	match Global.get_game_state():
 		Global.GameState.LOCAL:
 			toggle_cursor_triggered.emit()
 		Global.GameState.REGION:
@@ -110,7 +110,7 @@ func x_pressed():
 			toggle_cursor_triggered.emit()
 
 func c_shift_pressed():
-	match Global.game_state:
+	match Global.get_game_state():
 		Global.GameState.LOCAL:
 			toggle_character_menu_triggered.emit()
 		Global.GameState.REGION:
@@ -121,12 +121,12 @@ func c_shift_pressed():
 			toggle_character_menu_triggered.emit()
 			
 func p_pressed():
-	match Global.game_state:
+	match Global.get_game_state():
 		Global.GameState.LOCAL:
 			pickpocket_victim_triggered.emit()
 
 func esc_pressed():
-	match Global.game_state:
+	match Global.get_game_state():
 		Global.GameState.EQUIP_INTERFACE:
 			close_equip_interface.emit()
 		Global.GameState.STATS_INTERFACE:

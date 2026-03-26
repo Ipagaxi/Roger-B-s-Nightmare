@@ -4,13 +4,9 @@ var loading_scene = preload("res://Scenes/Loading.tscn")
 
 enum Layer {LOCAL_LAYER, REGION_LAYER, CONTINENT_LAYER}
 
-enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, CHARACTER_MENU, PAUSE_MENU, CURSOR, EQUIP_INTERFACE, STATS_INTERFACE, CBM_INTERFACE}
+enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, CHARACTER_MENU, PAUSE_MENU, CURSOR, STATS_INTERFACE, EQUIP_INTERFACE, CBM_INTERFACE}
 
 signal message_box_triggered(text, duration, fadding_out_duration)
-
-# Change the game state with the provided method
-var game_state = GameState.MAIN_MENU
-var last_game_state = GameState.MAIN_MENU
 
 var current_scene = null
 
@@ -25,6 +21,8 @@ const LOWER_BOUNDARY_CENTER_IDS = 3
 
 const TILESET_FILE_NAME = "tileset.tres"
 const TILESET_USED_ID = 0
+
+var game_state_stack = [ GameState.MAIN_MENU ]
 
 var current_layer = Layer.LOCAL_LAYER
 
@@ -41,15 +39,19 @@ func _deferred_goto_scene(path):
 	new_scene_path = path
 	ResourceLoader.load_threaded_request(path)
 	get_tree().change_scene_to_packed(loading_scene)
+	
+func get_game_state() -> GameState:
+	return game_state_stack.back()
 
 func change_game_state_to(new_game_state: GameState):
-	last_game_state = game_state
-	game_state = new_game_state
+	if new_game_state != get_game_state():
+		game_state_stack.push_back(new_game_state)
+	if game_state_stack.size() > 10:
+		game_state_stack.pop_front()
+	print(game_state_stack)
 	
 func change_game_state_back():
-	var tmp = last_game_state
-	last_game_state = game_state
-	game_state = tmp
+	game_state_stack.pop_back()
 
 func show_message_box(text: String, duration, fadding_out_duration):
 	message_box_triggered.emit(text, duration, fadding_out_duration)

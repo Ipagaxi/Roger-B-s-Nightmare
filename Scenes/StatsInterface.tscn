@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://b0ojakjkud0uj"]
+
+[ext_resource type="Texture2D" uid="uid://dr304eakhw37c" path="res://assets/UI/UI_Screen_Main.png" id="1_wml83"]
+[ext_resource type="Texture2D" uid="uid://d3prq6q7fws2a" path="res://assets/UI/UI_sheet_big.png" id="2_k1xug"]
+[ext_resource type="FontFile" uid="uid://cc83lo0f8upr5" path="res://assets/fonts/CyberRLFont.ttf" id="3_yojfd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3wtg"]
+atlas = ExtResource("2_k1xug")
+region = Rect2(222, 88, 93, 70)
+
+[node name="StatsInterface" type="Control" unique_id=814032153]
+custom_minimum_size = Vector2(480, 270)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 480.0
+offset_bottom = 270.0
+scale = Vector2(4, 4)
+
+[node name="Background" type="ColorRect" parent="." unique_id=143777302]
+layout_mode = 0
+offset_right = 480.0
+offset_bottom = 270.0
+color = Color(0, 0, 0, 0.91764706)
+
+[node name="Border" type="TextureRect" parent="." unique_id=411593317]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_wml83")
+
+[node name="Control" type="Control" parent="." unique_id=235813556]
+anchors_preset = 0
+offset_left = 64.75
+offset_top = 44.0
+offset_right = 411.0
+offset_bottom = 224.0
+
+[node name="SocialBox" type="TextureRect" parent="Control" unique_id=2123677520]
+layout_mode = 0
+offset_left = 186.0
+offset_top = 99.5
+offset_right = 506.0
+offset_bottom = 259.5
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_f3wtg")
+
+[node name="Label" type="Label" parent="Control/SocialBox" unique_id=1582698108]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 7.0
+offset_right = 312.0
+offset_bottom = 148.0
+theme_override_fonts/font = ExtResource("3_yojfd")
+text = "Social: Some words describing your social skills..."
+text_overrun_behavior = 3
+
+[node name="MindBox" type="TextureRect" parent="Control" unique_id=329708225]
+layout_mode = 0
+offset_left = 186.25
+offset_top = -0.5
+offset_right = 506.25
+offset_bottom = 159.5
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_f3wtg")
+
+[node name="Label" type="Label" parent="Control/MindBox" unique_id=1158137140]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 7.0
+offset_right = 312.0
+offset_bottom = 148.0
+theme_override_fonts/font = ExtResource("3_yojfd")
+text = "Mind: A description of the current state of your mind..."
+text_overrun_behavior = 3
+
+[node name="EnduranceBox" type="TextureRect" parent="Control" unique_id=1044523414]
+layout_mode = 0
+offset_top = 99.5
+offset_right = 320.0
+offset_bottom = 259.5
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_f3wtg")
+
+[node name="Label" type="Label" parent="Control/EnduranceBox" unique_id=289424706]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 7.0
+offset_right = 312.0
+offset_bottom = 148.0
+theme_override_fonts/font = ExtResource("3_yojfd")
+text = "Endurance: A descriptive information about your endurance..."
+text_overrun_behavior = 3
+
+[node name="StrengthBox" type="TextureRect" parent="Control" unique_id=772772759]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 160.0
+scale = Vector2(0.5, 0.5)
+texture = SubResource("AtlasTexture_f3wtg")
+
+[node name="Label" type="Label" parent="Control/StrengthBox" unique_id=673090181]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 7.0
+offset_right = 312.0
+offset_bottom = 148.0
+theme_override_fonts/font = ExtResource("3_yojfd")
+text = "Strength: Here is something about your strength..."
+text_overrun_behavior = 3

@@ -8,6 +8,9 @@ signal open_local_layer_triggered
 signal toggle_cursor_triggered
 signal toggle_character_menu_triggered
 signal pickpocket_victim_triggered
+signal close_equip_interface
+signal close_stats_interface
+signal close_cbm_interface
 
 var input_actions := {}
 
@@ -25,6 +28,7 @@ func _ready() -> void:
 		[KEY_X, false]: x_pressed,
 		[KEY_C, true]: c_shift_pressed,
 		[KEY_P, false]: p_pressed,
+		[KEY_ESCAPE, false]: esc_pressed,
 	}
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -120,3 +124,12 @@ func p_pressed():
 	match Global.game_state:
 		Global.GameState.LOCAL:
 			pickpocket_victim_triggered.emit()
+
+func esc_pressed():
+	match Global.game_state:
+		Global.GameState.EQUIP_INTERFACE:
+			close_equip_interface.emit()
+		Global.GameState.STATS_INTERFACE:
+			close_stats_interface.emit()
+		Global.GameState.CBM_INTERFACE:
+			close_cbm_interface.emit()

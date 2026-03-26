@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://b8asbs3m1i3t8"]
+
+[ext_resource type="Texture2D" uid="uid://dqdf2varrm0ns" path="res://assets/UI/UI_Equip_Border.png" id="1_smiys"]
+[ext_resource type="Texture2D" uid="uid://croxwrfcn7kbd" path="res://assets/UI/UI_Equip_Anatomy.png" id="2_kalse"]
+
+[node name="EquipInterface" type="Control" unique_id=677045837]
+custom_minimum_size = Vector2(480, 270)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 480.0
+offset_bottom = 270.0
+scale = Vector2(4, 4)
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1101282233]
+layout_mode = 0
+offset_right = 256.5
+offset_bottom = 269.75
+color = Color(0, 0, 0, 1)
+
+[node name="Equip_Border" type="TextureRect" parent="." unique_id=1766591695]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_smiys")
+
+[node name="Equip_Anatomy" type="TextureRect" parent="." unique_id=789846774]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_kalse")

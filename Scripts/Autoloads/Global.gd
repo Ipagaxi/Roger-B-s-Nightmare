@@ -4,7 +4,7 @@ var loading_scene = preload("res://Scenes/Loading.tscn")
 
 enum Layer {LOCAL_LAYER, REGION_LAYER, CONTINENT_LAYER}
 
-enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, CHARACTER_MENU, PAUSE_MENU, CURSOR}
+enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, CHARACTER_MENU, PAUSE_MENU, CURSOR, EQUIP_INTERFACE, STATS_INTERFACE, CBM_INTERFACE}
 
 signal message_box_triggered(text, duration, fadding_out_duration)
 

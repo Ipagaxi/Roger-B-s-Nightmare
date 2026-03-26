@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://7x7t2mwcxgwh"]
+
+[ext_resource type="Texture2D" uid="uid://dqdf2varrm0ns" path="res://assets/UI/UI_Equip_Border.png" id="1_g76yb"]
+[ext_resource type="Texture2D" uid="uid://ga8hgq8gl1c0" path="res://assets/UI/UI_CBM_Anatomy.png" id="2_g76yb"]
+
+[node name="CbmInterface" type="Control" unique_id=1110000438]
+custom_minimum_size = Vector2(480, 270)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 480.0
+offset_bottom = 270.0
+scale = Vector2(4, 4)
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1164546973]
+layout_mode = 0
+offset_right = 256.5
+offset_bottom = 269.75
+color = Color(0, 0, 0, 1)
+
+[node name="Equip_Border" type="TextureRect" parent="." unique_id=610680961]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_g76yb")
+
+[node name="CBM_Anatomy" type="TextureRect" parent="." unique_id=1553969459]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_g76yb")

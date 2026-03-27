@@ -43,5 +43,9 @@ func trigger_movement(end_position: Vector2, body) -> bool:
 		moving = true
 		move_start_pos = self.global_position
 		move_end_pos = end_position
+		var body_sprite = body.get_node("Sprite2D")
+		var dir_x = (end_position-body.global_position).x
+		if dir_x != 0:
+			body_sprite.flip_h = dir_x > 0
 	
 	return !currently_moving

@@ -39,7 +39,7 @@ func _deferred_goto_scene(path):
 	new_scene_path = path
 	ResourceLoader.load_threaded_request(path)
 	get_tree().change_scene_to_packed(loading_scene)
-	
+
 func get_game_state() -> GameState:
 	return game_state_stack.back()
 
@@ -48,7 +48,6 @@ func change_game_state_to(new_game_state: GameState):
 		game_state_stack.push_back(new_game_state)
 	if game_state_stack.size() > 10:
 		game_state_stack.pop_front()
-	print(game_state_stack)
 	
 func change_game_state_back():
 	game_state_stack.pop_back()

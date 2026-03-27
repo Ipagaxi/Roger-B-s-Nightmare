@@ -125,6 +125,7 @@ func draw_run():
 	#await get_tree().process_frame
 	
 	player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
+	#$Camera2D.global_position = player_inst.global_position
 	add_child(player_inst)
 	player_inst.local_handler = local_inst
 	player_inst.region_handler = region_inst

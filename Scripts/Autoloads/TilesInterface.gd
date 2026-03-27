@@ -65,7 +65,7 @@ func move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 	if not move_operator.moving:
 		return true
 	var distance = end - start
-	var motion = distance * 1#(distance * delta*5.0).floor()
+	var motion = Vector2(4, 4)*(distance/32)#(distance * delta*5.0).floor()
 	var rest = end - body.global_position
 	var finished_moving = false
 	if motion.length() >= (rest).length():

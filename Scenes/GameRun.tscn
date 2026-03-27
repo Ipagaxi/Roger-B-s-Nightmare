@@ -58,6 +58,9 @@ script = ExtResource("1_brfv0")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=807113032]
 limit_enabled = false
+position_smoothing_speed = 10.0
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=775241645]
 

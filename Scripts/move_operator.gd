@@ -24,21 +24,21 @@ func move(start: Vector2, end: Vector2, delta: float) -> bool:
 	if not moving:
 		return true
 	
-	var move_dir = (end - start).normalized()
-				
-	ray.position = end-start + Vector2(0.5 * TilesInterface.TILE_SIZE, 0.5 * TilesInterface.TILE_SIZE)
-	ray.target_position = (end-start) * 0.45
-	ray.force_shapecast_update()
-	if ray.is_colliding():
-		moving = false
-		return true
-	
 	return TilesInterface.move(start, end, delta, body_to_move)
 
 # Returns if new movement is triggered
 func trigger_movement(end_position: Vector2, body) -> bool:
 	var currently_moving = moving
 	if not moving:
+		
+		var dir = end_position-body.global_position
+		ray.position = dir + Vector2(0.5 * TilesInterface.TILE_SIZE, 0.5 * TilesInterface.TILE_SIZE)
+		ray.target_position = dir * 0.45
+		ray.force_shapecast_update()
+		if ray.is_colliding():
+			moving = false
+			return false
+		
 		body_to_move = body
 		moving = true
 		move_start_pos = self.global_position

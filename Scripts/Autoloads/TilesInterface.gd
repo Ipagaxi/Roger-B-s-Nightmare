@@ -56,11 +56,15 @@ const INPUTS = {"right": Vector2.RIGHT,
 				"bottom_left": Vector2(-1, 1),
 				"bottom_right": Vector2(1, 1),
 				"stay": Vector2i.ZERO}
-				
+
+func move(direction, body) -> Vector2i:
+	var motion = TilesInterface.tileCoords_to_trueCoords(INPUTS[direction]) / 1.0
+	body.global_position += motion
+	return body.global_position
 
 # Moves the body from start to end with each call a step
 # Returns if whole move finished
-func move(start: Vector2, end: Vector2, delta: float, body) -> bool:
+func slide_move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 	var move_operator = body.get_node("MoveOperator")
 	if not move_operator.moving:
 		return true

@@ -24,7 +24,7 @@ func move(start: Vector2, end: Vector2, delta: float) -> bool:
 	if not moving:
 		return true
 	
-	return TilesInterface.move(start, end, delta, body_to_move)
+	return TilesInterface.slide_move(start, end, delta, body_to_move)
 
 # Returns if new movement is triggered
 func trigger_movement(end_position: Vector2, body) -> bool:

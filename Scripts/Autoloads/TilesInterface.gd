@@ -68,11 +68,16 @@ func slide_move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 	var move_operator = body.get_node("MoveOperator")
 	if not move_operator.moving:
 		return true
-	var distance = end - start
-	var motion = Vector2(4, 4)*(distance/TilesInterface.TILE_SIZE)#(distance * delta*5.0).floor()
+	var dir = (end - start) / TILE_SIZE
+	var move_length = roundi(delta * 400)
+	var motion = dir * move_length
 	var rest = end - body.global_position
+	var motion_target = body.global_position + motion
+	var dot_product = (end - start).dot(end - motion_target)
 	var finished_moving = false
-	if motion.length() >= (rest).length():
+	#print("motion: ", motion)
+	if dot_product < 0 :
+		print("dot product: ",dot_product)
 		body.global_position = end
 		finished_moving = true
 	else:
@@ -87,6 +92,7 @@ func trueCoords_to_tileCoords(position: Vector2i) -> Vector2i:
 	return position / TILE_SIZE
 
 # It is a little bit confusing: the local is provided via region_coords (coords in the current region)
+# Returns the global coordinates of the whole local
 func get_global_tile_coords_of_local(region_coords: Vector2i, continent_coords: Vector2i) -> Vector2i:
 	return continent_coords * REGION_SIZE_TILES * LOCAL_SIZE_TILES + region_coords * LOCAL_SIZE_TILES
 	

@@ -30,7 +30,6 @@ func move(start: Vector2, end: Vector2, delta: float) -> bool:
 func trigger_movement(end_position: Vector2, body) -> bool:
 	var currently_moving = moving
 	if not moving:
-		
 		var dir = end_position-body.global_position
 		ray.position = dir + Vector2(0.5 * TilesInterface.TILE_SIZE, 0.5 * TilesInterface.TILE_SIZE)
 		ray.target_position = dir * 0.45
@@ -38,7 +37,7 @@ func trigger_movement(end_position: Vector2, body) -> bool:
 		if ray.is_colliding():
 			moving = false
 			return false
-		
+
 		body_to_move = body
 		moving = true
 		move_start_pos = self.global_position

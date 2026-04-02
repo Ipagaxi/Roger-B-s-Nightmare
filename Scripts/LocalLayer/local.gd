@@ -29,7 +29,6 @@ func generate(region_coords: Vector2i, continent_coords: Vector2i):
 	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords, continent_coords)
 	background_inst = grassland_scene.instantiate()
 	background_inst.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
-	#add_child(grassland_inst)
 	if region_matrix[region_coords.y][region_coords.x] == -2:
 		# Generate road local
 		assigned_local = street_scene.instantiate()

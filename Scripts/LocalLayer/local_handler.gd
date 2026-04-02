@@ -8,15 +8,11 @@ extends Node2D
 var generated_locals := {}
 var loaded_locals := {}
 	
-var counter = 0
 
 func generate_all_near_locals(continent_coords: Vector2i):
-	#print("Load Locals ##################")
-	counter = 0
 	var load_radius = Global.LOCAL_LOAD_RADIUS
 	var region_coords = TilesInterface.current_location_region
 	var region_size = TilesInterface.REGION_SIZE_TILES
-	#print("cur cont coords: ", continent_coords)
 	for y in range(region_coords.y - load_radius, region_coords.y + load_radius + 1):
 		for x in range(region_coords.x - load_radius, region_coords.x + load_radius + 1):
 			var coords = Vector2i(x, y)
@@ -45,14 +41,10 @@ func draw_all_near_locals():
 			add_child(local_inst)
 
 func generate_local(region_coords: Vector2i, continent_coords: Vector2i):
-	counter += 1
 	if generated_locals.has([region_coords, continent_coords]):
-		#print("Already there: ", counter)
 		return
-	#print("Not there: ", counter)
 	local_scene = preload("res://Scenes/LocalLayer/Local.tscn")
 	var local = local_scene.instantiate()
-	#add_child(local)
 	local.generate(region_coords, continent_coords)
 	generated_locals[[region_coords, continent_coords]] = local
 

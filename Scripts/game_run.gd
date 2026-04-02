@@ -8,6 +8,7 @@ extends Node2D
 @onready var loading_scene = preload("res://Scenes/Loading.tscn")
 @onready var character_menu_scene = preload("res://Scenes/CharacterMenu.tscn")
 @onready var message_box_scene = preload("res://Scenes/MessageBox.tscn")
+@onready var npc_scene = preload("res://Scenes/NPC.tscn")
 
 #@onready var frame_control = $CanvasLayer/Control/FrameControl
 
@@ -23,6 +24,8 @@ var cursor_inst
 var loading_inst
 var character_menu_inst
 
+var npcs = {}
+
 
 # ---------------------------------------------------------------
 # Godot Callbacks
@@ -37,7 +40,9 @@ func _ready():
 	InputController.toggle_cursor_triggered.connect(toggle_cursor)
 	InputController.toggle_character_menu_triggered.connect(toggle_character_menu)
 	$CanvasLayer/Control/PauseMenu.continue_triggered.connect(continue_game)
-	Global.message_box_triggered.connect(show_message_box)
+	
+	GameEventController.message_box_triggered.connect(show_message_box)
+	GameEventController.spawn_npc_triggered.connect(generate_npc)
 	
 func _input(event):
 	pass
@@ -101,6 +106,7 @@ func generate_run():
 	print("Instantiate player...")
 	player_inst = player_scene.instantiate()
 	player_inst.global_position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_local + TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent))
+	print("Player position global: ", player_inst.global_position)
 	print("Generation finished!")
 	
 	character_menu_inst = character_menu_scene.instantiate()
@@ -123,6 +129,11 @@ func draw_run():
 	add_child(local_inst)
 	local_inst.draw_all_near_locals()
 	#await get_tree().process_frame
+	
+	for npc_pos in npcs:
+		add_child(npcs[npc_pos])
+		npcs[npc_pos].global_position = TilesInterface.tileCoords_to_trueCoords(npc_pos)
+		
 	
 	player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 	#$Camera2D.global_position = player_inst.global_position
@@ -206,7 +217,7 @@ func toggle_character_menu():
 func continue_game():
 	Global.change_game_state_back()
 	$CanvasLayer/Control/PauseMenu.visible = false
-	
+
 func show_message_box(text, duration, fadding_out_duration):
 	var message_box_inst = message_box_scene.instantiate()
 	message_box_inst.init(text, duration, fadding_out_duration)
@@ -221,6 +232,9 @@ func show_message_box(text, duration, fadding_out_duration):
 	message_box_inst.offset_right = displayed_size.x / 2
 	message_box_inst.offset_top = -1.7*displayed_size.y
 	#message_box_inst.offset_bottom = displayed_size.y / 2
+
+func generate_npc(npc_global_position):
+	npcs[npc_global_position] = npc_scene.instantiate()
 
 # ---------------------------------------------------------------
 # Helper functions

@@ -24,6 +24,7 @@ config/icon="uid://devmdryavp71n"
 Global="*res://Scripts/Autoloads/Global.gd"
 TilesInterface="*res://Scripts/Autoloads/TilesInterface.gd"
 InputController="*uid://c2cbqvrnc4x2p"
+GameEventController="*uid://ddygh78kkh36w"
 
 [display]
 

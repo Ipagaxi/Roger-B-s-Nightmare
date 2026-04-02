@@ -6,8 +6,6 @@ enum Layer {LOCAL_LAYER, REGION_LAYER, CONTINENT_LAYER}
 
 enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, CHARACTER_MENU, PAUSE_MENU, CURSOR, STATS_INTERFACE, EQUIP_INTERFACE, CBM_INTERFACE}
 
-signal message_box_triggered(text, duration, fadding_out_duration)
-
 var current_scene = null
 
 const LOCAL_LOAD_RADIUS = 2
@@ -51,6 +49,3 @@ func change_game_state_to(new_game_state: GameState):
 	
 func change_game_state_back():
 	game_state_stack.pop_back()
-
-func show_message_box(text: String, duration, fadding_out_duration):
-	message_box_triggered.emit(text, duration, fadding_out_duration)

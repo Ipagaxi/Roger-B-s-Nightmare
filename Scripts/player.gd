@@ -32,7 +32,8 @@ func pickpocket_target():
 	if collision_ray.is_colliding():
 		var target = collision_ray.get_collider(0)
 		var stolen_money = character_actions.pickpocket(self, target)
-		Global.show_message_box("You stole {amount} money!".format({"amount": stolen_money}), 3, 2)
+		GameEventController.show_message_box("You stole {amount} money!".format({"amount": stolen_money}), 3, 2)
+		
 		data_inventory.money += stolen_money
 	else:
 		print("No victim in sight")

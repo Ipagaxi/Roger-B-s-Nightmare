@@ -69,7 +69,7 @@ func slide_move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 	if not move_operator.moving:
 		return true
 	var dir = (end - start) / TILE_SIZE
-	var move_length = roundi(delta * 400)
+	var move_length = roundi(delta * 450)
 	var motion = dir * move_length
 	var rest = end - body.global_position
 	var motion_target = body.global_position + motion
@@ -77,11 +77,10 @@ func slide_move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 	var finished_moving = false
 	#print("motion: ", motion)
 	if dot_product < 0 :
-		print("dot product: ",dot_product)
 		body.global_position = end
 		finished_moving = true
 	else:
-		body.global_position += motion
+		body.global_position = body.global_position + motion
 	move_operator.moving = not finished_moving
 	return finished_moving
 

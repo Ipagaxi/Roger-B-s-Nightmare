@@ -42,4 +42,4 @@ func _process(delta):
 	if Global.get_game_state() == Global.GameState.LOCAL:
 		var move_dir = move_dir[rng.rand_weighted(move_weights)] * TilesInterface.TILE_SIZE
 		if move_dir != Vector2(0, 0):
-			#$MoveOperator.trigger_movement(self.global_position+move_dir, self)
+			$MoveOperator.trigger_movement(self.global_position+move_dir, self)

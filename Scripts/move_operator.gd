@@ -13,12 +13,13 @@ var body_to_move
 func _ready():
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta: float) -> void:
 	if body_to_move:
 		move(move_start_pos, move_end_pos, speed*delta)
-
+		
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
 
 func move(start: Vector2, end: Vector2, delta: float) -> bool:
 	if not moving:

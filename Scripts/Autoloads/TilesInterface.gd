@@ -68,21 +68,20 @@ func slide_move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 	var move_operator = body.get_node("MoveOperator")
 	if not move_operator.moving:
 		return true
-	var dir = (end - start) / TILE_SIZE
-	var move_length = roundi(delta * 450)
-	var motion = dir * move_length
-	var rest = end - body.global_position
-	var motion_target = body.global_position + motion
-	var dot_product = (end - start).dot(end - motion_target)
-	var finished_moving = false
-	#print("motion: ", motion)
-	if dot_product < 0 :
+
+	var speed = 700.0
+	var to_target = end - body.global_position
+	var distance = to_target.length()
+
+	if distance < speed * delta:
+		# Snap to target (prevents jitter at the end)
 		body.global_position = end
-		finished_moving = true
+		move_operator.moving = false
+		return true
 	else:
-		body.global_position = body.global_position + motion
-	move_operator.moving = not finished_moving
-	return finished_moving
+		var direction = to_target.normalized()
+		body.global_position += direction * speed * delta
+		return false
 
 func tileCoords_to_trueCoords(position: Vector2i) -> Vector2i:
 	return position * TILE_SIZE

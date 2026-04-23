@@ -107,7 +107,7 @@ func generate_run():
 	print("Instantiate player...")
 	player_inst = player_scene.instantiate()
 	player_inst.global_position = TilesInterface.tileCoords_to_trueCoords(TilesInterface.current_location_local + TilesInterface.get_global_tile_coords_of_local(TilesInterface.current_location_region, TilesInterface.current_location_continent))
-	print("Player position global: ", player_inst.global_position)
+	Global.controlled_entity = player_inst
 	print("Generation finished!")
 	
 	character_menu_inst = character_menu_scene.instantiate()
@@ -137,11 +137,9 @@ func draw_run():
 		
 	
 	player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
-	#$Camera2D.global_position = player_inst.global_position
 	add_child(player_inst)
 	player_inst.local_handler = local_inst
 	player_inst.region_handler = region_inst
-	InputController.player_inst = player_inst
 	$Camera2D.zoom = Vector2(1, 1)
 	
 	$CanvasLayer/Control/WindowFrame.add_sibling(character_menu_inst)
@@ -219,12 +217,14 @@ func toggle_neural_layer():
 	if Global.get_game_state() == Global.GameState.NEURAL_LAYER:
 		Global.change_game_state_back()
 		$NeuralLayer.visible = false
+		Global.controlled_entity = player_inst
 		player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 		$NeuralLayer.get_node("Player").get_node("RemoteTransform2D").remote_path = NodePath("")
 	else:
 		Global.change_game_state_to(Global.GameState.NEURAL_LAYER)
 		$NeuralLayer.visible = true
 		var neural_player = get_node("NeuralLayer/Player")
+		Global.controlled_entity = neural_player
 		neural_player.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 		player_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
 

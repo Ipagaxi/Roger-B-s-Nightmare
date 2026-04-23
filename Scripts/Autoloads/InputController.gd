@@ -15,8 +15,6 @@ signal toggle_neural_layer_triggered
 
 var input_actions := {}
 
-var player_inst: StaticBody2D
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# [KEY, SHIFT_PRESSED]
@@ -41,8 +39,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	match Global.get_game_state():
 		Global.GameState.LOCAL:
 			handle_player_movement(event)
-		#Global.GameState.NEURAL_LAYER:
-			#handle_player_movement(event)
+		Global.GameState.NEURAL_LAYER:
+			handle_player_movement(event)
 
 	if event is InputEventKey and event.pressed:
 		for action in input_actions.keys():
@@ -55,10 +53,10 @@ func _unhandled_input(event: InputEvent) -> void:
 # ---------------------------------------------------------------
 
 func handle_player_movement(event):
-	if not player_inst.get_node("MoveOperator").moving:
+	if not Global.controlled_entity.get_node("MoveOperator").moving:
 		for dir in TilesInterface.INPUTS.keys():
 				if event.is_action(dir) and !event.is_action_released(dir):
-					player_inst.trigger_movement(player_inst.global_position + TilesInterface.tileCoords_to_trueCoords(TilesInterface.INPUTS[dir])/1.0)
+					Global.controlled_entity.trigger_movement(Global.controlled_entity.global_position + TilesInterface.tileCoords_to_trueCoords(TilesInterface.INPUTS[dir])/1.0)
 
 # ---------------------------------------------------------------
 # Input action functions

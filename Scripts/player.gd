@@ -12,20 +12,21 @@ var region_handler: Node2D
 func _ready() -> void:
 	InputController.pickpocket_victim_triggered.connect(pickpocket_target)
 
-func _process(delta: float) -> void:
-	pass
-
 func trigger_movement(end_position: Vector2):
 	if $MoveOperator.trigger_movement(end_position, self):
-		TilesInterface.update_layer_positions(TilesInterface.trueCoords_to_tileCoords(self.global_position))
+		if Global.get_game_state() == Global.GameState.LOCAL:
+			manage_layers()
+
+func manage_layers():
+	TilesInterface.update_layer_positions(TilesInterface.trueCoords_to_tileCoords(self.global_position))
 		
-		local_handler.generate_all_near_locals(TilesInterface.current_location_continent)
-		local_handler.draw_all_near_locals()
-		local_handler.unload_all_far_away_locals()
-		
-		region_handler.generate_all_near_regions()
-		region_handler.draw_all_near_regions()
-		region_handler.unload_all_far_away_regions()
+	local_handler.generate_all_near_locals(TilesInterface.current_location_continent)
+	local_handler.draw_all_near_locals()
+	local_handler.unload_all_far_away_locals()
+	
+	region_handler.generate_all_near_regions()
+	region_handler.draw_all_near_regions()
+	region_handler.unload_all_far_away_regions()
 
 func pickpocket_target():
 	var collision_ray = $MoveOperator.get_node("ShapeCast2D")

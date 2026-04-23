@@ -39,6 +39,7 @@ func _ready():
 	InputController.open_local_layer_triggered.connect(open_local_layer)
 	InputController.toggle_cursor_triggered.connect(toggle_cursor)
 	InputController.toggle_character_menu_triggered.connect(toggle_character_menu)
+	InputController.toggle_neural_layer_triggered.connect(toggle_neural_layer)
 	$CanvasLayer/Control/PauseMenu.continue_triggered.connect(continue_game)
 	
 	GameEventController.message_box_triggered.connect(show_message_box)
@@ -213,6 +214,19 @@ func toggle_character_menu():
 	else:
 		Global.change_game_state_to(Global.GameState.CHARACTER_MENU)
 		character_menu_inst.visible = true
+
+func toggle_neural_layer():
+	if Global.get_game_state() == Global.GameState.NEURAL_LAYER:
+		Global.change_game_state_back()
+		$NeuralLayer.visible = false
+		player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
+		$NeuralLayer.get_node("Player").get_node("RemoteTransform2D").remote_path = NodePath("")
+	else:
+		Global.change_game_state_to(Global.GameState.NEURAL_LAYER)
+		$NeuralLayer.visible = true
+		var neural_player = get_node("NeuralLayer/Player")
+		neural_player.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
+		player_inst.get_node("RemoteTransform2D").remote_path = NodePath("")
 
 func continue_game():
 	Global.change_game_state_back()

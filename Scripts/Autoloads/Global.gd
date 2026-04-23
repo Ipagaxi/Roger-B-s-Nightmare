@@ -4,7 +4,7 @@ var loading_scene = preload("res://Scenes/Loading.tscn")
 
 enum Layer {LOCAL_LAYER, REGION_LAYER, CONTINENT_LAYER}
 
-enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, CHARACTER_MENU, PAUSE_MENU, CURSOR, STATS_INTERFACE, EQUIP_INTERFACE, CBM_INTERFACE}
+enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, NEURAL_LAYER, CHARACTER_MENU, PAUSE_MENU, CURSOR, STATS_INTERFACE, EQUIP_INTERFACE, CBM_INTERFACE}
 
 var current_scene = null
 
@@ -25,6 +25,8 @@ var game_state_stack = [ GameState.MAIN_MENU ]
 var current_layer = Layer.LOCAL_LAYER
 
 var new_scene_path
+
+var controlled_entity
 
 func _ready():
 	var target_screen = 0  # 0 = primary monitor, 1 = second monitor, etc.

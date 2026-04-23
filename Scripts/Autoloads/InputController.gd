@@ -8,9 +8,10 @@ signal open_local_layer_triggered
 signal toggle_cursor_triggered
 signal toggle_character_menu_triggered
 signal pickpocket_victim_triggered
-signal close_equip_interface
-signal close_stats_interface
-signal close_cbm_interface
+signal close_equip_interface_triggered
+signal close_stats_interface_triggered
+signal close_cbm_interface_triggered
+signal toggle_neural_layer_triggered
 
 var input_actions := {}
 
@@ -29,6 +30,7 @@ func _ready() -> void:
 		[KEY_C, true]: c_shift_pressed,
 		[KEY_P, false]: p_pressed,
 		[KEY_ESCAPE, false]: esc_pressed,
+		[KEY_N, false]: n_pressed
 	}
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -36,8 +38,11 @@ func _process(delta: float) -> void:
 	pass
 
 func _unhandled_input(event: InputEvent) -> void:
-	if Global.get_game_state() == Global.GameState.LOCAL:
-		handle_player_movement(event)
+	match Global.get_game_state():
+		Global.GameState.LOCAL:
+			handle_player_movement(event)
+		#Global.GameState.NEURAL_LAYER:
+			#handle_player_movement(event)
 
 	if event is InputEventKey and event.pressed:
 		for action in input_actions.keys():
@@ -128,8 +133,19 @@ func p_pressed():
 func esc_pressed():
 	match Global.get_game_state():
 		Global.GameState.EQUIP_INTERFACE:
-			close_equip_interface.emit()
+			close_equip_interface_triggered.emit()
 		Global.GameState.STATS_INTERFACE:
-			close_stats_interface.emit()
+			close_stats_interface_triggered.emit()
 		Global.GameState.CBM_INTERFACE:
-			close_cbm_interface.emit()
+			close_cbm_interface_triggered.emit()
+
+func n_pressed():
+	match Global.get_game_state():
+		Global.GameState.LOCAL:
+			toggle_neural_layer_triggered.emit()
+		Global.GameState.REGION:
+			toggle_neural_layer_triggered.emit()
+		Global.GameState.CONTINENT:
+			toggle_neural_layer_triggered.emit()
+		Global.GameState.NEURAL_LAYER:
+			toggle_neural_layer_triggered.emit()

@@ -5,9 +5,9 @@ var equip_interface_inst
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	InputController.close_equip_interface.connect(return_from_equip_interface)
-	InputController.close_stats_interface.connect(return_from_stats_interface)
-	InputController.close_cbm_interface.connect(return_from_cbm_interface)
+	InputController.close_equip_interface_triggered.connect(return_from_equip_interface)
+	InputController.close_stats_interface_triggered.connect(return_from_stats_interface)
+	InputController.close_cbm_interface_triggered.connect(return_from_cbm_interface)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

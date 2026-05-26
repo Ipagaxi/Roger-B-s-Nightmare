@@ -7,16 +7,16 @@ extends Node
 
 # The local layer consist of multiple chunks
 
-const TILE_SIZE = 32
-const STREET_ASSET_SIZE_TILE = Vector2i(63, 63)
+const TILE_SIZE := 32
+const STREET_ASSET_SIZE_TILE := Vector2i(63, 63)
 
-const LOCAL_SIZE_TILES = 63
+const LOCAL_SIZE_TILES := 63
 
-const REGION_SIZE_TILES = 250
+const REGION_SIZE_TILES := 250
 
 # Further size specifications are made in tiles 
-const CONTINENT_SIZE_TILES_WIDTH = 100
-const CONTINENT_SIZE_TILES_HEIGHT = 100
+const CONTINENT_SIZE_TILES_WIDTH := 100
+const CONTINENT_SIZE_TILES_HEIGHT := 100
 
 
 const CONTINENT_WIDTH_IN_LOCAL_TILES = CONTINENT_SIZE_TILES_WIDTH * REGION_SIZE_TILES * LOCAL_SIZE_TILES
@@ -45,7 +45,7 @@ var local_matrix: Array[Array]
 
 var current_local = null
 
-var move_animation_speed = 20
+var move_animation_speed := 20
 
 const INPUTS = {"right": Vector2.RIGHT,
 				"left": Vector2.LEFT,
@@ -58,7 +58,7 @@ const INPUTS = {"right": Vector2.RIGHT,
 				"stay": Vector2i.ZERO}
 
 func move(direction, body) -> Vector2i:
-	var motion = TilesInterface.tileCoords_to_trueCoords(INPUTS[direction]) / 1.0
+	var motion := TilesInterface.tileCoords_to_trueCoords(INPUTS[direction]) / 1.0
 	body.global_position += motion
 	return body.global_position
 
@@ -69,7 +69,7 @@ func slide_move(start: Vector2, end: Vector2, delta: float, body) -> bool:
 	if not move_operator.moving:
 		return true
 
-	var speed = 700.0
+	var speed := 700.0
 	var to_target = end - body.global_position
 	var distance = to_target.length()
 

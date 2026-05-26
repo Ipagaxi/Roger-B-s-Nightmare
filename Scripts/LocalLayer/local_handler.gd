@@ -45,7 +45,11 @@ func generate_local(region_coords: Vector2i, continent_coords: Vector2i):
 		return
 	local_scene = preload("res://Scenes/LocalLayer/Local.tscn")
 	var local = local_scene.instantiate()
+	var start = Time.get_ticks_usec()
 	local.generate(region_coords, continent_coords)
+	var end = Time.get_ticks_usec()
+	var worker_time = (end-start)/1000.0
+	print("Worker time: %s" % worker_time)
 	generated_locals[[region_coords, continent_coords]] = local
 
 

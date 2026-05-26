@@ -1,5 +1,7 @@
 use godot::prelude::*;
 
+mod entity;
+
 struct MyExtension;
 
 #[gdextension]

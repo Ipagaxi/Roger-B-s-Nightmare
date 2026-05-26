@@ -22,32 +22,31 @@ func _process(delta: float) -> void:
 	pass
 
 func generate(region_coords: Vector2i, continent_coords: Vector2i):
-	var region_matrix = TilesInterface.continent_region_matrices[continent_coords.y][continent_coords.x]
+	var region_matrix: Array[Array] = TilesInterface.continent_region_matrices[continent_coords.y][continent_coords.x]
 	if region_matrix.is_empty():
-		print("region matrix is empty!")
-		print(TilesInterface.continent_region_matrices)
+		print("region matrix is empty, something is wrong!")
+	
 	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords, continent_coords)
+	var tile_type: int = region_matrix[region_coords.y][region_coords.x]
+	var pos: Vector2 = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
+	
+	
 	background_inst = grassland_scene.instantiate()
-	background_inst.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
-	if region_matrix[region_coords.y][region_coords.x] == -2:
-		# Generate road local
+	background_inst.position = pos
+	if tile_type <= -1:
+		# Generate block street or road local
 		assigned_local = street_scene.instantiate()
 		assigned_local.generate(region_coords, continent_coords)
-		assigned_local.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
-	elif region_matrix[region_coords.y][region_coords.x] <= -1:
-		# Generate block street local
-		assigned_local = street_scene.instantiate()
-		assigned_local.generate(region_coords, continent_coords)
-		assigned_local.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
-	elif region_matrix[region_coords.y][region_coords.x] >= Global.LOWER_BOUNDARY_CENTER_IDS+Global.NUMBER_CIRCULAR_CENTERS:
+		assigned_local.position = pos
+	elif tile_type >= Global.LOWER_BOUNDARY_CENTER_IDS+Global.NUMBER_CIRCULAR_CENTERS:
 		# Generate building local
 		assigned_local = building_scene.instantiate()
 		assigned_local.generate()
-		assigned_local.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
-	elif region_matrix[region_coords.y][region_coords.x] >= Global.LOWER_BOUNDARY_CENTER_IDS:
+		assigned_local.position = pos
+	elif tile_type >= Global.LOWER_BOUNDARY_CENTER_IDS:
 		assigned_local = grassland_scene.instantiate()
 		assigned_local.generate()
-		assigned_local.position = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
+		assigned_local.position = pos
 
 
 func draw():

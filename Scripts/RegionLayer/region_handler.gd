@@ -14,6 +14,7 @@ func _ready():
 func generate_all_near_regions():
 	var load_radius = Global.REGION_LOAD_RADIUS
 	var continent_coords = TilesInterface.current_location_continent
+	var start_time := Time.get_ticks_usec()
 	for y in range(continent_coords.y - load_radius, continent_coords.y + load_radius + 1):
 		for x in range(continent_coords.x - load_radius, continent_coords.x + load_radius + 1):
 			var coords = Vector2i(x, y)
@@ -23,6 +24,13 @@ func generate_all_near_regions():
 				continue
 			if coords.distance_to(continent_coords) <= load_radius:
 				generate_region(coords)
+			### 
+			#	We check with is_inside_tree because at startup
+			#	first chunks are generated in seperate thread (not in scene tree)
+			###
+			if Time.get_ticks_usec() - start_time > 2000 and is_inside_tree():
+				await get_tree().process_frame
+				start_time = Time.get_ticks_usec()
 				
 func draw_all_near_regions():
 	for region_coords in generated_regions:

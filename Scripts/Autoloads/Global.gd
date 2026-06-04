@@ -2,6 +2,10 @@ extends Node
 
 var loading_scene = preload("res://Scenes/Loading.tscn")
 
+### The following consts are just for type-safety
+const LocalLayer = preload("res://Scripts/LocalLayer/local_handler.gd")
+const RegionLayer = preload("res://Scripts/RegionLayer/region_handler.gd")
+
 enum Layer {LOCAL_LAYER, REGION_LAYER, CONTINENT_LAYER}
 
 enum GameState {LOCAL, REGION, CONTINENT, MAIN_MENU, NEURAL_LAYER, CHARACTER_MENU, PAUSE_MENU, CURSOR, STATS_INTERFACE, EQUIP_INTERFACE, CBM_INTERFACE}
@@ -27,6 +31,9 @@ var current_layer = Layer.LOCAL_LAYER
 var new_scene_path
 
 var controlled_entity
+
+var local_handler: LocalLayer
+var region_handler: RegionLayer
 
 func _ready():
 	var target_screen = 0  # 0 = primary monitor, 1 = second monitor, etc.

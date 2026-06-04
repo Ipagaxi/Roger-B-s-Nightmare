@@ -29,9 +29,8 @@ func generate(region_coords: Vector2i, continent_coords: Vector2i):
 	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords, continent_coords)
 	var tile_type: int = region_matrix[region_coords.y][region_coords.x]
 	var pos: Vector2 = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
-	
-	
 	background_inst = grassland_scene.instantiate()
+	
 	background_inst.position = pos
 	if tile_type <= -1:
 		# Generate block street or road local
@@ -56,5 +55,9 @@ func draw():
 		print("backgound_inst not instantiated!")
 		
 	if assigned_local:
+		var start = Time.get_ticks_usec()
 		assigned_local.draw()
 		add_child(assigned_local)
+		var end = Time.get_ticks_usec()
+		var worker_time = (end-start)/1000.0
+		print("Worker time: %s" % worker_time)

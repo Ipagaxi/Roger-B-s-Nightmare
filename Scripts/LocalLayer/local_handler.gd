@@ -9,20 +9,24 @@ var generated_locals := {}
 var loaded_locals := {}
 	
 
+
 func generate_all_near_locals(continent_coords: Vector2i):
 	var load_radius = Global.LOCAL_LOAD_RADIUS
 	var region_coords = TilesInterface.current_location_region
 	var region_size = TilesInterface.REGION_SIZE_TILES
+	var start_time := Time.get_ticks_usec()
 	for y in range(region_coords.y - load_radius, region_coords.y + load_radius + 1):
 		for x in range(region_coords.x - load_radius, region_coords.x + load_radius + 1):
 			var coords = Vector2i(x, y)
 			if coords.distance_to(region_coords) <= load_radius:
-				# We use integer division to get the continent coordinates relative to the given one
-				# Problem are negative numbers (e.g -3 / 250 = 0 and not -1),
-				# therefore we shift the region coords by the size of a region in the positive space
-				# (shifting by 1*region_size should be enough since it is unlikely that we will load so many locals at some point in the future
-				# that locals from not only the neighbouring but also from the one behind need to be loaded)
-				# Due to the shift we substract after the whole operation one so we get the correct offset
+				###
+				#	We use integer division to get the continent coordinates relative to the given one
+				#	Problem are negative numbers (e.g -3 / 250 = 0 and not -1),
+				#	therefore we shift the region coords by the size of a region in the positive space
+				#	(shifting by 1*region_size should be enough since it is unlikely that we will load so many locals at some point in the future
+				#	that locals from not only the neighbouring but also from the one behind need to be loaded)
+				#	Due to the shift we substract after the whole operation one so we get the correct offset
+				###
 				@warning_ignore("integer_division")
 				var continent_coords_offset = Vector2i((x+region_size) / region_size, (y+region_size) / region_size) - Vector2i(1, 1)
 				var cont_coord = continent_coords + continent_coords_offset
@@ -31,6 +35,13 @@ func generate_all_near_locals(continent_coords: Vector2i):
 				var new_region_coords = Vector2i(posmod(coords.x, region_size), posmod(coords.y, region_size))
 				var new_continent_coords = continent_coords+continent_coords_offset
 				generate_local(new_region_coords, new_continent_coords)
+				### 
+				#	We check with is_inside_tree because at startup
+				#	first chunks are generated in seperate thread (not in scene tree)
+				###
+				if Time.get_ticks_usec() - start_time > 2000 and is_inside_tree():
+					await get_tree().process_frame
+					start_time = Time.get_ticks_usec()
 	
 func draw_all_near_locals():
 	for item in generated_locals:
@@ -45,11 +56,11 @@ func generate_local(region_coords: Vector2i, continent_coords: Vector2i):
 		return
 	local_scene = preload("res://Scenes/LocalLayer/Local.tscn")
 	var local = local_scene.instantiate()
-	var start = Time.get_ticks_usec()
+	#var start = Time.get_ticks_usec()
 	local.generate(region_coords, continent_coords)
-	var end = Time.get_ticks_usec()
-	var worker_time = (end-start)/1000.0
-	print("Worker time: %s" % worker_time)
+	#var end = Time.get_ticks_usec()
+	#var worker_time = (end-start)/1000.0
+	#print("Worker time: %s" % worker_time)
 	generated_locals[[region_coords, continent_coords]] = local
 
 

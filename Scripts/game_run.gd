@@ -138,6 +138,8 @@ func draw_run():
 	
 	player_inst.get_node("RemoteTransform2D").remote_path = $Camera2D.get_path()
 	add_child(player_inst)
+	Global.local_handler = local_inst
+	Global.region_handler = region_inst
 	player_inst.local_handler = local_inst
 	player_inst.region_handler = region_inst
 	$Camera2D.zoom = Vector2(1, 1)

@@ -29,7 +29,11 @@ func generate(region_coords: Vector2i, continent_coords: Vector2i):
 	var global_tile_coords = TilesInterface.get_global_tile_coords_of_local(region_coords, continent_coords)
 	var tile_type: int = region_matrix[region_coords.y][region_coords.x]
 	var pos: Vector2 = TilesInterface.tileCoords_to_trueCoords(global_tile_coords)
+	var start = Time.get_ticks_usec()
 	background_inst = grassland_scene.instantiate()
+	var end = Time.get_ticks_usec()
+	var worker_time = (end-start)/1000.0
+	print("Worker time: %s" % worker_time)
 	
 	background_inst.position = pos
 	if tile_type <= -1:
@@ -42,10 +46,6 @@ func generate(region_coords: Vector2i, continent_coords: Vector2i):
 		assigned_local = building_scene.instantiate()
 		assigned_local.generate()
 		assigned_local.position = pos
-	elif tile_type >= Global.LOWER_BOUNDARY_CENTER_IDS:
-		assigned_local = grassland_scene.instantiate()
-		assigned_local.generate()
-		assigned_local.position = pos
 
 
 func draw():
@@ -55,9 +55,5 @@ func draw():
 		print("backgound_inst not instantiated!")
 		
 	if assigned_local:
-		var start = Time.get_ticks_usec()
 		assigned_local.draw()
 		add_child(assigned_local)
-		var end = Time.get_ticks_usec()
-		var worker_time = (end-start)/1000.0
-		print("Worker time: %s" % worker_time)
